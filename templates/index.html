@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html class="light" lang="en" id="html-tag" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloom Store | Home</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        /* جميع الأنماط الموجودة – لم يتم تغييرها، احتفظ بها كما هي */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        html.light body {
+            background-color: #f4f7f5;
+            color: #1a1c1c;
+        }
+
+        html.light .glass-panel {
+            background: rgba(255, 255, 255, 0.80);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(46, 204, 113, 0.15);
+        }
+
+        html.light .emerald-glow:hover {
+            box-shadow: 0 0 40px rgba(46, 204, 113, 0.18);
+        }
+
+        html.light nav {
+            background: rgba(255, 255, 255, 0.88) !important;
+            border-bottom-color: rgba(0, 0, 0, 0.07) !important;
+        }
+
+        html.light footer.bg-zinc-950 {
+            background-color: #f0f4f2 !important;
+            border-top-color: rgba(0, 0, 0, 0.08) !important;
+        }
+
+        html.light .text-zinc-400,
+        .text-zinc-500,
+        .text-zinc-600,
+        .text-zinc-700 {
+            color: #4a5568 !important;
+        }
+
+        html.light .text-zinc-200,
+        .text-zinc-100 {
+            color: #1a202c !important;
+        }
+
+        html.light .text-on-surface {
+            color: #1a1c1c !important;
+        }
+
+        html.light .text-on-surface-variant {
+            color: #4a5568 !important;
+        }
+
+        html.light .text-primary {
+            color: #1a9e52 !important;
+        }
+
+        html.light .border-white\/10,
+        .border-white\/5 {
+            border-color: rgba(0, 0, 0, 0.08) !important;
+        }
+
+        html.light .bg-zinc-900 {
+            background-color: #e8f0ec !important;
+        }
+
+        html.light .bg-zinc-900\/40 {
+            background-color: rgba(0, 0, 0, 0.04) !important;
+        }
+
+        html.light .bg-surface-container-low\/30 {
+            background-color: rgba(46, 204, 113, 0.04) !important;
+        }
+
+        html.light .bg-zinc-950 {
+            background-color: #f0f4f2 !important;
+        }
+
+        html.light .bg-zinc-950\/70 {
+            background-color: rgba(255, 255, 255, 0.88) !important;
+        }
+
+        html.light .bg-primary {
+            background-color: #2ecc71 !important;
+        }
+
+        html.dark body {
+            background-color: #111415;
+            color: #e1e3e4;
+        }
+
+        html.dark .glass-panel {
+            background: rgba(17, 20, 21, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(134, 148, 134, 0.12);
+        }
+
+        html.dark .emerald-glow:hover {
+            box-shadow: 0 0 40px rgba(46, 204, 113, 0.15);
+        }
+
+        html.dark nav {
+            background: rgba(17, 20, 21, 0.75) !important;
+            border-bottom-color: rgba(255, 255, 255, 0.07) !important;
+        }
+
+        html.dark footer.bg-zinc-950 {
+            background-color: #0c0f10 !important;
+        }
+
+        html.dark .text-zinc-400,
+        .text-zinc-500 {
+            color: #869486 !important;
+        }
+
+        html.dark .text-on-surface {
+            color: #e1e3e4 !important;
+        }
+
+        html.dark .text-on-surface-variant {
+            color: #bbcbbb !important;
+        }
+
+        html.dark .text-primary {
+            color: #54e98a !important;
+        }
+
+        html.dark .bg-primary {
+            background-color: #54e98a !important;
+        }
+
+        [dir="rtl"] .flex-row {
+            flex-direction: row-reverse;
+        }
+
+        [dir="rtl"] .text-left {
+            text-align: right;
+        }
+
+        .carousel-simple {
+            transition: transform 0.5s ease-out;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: { /* kept as original */ },
+                    borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+                    spacing: { xs: "0.5rem", xl: "4rem", lg: "2.5rem", margin: "32px", gutter: "24px", sm: "1rem", md: "1.5rem", unit: "4px" },
+                    fontFamily: { "display-lg": ["Noto Serif"], "body-lg": ["Manrope"], "label-caps": ["Manrope"], "headline-md": ["Noto Serif"], "body-md": ["Manrope"], "headline-sm": ["Noto Serif"] },
+                    fontSize: {
+                        "display-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "label-caps": ["12px", { lineHeight: "1.2", letterSpacing: "0.1em", fontWeight: "700" }],
+                        "headline-md": ["32px", { lineHeight: "1.2", fontWeight: "600" }],
+                        "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "headline-sm": ["24px", { lineHeight: "1.3", fontWeight: "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="font-body-md text-on-background selection:bg-primary-container selection:text-on-primary-container">
+
+    <!-- ==================== SHARED NAVBAR ==================== -->
+    <nav
+        class="fixed top-0 w-full z-50 border-b border-white/10 bg-zinc-950/70 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+        <div class="flex justify-between items-center px-8 py-4 w-full max-w-7xl mx-auto">
+            <div class="text-2xl font-serif font-light tracking-[0.2em] text-emerald-500" id="brandName">BLOOM</div>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="/" class="font-serif tracking-tight text-emerald-400 border-b-2 border-emerald-500 pb-1"
+                    id="navHome">Home</a>
+                <a href="/shop" class="font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all"
+                    id="navShop">Shop</a>
+                <a href="/categories"
+                    class="font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all"
+                    id="navCategory">Categories</a>
+                <a href="/occasions"
+                    class="font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all"
+                    id="navOccasions">Occasions</a>
+                <a href="/contact" class="font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all"
+                    id="navContact">Contact</a>
+            </div>
+            <div class="flex items-center gap-6">
+                <button id="themeToggle" class="text-emerald-500 hover:bg-white/5 p-2 rounded-full"><span
+                        class="material-symbols-outlined">light_mode</span></button>
+                <button id="langToggle"
+                    class="text-emerald-500 border border-emerald-500/50 px-3 py-1 rounded-full text-sm font-bold">AR</button>
+                <a href="/cart" class="relative">
+                    <span class="material-symbols-outlined text-emerald-500">shopping_cart</span>
+                    <span id="cartCount"
+                        class="absolute -top-2 -right-2 bg-emerald-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                </a>
+                <a href="/profile" class="material-symbols-outlined text-emerald-500">person</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== 1. HERO SECTION ==================== -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img class="w-full h-full object-cover opacity-60" alt="hero"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWDIgWk1Jm8Eq8SLkH6ApxV1vc20ZHmgIHlknZxFUlEJTWdFuByN3aQfkHH_4NR7jyxKsLR3JbLS-dRQ34BCZvothZcjpLmhC67i5oa3T6I1bdz8YyCqER21QENn8gSSvc9be-HFXZgcpKPWPEy7k0RcsFD1aUpqqTgvgFNRsWpM7mF704_JVseGkT4pH4j-AJatrExV-Ikj5uUIgP9WM5_ReH8YKe7aQwNMpgtWs8PGoIYNHpilsaG2_tQMhT84z6C-NBxqZ60mc">
+            <div class="absolute inset-0 bg-gradient-to-b from-background/40 via-background/20 to-background"></div>
+        </div>
+        <div class="relative z-10 text-center px-6 max-w-4xl">
+            <h1 class="font-display-lg text-display-lg text-on-background mb-md" id="heroTitle">Timeless Luxury:
+                <br /><span class="italic font-light">Bloom with Every Visit</span></h1>
+            <p class="font-body-lg text-body-lg text-on-surface-variant mb-lg max-w-2xl mx-auto" id="heroSub">Discover
+                rare botanical specimens curated for the most discerning eyes. Experience floristry elevated to a
+                high-art form.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button id="shopNowBtn"
+                    class="bg-primary px-lg py-sm rounded-full text-on-primary font-label-caps text-label-caps uppercase tracking-widest emerald-glow transition-all">Shop
+                    Now</button>
+                <button id="OccasionsBtn"
+                    class="glass-panel px-lg py-sm rounded-full text-on-surface font-label-caps text-label-caps uppercase tracking-widest border border-outline/30 hover:border-primary/50 transition-all">Occasions</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 2. SEARCH BAR ==================== -->
+    <section class="relative -mt-12 z-20 px-6">
+        <div class="max-w-2xl mx-auto glass-panel p-2 rounded-full border border-white/10 shadow-2xl">
+            <div class="flex items-center px-4 py-2">
+                <span class="material-symbols-outlined text-primary mr-3">search</span>
+                <input id="searchInput"
+                    class="bg-transparent border-none focus:ring-0 w-full text-on-surface placeholder:text-zinc-500 font-body-md"
+                    placeholder="Search for rare orchids, roses, or custom bouquets..." type="text">
+                <button id="exploreBtn"
+                    class="bg-primary/20 text-primary px-6 py-2 rounded-full font-label-caps text-[10px] hover:bg-primary hover:text-on-primary transition-all">EXPLORE</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 4. CATEGORIES ==================== -->
+    <section class="py-xl max-w-7xl mx-auto px-8">
+        <div class="flex justify-between items-end mb-lg">
+            <div><span class="font-label-caps text-label-caps text-primary tracking-[0.3em] uppercase"
+                    id="collectionsTag">Collections</span>
+                <h2 class="font-headline-md text-headline-md mt-2" id="curatedTitle">Curated Botanical Tiers</h2>
+            </div>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+            <!-- Roses -->
+            <div class="group cursor-pointer">
+                <div class="aspect-[4/5] rounded-t-full overflow-hidden mb-md relative border border-white/5"><img
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAY0zLPhvy0sR3heIDLqID5RuNerXaE2BpKZPZHNA3cqdl5sSAFF5u-6NaOp1EWJ4MZA1nQJicgh7zxB4m75p4gONd6Uso4w7Qw43fK5By2F5dv4K94D9CoWP60VO5hw_LKyq8OUyD4O9u10mziR_sWiPgss8HRbNOSmS5MhnA4QVcaKyywWHjQEI2Ck8Ref3PufDWNBX9jHZYDrTMLraQWS-b90C6vnoAtQXzuBUqz-1_juywy7Y3sqWqanHK2sc4NXi3OTLgdtL4"
+                        alt="Roses">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    </div>
+                </div>
+                <h3 class="font-headline-sm text-headline-sm text-center group-hover:text-primary transition-colors"
+                    id="catRoses">Roses</h3>
+                <p class="font-label-caps text-[10px] text-center text-zinc-500 tracking-widest mt-1" id="catRosesTag">
+                    THE CLASSICS</p>
+            </div>
+            <!-- Tulips -->
+            <div class="group cursor-pointer">
+                <div class="aspect-[4/5] rounded-t-full overflow-hidden mb-md relative border border-white/5"><img
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSusQEsQ_7-dNl3I-REckACdN6PzPHu93qed1RjDa0BilFJ0Ir2UHyZutcgdH0ybEy-c3j75c0UjDpz0V9GPn190ae-0_9TK-0MWVbTpjXALVy882vyZndXow1hPeVZn2SFnJVDT3YDdmsXVbuYAhNuoeBDHFJdGlbSHi7NrqW8nKN7SG8xNJUPn4iOO7sdy0URqlPE2ldS0NDKeIxnSfiiab_ex2Z0gixeTVsbBwN7oIDNvHOWj6O7B8pF47xCBivDmjsLpuJfW8"
+                        alt="Tulips">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    </div>
+                </div>
+                <h3 class="font-headline-sm text-headline-sm text-center group-hover:text-primary transition-colors"
+                    id="catTulips">Tulips</h3>
+                <p class="font-label-caps text-[10px] text-center text-zinc-500 tracking-widest mt-1" id="catTulipsTag">
+                    SPRING AWAKENING</p>
+            </div>
+            <!-- Bouquets -->
+            <div class="group cursor-pointer">
+                <div class="aspect-[4/5] rounded-t-full overflow-hidden mb-md relative border border-white/5"><img
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUMQTWeDxaaCbfqGu5SGTCJ76LESydEzFJLNr7dbAmgv6mfaNuYIZpSkbOlNwPDG2d_UaorNfvveEgQCsuAKAnRs0j-kUdfwDdCAlWrvaVjGXvokPd1ijMsDB87KZrD3KYMdV39InPbXJRtcIaH6vY_qXM7seoSa1I7ztFLH5Lf_x8N0nr7OKIR3Jrxy5MAXISmxKLcnW93iSE5zD1etqh4s9cGAwljNaQQoXQAiIsPatpgsa-F2-vxCA7aQZgp4p-x0b9ZkHQBlE"
+                        alt="Bouquets">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    </div>
+                </div>
+                <h3 class="font-headline-sm text-headline-sm text-center group-hover:text-primary transition-colors"
+                    id="catBouquets">Bouquets</h3>
+                <p class="font-label-caps text-[10px] text-center text-zinc-500 tracking-widest mt-1"
+                    id="catBouquetsTag">ARTISAN CRAFTED</p>
+            </div>
+            <!-- Gifts -->
+            <div class="group cursor-pointer">
+                <div class="aspect-[4/5] rounded-t-full overflow-hidden mb-md relative border border-white/5"><img
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUUS-xbQTPQ2SoG-rDYW-IQaXk7kyhVt1kSr6MNw87X6YyM63rxZlhWbg22WU1Zmn8eznQpW91FDIeyCAuVFaOJriiqyVCPULkCPymNd2pI4V_RndveywlDqsKPx-GS-ZwwfwrYLUavQnA4gAS6t11xzc1WsYJzZtX2EsS2FR4vD3edRREpZsFcDb1ij52aWdKdop-QcuTnZmENX8h5EDbgoEKmQaSXXyoS9EX3hnUXysGeI3KqTz7MCeunj8mviTMSeLNoKsBWSE"
+                        alt="Gifts">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    </div>
+                </div>
+                <h3 class="font-headline-sm text-headline-sm text-center group-hover:text-primary transition-colors"
+                    id="catGifts">Gifts</h3>
+                <p class="font-label-caps text-[10px] text-center text-zinc-500 tracking-widest mt-1" id="catGiftsTag">
+                    BEYOND FLOWERS</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 5. OFFERS BANNER ==================== -->
+    <section class="px-8 pb-xl">
+        <div
+            class="max-w-7xl mx-auto glass-panel rounded-3xl p-lg flex flex-col md:flex-row items-center justify-between gap-md border border-primary/20 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+            <div class="relative z-10">
+                <span
+                    class="font-label-caps text-[11px] text-primary tracking-widest bg-primary/10 px-4 py-1 rounded-full"
+                    id="offerTag">LIMITED TIME</span>
+                <h2 class="font-headline-md text-headline-md mt-4" id="offerTitle">Vernal Equinox Collection</h2>
+                <p class="font-body-md text-on-surface-variant mt-2 max-w-md" id="offerDesc">Unlock 20% off our rarest
+                    orchids with code <span class="text-primary font-bold">BLOOM24</span>. Cultivated for the season.
+                </p>
+            </div>
+            <button id="claimOfferBtn"
+                class="relative z-10 bg-on-background text-background px-lg py-sm rounded-full font-label-caps text-label-caps uppercase hover:bg-primary transition-all duration-300">Claim
+                Offer</button>
+        </div>
+    </section>
+
+    <!-- ==================== 6. OCCASIONS SECTION ==================== -->
+    <section class="py-xl max-w-7xl mx-auto px-8">
+        <div class="text-center mb-lg">
+            <span class="font-label-caps text-label-caps text-primary tracking-[0.3em] uppercase" id="occasionsTag">For
+                Every Moment</span>
+            <h2 class="font-headline-md text-headline-md mt-2" id="occasionsTitle">Flowers that Speak to the Soul</h2>
+            <p class="text-on-surface-variant mt-2 max-w-2xl mx-auto" id="occasionsDesc">Celebrate life’s special
+                moments with our curated arrangements, designed to express exactly what words cannot.</p>
+        </div>
+        <div class="occasions-carousel-container relative overflow-hidden rounded-2xl glass-panel p-1">
+            <div id="occasionsCarouselSlides" class="flex transition-transform duration-500 ease-out">
+                <!-- Occasion 1: Birthday -->
+                <div class="w-full flex-shrink-0 md:w-1/2 lg:w-1/3 p-3">
+                    <div
+                        class="glass-panel rounded-xl overflow-hidden group hover:scale-[1.02] transition-all duration-300">
+                        <div class="aspect-[4/3] overflow-hidden"><img
+                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                src="../static/images/imageoccasion/h.jpeg"
+                                alt="Birthday flowers"></div>
+                        <div class="p-6 text-center"><span
+                                class="material-symbols-outlined text-primary text-3xl">celebration</span>
+                            <h3 class="font-headline-sm text-headline-sm mt-2" id="occasionBirthday">Birthday</h3>
+                            <p class="text-sm text-zinc-500 mt-2" id="occasionBirthdayDesc">Vibrant blooms to make their
+                                day unforgettable.</p><a href="/shop?occasion=birthday"
+                                class="inline-block mt-4 text-primary font-bold hover:underline">Shop Now →</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Occasion 2: Wedding -->
+                <div class="w-full flex-shrink-0 md:w-1/2 lg:w-1/3 p-3">
+                    <div
+                        class="glass-panel rounded-xl overflow-hidden group hover:scale-[1.02] transition-all duration-300">
+                        <div class="aspect-[4/3] overflow-hidden"><img
+                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                src="../static/images/imageoccasion/w.jpeg"
+                                alt="Wedding bouquet"></div>
+                        <div class="p-6 text-center"><span
+                                class="material-symbols-outlined text-primary text-3xl">favorite</span>
+                            <h3 class="font-headline-sm text-headline-sm mt-2" id="occasionWedding">Wedding</h3>
+                            <p class="text-sm text-zinc-500 mt-2" id="occasionWeddingDesc">Elegant arrangements for your
+                                fairytale day.</p><a href="/shop?occasion=wedding"
+                                class="inline-block mt-4 text-primary font-bold hover:underline">Shop Now →</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Occasion 3: Anniversary -->
+                <div class="w-full flex-shrink-0 md:w-1/2 lg:w-1/3 p-3">
+                    <div
+                        class="glass-panel rounded-xl overflow-hidden group hover:scale-[1.02] transition-all duration-300">
+                        <div class="aspect-[4/3] overflow-hidden"><img
+                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                src="../static/images/imageoccasion/A.jpeg"
+                                alt="Anniversary roses"></div>
+                        <div class="p-6 text-center"><span
+                                class="material-symbols-outlined text-primary text-3xl">roses</span>
+                            <h3 class="font-headline-sm text-headline-sm mt-2" id="occasionAnniversary">Anniversary</h3>
+                            <p class="text-sm text-zinc-500 mt-2" id="occasionAnniversaryDesc">Timeless roses to
+                                celebrate your journey.</p><a href="/shop?occasion=anniversary"
+                                class="inline-block mt-4 text-primary font-bold hover:underline">Shop Now →</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Occasion 4: Apology -->
+                <div class="w-full flex-shrink-0 md:w-1/2 lg:w-1/3 p-3">
+                    <div
+                        class="glass-panel rounded-xl overflow-hidden group hover:scale-[1.02] transition-all duration-300">
+                        <div class="aspect-[4/3] overflow-hidden"><img
+                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                src="../static/images/imageoccasion/s.jpeg"
+                                alt="Apology flowers"></div>
+                        <div class="p-6 text-center"><span
+                                class="material-symbols-outlined text-primary text-3xl">handshake</span>
+                            <h3 class="font-headline-sm text-headline-sm mt-2" id="occasionApology">I'm Sorry</h3>
+                            <p class="text-sm text-zinc-500 mt-2" id="occasionApologyDesc">Sincere blooms to mend and
+                                heal.</p><a href="/shop?occasion=apology"
+                                class="inline-block mt-4 text-primary font-bold hover:underline">Shop Now →</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Occasion 5: Graduation -->
+                <div class="w-full flex-shrink-0 md:w-1/2 lg:w-1/3 p-3">
+                    <div
+                        class="glass-panel rounded-xl overflow-hidden group hover:scale-[1.02] transition-all duration-300">
+                        <div class="aspect-[4/3] overflow-hidden"><img
+                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                src="../static/images/imageoccasion/g.jpeg"
+                                alt="Graduation bouquet"></div>
+                        <div class="p-6 text-center"><span
+                                class="material-symbols-outlined text-primary text-3xl">school</span>
+                            <h3 class="font-headline-sm text-headline-sm mt-2" id="occasionGraduation">Graduation</h3>
+                            <p class="text-sm text-zinc-500 mt-2" id="occasionGraduationDesc">Celebrate achievements
+                                with bright blossoms.</p><a href="/shop?occasion=graduation"
+                                class="inline-block mt-4 text-primary font-bold hover:underline">Shop Now →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button id="occasionsPrev"
+                class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 backdrop-blur text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-black/70 transition z-10">‹</button>
+            <button id="occasionsNext"
+                class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 backdrop-blur text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-black/70 transition z-10">›</button>
+        </div>
+        <div class="text-center mt-6"><a href="/occasions"
+                class="inline-flex items-center gap-2 text-primary font-bold underline underline-offset-4"
+                id="viewAllOccasions">View All Occasions →</a></div>
+    </section>
+
+    <!-- ==================== 7. FEATURED PRODUCTS (Dynamic with real Add to Cart) ==================== -->
+    <section class="py-xl bg-surface-container-low/30">
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="mb-lg">
+                <h2 class="font-display-lg text-headline-md" id="featuredTitle">Botanical Masterpieces</h2>
+                <p class="font-body-md text-on-surface-variant italic" id="featuredSub">Our current best sellers,
+                    freshly harvested.</p>
+            </div>
+            <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="col-span-3 text-center py-12 text-primary animate-pulse">Loading exceptional blooms...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-zinc-950 w-full py-12 border-t border-zinc-900">
+        <div class="flex flex-col items-center gap-6 w-full max-w-7xl mx-auto px-8">
+            <div class="text-xl font-serif italic text-emerald-500">BLOOM</div>
+            <div class="flex flex-wrap justify-center gap-8 md:gap-12">
+                <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300 transition-colors"
+                    id="footerPrivacy">Privacy Policy</a>
+                <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300 transition-colors"
+                    id="footerTerms">Terms of Service</a>
+                <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300 transition-colors"
+                    id="footerShipping">Shipping Info</a>
+                <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300 transition-colors"
+                    id="footerWholesale">Wholesale</a>
+            </div>
+            <div class="flex gap-6 mt-4">
+                <span
+                    class="material-symbols-outlined text-zinc-500 cursor-pointer hover:text-primary transition-colors">nest_eco_leaf</span>
+                <span
+                    class="material-symbols-outlined text-zinc-500 cursor-pointer hover:text-primary transition-colors">potted_plant</span>
+                <span
+                    class="material-symbols-outlined text-zinc-500 cursor-pointer hover:text-primary transition-colors">filter_vintage</span>
+            </div>
+            <p class="font-serif text-sm text-zinc-600 mt-8 text-center opacity-80" id="copyright">© 2024 Bloom Store.
+                Cultivated with Botanical Mystery.</p>
+        </div>
+    </footer>
+
+    <!-- Mobile Bottom NavBar -->
+    <div
+        class="md:hidden fixed bottom-0 left-0 w-full z-50 bg-zinc-950/80 backdrop-blur-xl border-t border-emerald-500/20 shadow-[0_-10px_40px_rgba(46,204,113,0.1)] flex justify-around items-center px-4 pb-6 pt-3">
+        <div
+            class="flex flex-col items-center justify-center text-emerald-400 font-bold bg-emerald-500/10 rounded-xl px-4 py-1">
+            <span class="material-symbols-outlined">home</span><span
+                class="font-sans text-[10px] uppercase tracking-widest" id="mobileHome">Home</span></div>
+        <div
+            class="flex flex-col items-center justify-center text-zinc-500 hover:text-emerald-300 active:scale-90 transition-transform">
+            <span class="material-symbols-outlined">local_florist</span><span
+                class="font-sans text-[10px] uppercase tracking-widest" id="mobileExplore">Explore</span></div>
+        <div
+            class="flex flex-col items-center justify-center text-zinc-500 hover:text-emerald-300 active:scale-90 transition-transform relative">
+            <span class="material-symbols-outlined">shopping_cart</span><span
+                class="font-sans text-[10px] uppercase tracking-widest" id="mobileCart">Cart</span><span
+                class="absolute top-0 right-1 bg-primary text-on-primary text-[8px] px-1 rounded-full">2</span></div>
+        <div
+            class="flex flex-col items-center justify-center text-zinc-500 hover:text-emerald-300 active:scale-90 transition-transform">
+            <a href="/profile" class="flex flex-col items-center"><span
+                    class="material-symbols-outlined">person</span><span
+                    class="font-sans text-[10px] uppercase tracking-widest" id="mobileProfile">Profile</span></a></div>
+    </div>
+
+    <script>
+        // ========== GLOBALS ==========
+        const htmlTag = document.documentElement;
+        let currentLang = localStorage.getItem('bloomLang') || 'en';
+        let currentTheme = localStorage.getItem('bloomTheme') || 'light';
+        const token = localStorage.getItem('access_token');
+
+        // ========== CAROUSEL (Occasions) ==========
+        const occasionsSlides = document.getElementById('occasionsCarouselSlides');
+        const occasionCards = document.querySelectorAll('#occasionsCarouselSlides > div');
+        const occasionsPrev = document.getElementById('occasionsPrev');
+        const occasionsNext = document.getElementById('occasionsNext');
+        let currentOccasionIndex = 0;
+        let occasionInterval;
+        function updateOccasionCarousel() { if (!occasionsSlides || !occasionCards.length) return; const width = occasionCards[0].clientWidth; occasionsSlides.style.transform = `translateX(-${currentOccasionIndex * width}px)`; }
+        function nextOccasion() { if (!occasionCards.length) return; currentOccasionIndex = (currentOccasionIndex + 1) % occasionCards.length; updateOccasionCarousel(); }
+        function prevOccasion() { if (!occasionCards.length) return; currentOccasionIndex = (currentOccasionIndex - 1 + occasionCards.length) % occasionCards.length; updateOccasionCarousel(); }
+        function startOccasionAuto() { if (occasionInterval) clearInterval(occasionInterval); occasionInterval = setInterval(nextOccasion, 6000); }
+        if (occasionCards.length) { occasionsPrev?.addEventListener('click', () => { prevOccasion(); startOccasionAuto(); }); occasionsNext?.addEventListener('click', () => { nextOccasion(); startOccasionAuto(); }); window.addEventListener('resize', () => updateOccasionCarousel()); updateOccasionCarousel(); startOccasionAuto(); }
+
+        // ========== TRANSLATIONS (unchanged) ==========
+        const dict = {
+            en: {
+                brandName: 'BLOOM', navHome: 'Home', navShop: 'Shop', navCategory: 'Categories', navOccasions: 'Occasions', navContact: 'Contact',
+                heroTitle: 'Timeless Luxury: <br/><span class="italic font-light">Bloom with Every Visit</span>',
+                heroSub: 'Discover rare botanical specimens curated for the most discerning eyes. Experience floristry elevated to a high-art form.',
+                shopNowBtn: 'Shop Now', OccasionsBtn: 'Occasions',
+                collectionsTag: 'Collections', curatedTitle: 'Curated Botanical Tiers',
+                catRoses: 'Roses', catRosesTag: 'THE CLASSICS',
+                catTulips: 'Tulips', catTulipsTag: 'SPRING AWAKENING',
+                catBouquets: 'Bouquets', catBouquetsTag: 'ARTISAN CRAFTED',
+                catGifts: 'Gifts', catGiftsTag: 'BEYOND FLOWERS',
+                offerTag: 'LIMITED TIME', offerTitle: 'Vernal Equinox Collection',
+                offerDesc: 'Unlock 20% off our rarest orchids with code <span class="text-primary font-bold">BLOOM24</span>. Cultivated for the season.',
+                claimOfferBtn: 'Claim Offer',
+                featuredTitle: 'Botanical Masterpieces', featuredSub: 'Our current best sellers, freshly harvested.',
+                footerPrivacy: 'Privacy Policy', footerTerms: 'Terms of Service',
+                footerShipping: 'Shipping Info', footerWholesale: 'Wholesale',
+                copyright: '© 2024 Bloom Store. Cultivated with Botanical Mystery.',
+                mobileHome: 'Home', mobileExplore: 'Explore', mobileCart: 'Cart', mobileProfile: 'Profile',
+                addToCart: 'ADD TO CART',
+                loadingProducts: 'Loading exceptional blooms...',
+                errorProducts: 'Failed to load products. Please try again later.',
+                bestSeller: 'BEST SELLER'
+            },
+            ar: {
+                brandName: 'شغف', navHome: 'الرئيسية', navShop: 'تسوق', navCategory: 'الفئات', navOccasions: 'المناسبات', navContact: 'اتصل بنا',
+                heroTitle: 'فخامة خالدة: <br/><span class="italic font-light">تزهر مع كل زيارة</span>',
+                heroSub: 'اكتشف عينات نباتية نادرة مختارة لأكثر العيون تمييزاً. تجربة زهور ترتقي إلى مستوى الفن الرفيع.',
+                shopNowBtn: 'تسوق الآن', OccasionsBtn: 'المناسبات',
+                collectionsTag: 'المجموعات', curatedTitle: 'أصناف نباتية منسقة',
+                catRoses: 'ورود', catRosesTag: 'الكلاسيكيات',
+                catTulips: 'توليب', catTulipsTag: 'صحوة الربيع',
+                catBouquets: 'باقات', catBouquetsTag: 'صنع يدوي',
+                catGifts: 'هدايا', catGiftsTag: 'ما وراء الزهور',
+                offerTag: 'وقت محدود', offerTitle: 'مجموعة الاعتدال الربيعي',
+                offerDesc: 'احصل على خصم 20% على أندر السحلبيات بالكود <span class="text-primary font-bold">BLOOM24</span>. زُرعت للموسم.',
+                claimOfferBtn: 'احصل على العرض',
+                featuredTitle: 'روائع نباتية', featuredSub: 'أفضل مبيعاتنا الحالية، طازجة الحصاد.',
+                footerPrivacy: 'سياسة الخصوصية', footerTerms: 'شروط الخدمة',
+                footerShipping: 'معلومات الشحن', footerWholesale: 'الجملة',
+                copyright: '© 2024 شغف. زُرع بغموض نباتي.',
+                mobileHome: 'الرئيسية', mobileExplore: 'استكشف', mobileCart: 'السلة', mobileProfile: 'الملف',
+                addToCart: 'أضف للسلة',
+                loadingProducts: 'جاري تحميل المنتجات...',
+                errorProducts: 'فشل تحميل المنتجات. يرجى المحاولة لاحقاً.',
+                bestSeller: 'الأكثر مبيعاً'
+            }
+        };
+
+        function applyLanguage(lang) {
+            const t = dict[lang];
+            htmlTag.setAttribute('lang', lang);
+            htmlTag.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            for (let id in t) { const el = document.getElementById(id); if (el) { if (id === 'heroTitle' || id === 'offerDesc') el.innerHTML = t[id]; else el.innerText = t[id]; } }
+            document.getElementById('langToggle').innerText = (lang === 'en') ? 'AR' : 'EN';
+            document.querySelectorAll('.add-to-cart-text').forEach(btn => btn.innerText = t.addToCart);
+            document.querySelectorAll('.best-seller-badge').forEach(badge => badge.innerText = t.bestSeller);
+        }
+
+        function setTheme(theme) {
+            if (theme === 'dark') { htmlTag.classList.remove('light'); htmlTag.classList.add('dark'); localStorage.setItem('bloomTheme', 'dark'); document.querySelector('#themeToggle span').innerText = 'dark_mode'; }
+            else { htmlTag.classList.remove('dark'); htmlTag.classList.add('light'); localStorage.setItem('bloomTheme', 'light'); document.querySelector('#themeToggle span').innerText = 'light_mode'; }
+        }
+
+        // ========== CART FUNCTIONS ==========
+        async function addToCart(flowerId) {
+            const token = localStorage.getItem('access_token');
+            if (!token) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: currentLang === 'en' ? 'Login Required' : 'مطلوب تسجيل الدخول',
+                    text: currentLang === 'en' ? 'Please login to add items to your cart' : 'يرجى تسجيل الدخول لإضافة المنتجات إلى السلة',
+                    confirmButtonColor: '#2ecc71'
+                }).then(() => { window.location.href = '/login'; });
+                return;
+            }
+            try {
+                const res = await fetch('/api/cart/add', {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ flower_id: flowerId, quantity: 1 })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: currentLang === 'en' ? 'Added to Cart!' : 'تمت الإضافة!',
+                        text: currentLang === 'en' ? 'Product has been added to your cart' : 'تمت إضافة المنتج إلى سلتك',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                    updateCartCount();
+                } else {
+                    Swal.fire({ icon: 'error', title: currentLang === 'en' ? 'Error' : 'خطأ', text: data.error || (currentLang === 'en' ? 'Could not add to cart' : 'تعذرت الإضافة إلى السلة') });
+                }
+            } catch (err) {
+                Swal.fire({ icon: 'error', title: currentLang === 'en' ? 'Network Error' : 'خطأ في الشبكة', text: currentLang === 'en' ? 'Please try again later.' : 'يرجى المحاولة لاحقاً' });
+            }
+        }
+
+        async function updateCartCount() {
+            const token = localStorage.getItem('access_token');
+            if (!token) return;
+            try {
+                const res = await fetch('/api/cart/', { headers: { 'Authorization': `Bearer ${token}` } });
+                const data = await res.json();
+                const countEl = document.getElementById('cartCount');
+                if (countEl && data.item_count > 0) {
+                    countEl.innerText = data.item_count;
+                    countEl.classList.remove('hidden');
+                } else if (countEl) {
+                    countEl.classList.add('hidden');
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        async function loadFeaturedProducts() {
+            const container = document.getElementById('productsGrid');
+            const t = dict[currentLang];
+            container.innerHTML = `<div class="col-span-3 text-center py-12 text-primary animate-pulse">${t.loadingProducts}</div>`;
+            try {
+                const res = await fetch('/api/flowers?limit=3');
+                if (!res.ok) throw new Error();
+                const flowers = await res.json();
+                if (!flowers.length) throw new Error();
+                container.innerHTML = flowers.map(flower => `
+                    <div class="glass-panel rounded-2xl overflow-hidden group border border-white/5 emerald-glow transition-all duration-500">
+                        <div class="relative h-[420px] overflow-hidden rounded-3xl">
+                            <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="${flower.image_url && !flower.image_url.startsWith('http') ? '/static/' + flower.image_url : (flower.image_url || '')}" alt="${flower.name}">
+                            ${flower.is_best_seller ? `<div class="absolute top-4 right-4 glass-panel px-3 py-1 rounded-full text-[10px] font-bold text-primary best-seller-badge">${dict[currentLang].bestSeller}</div>` : ''}
+                        </div>
+                        <div class="p-md">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-headline-sm text-headline-sm italic">${escapeHtml(flower.name)}</h3>
+                                <span class="font-body-lg text-primary">$${parseFloat(flower.price).toFixed(2)}</span>
+                            </div>
+                            <p class="font-body-md text-zinc-500 mb-md line-clamp-2">${escapeHtml(flower.description)}</p>
+                            <button data-id="${flower.id}" class="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-zinc-900 border border-white/10 hover:bg-primary hover:text-on-primary transition-all duration-300 add-to-cart-btn">
+                                <span class="material-symbols-outlined text-sm">shopping_cart</span>
+                                <span class="font-label-caps text-xs add-to-cart-text">${dict[currentLang].addToCart}</span>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+                document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const flowerId = btn.getAttribute('data-id');
+                        addToCart(flowerId);
+                    });
+                });
+                updateCartCount();
+            } catch (err) {
+                container.innerHTML = `<div class="col-span-3 text-center py-12 text-error">${t.errorProducts}</div>`;
+            }
+        }
+
+        function escapeHtml(str) { return str ? str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])) : ''; }
+
+        // ========== EVENT LISTENERS ==========
+        document.getElementById('shopNowBtn')?.addEventListener('click', () => window.location.href = '/shop');
+        document.getElementById('OccasionsBtn')?.addEventListener('click', () => window.location.href = '/occasions');
+        document.getElementById('exploreBtn')?.addEventListener('click', () => { const q = document.getElementById('searchInput')?.value.trim(); if (q) window.location.href = `/shop?search=${encodeURIComponent(q)}`; });
+        document.getElementById('claimOfferBtn')?.addEventListener('click', () => Swal.fire({ icon: 'info', title: 'Offer code', text: 'Use BLOOM24 at checkout', confirmButtonColor: '#2ecc71' }));
+        document.getElementById('themeToggle').addEventListener('click', () => { currentTheme = currentTheme === 'light' ? 'dark' : 'light'; setTheme(currentTheme); loadFeaturedProducts(); });
+        document.getElementById('langToggle').addEventListener('click', () => { currentLang = currentLang === 'en' ? 'ar' : 'en'; localStorage.setItem('bloomLang', currentLang); applyLanguage(currentLang); loadFeaturedProducts(); });
+
+        // ========== INIT ==========
+        setTheme(currentTheme);
+        applyLanguage(currentLang);
+        loadFeaturedProducts();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html class="dark" lang="en" id="html-tag" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloom Store | Product Details</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        /* ========== BASE & GLASS ========== */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass {
+            background: rgba(17, 20, 21, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(134, 148, 134, 0.2);
+            transition: all 0.3s ease;
+        }
+        .emerald-glow:hover {
+            box-shadow: 0 0 30px rgba(46, 204, 113, 0.4);
+        }
+        /* ========== LIGHT MODE ========== */
+        html.light body {
+            background-color: #f4f7f5;
+            color: #1a1c1c;
+        }
+        html.light .glass {
+            background: rgba(255, 255, 255, 0.80);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        html.light .text-on-surface {
+            color: #1a1c1c !important;
+        }
+        html.light .text-on-surface-variant {
+            color: #4a5568 !important;
+        }
+        html.light .text-primary {
+            color: #1a9e52 !important;
+        }
+        html.light .bg-neutral-950 {
+            background-color: #f0f4f2 !important;
+        }
+        html.light .text-neutral-400, 
+        html.light .text-neutral-500 {
+            color: #4a5568 !important;
+        }
+        html.light .border-neutral-900 {
+            border-color: #e2e8f0 !important;
+        }
+        html.light .border-outline-variant {
+            border-color: #cbd5e0 !important;
+        }
+        html.light button.bg-primary {
+            background-color: #2ecc71 !important;
+        }
+        html.light .bg-primary\/20 {
+            background-color: rgba(46, 204, 113, 0.15) !important;
+        }
+        html.light .glass .text-white {
+            color: #1a1c1c !important;
+        }
+        /* ========== DARK MODE ========== */
+        html.dark body {
+            background-color: #111415;
+            color: #e1e3e4;
+        }
+        html.dark .glass {
+            background: rgba(17, 20, 21, 0.65);
+            border: 1px solid rgba(134, 148, 134, 0.12);
+        }
+        html.dark .text-on-surface {
+            color: #e1e3e4 !important;
+        }
+        html.dark .text-on-surface-variant {
+            color: #bbcbbb !important;
+        }
+        html.dark .text-primary {
+            color: #54e98a !important;
+        }
+        html.dark .bg-neutral-950 {
+            background-color: #0c0f10 !important;
+        }
+        html.dark .border-outline-variant {
+            border-color: #2d3748 !important;
+        }
+        html.dark button.bg-primary {
+            background-color: #54e98a !important;
+        }
+        html.dark .bg-primary\/20 {
+            background-color: rgba(84, 233, 138, 0.12) !important;
+        }
+        /* ========== SHARED ========== */
+        .quantity-btn {
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .quantity-btn:hover {
+            color: #2ecc71;
+        }
+        .thumbnail {
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        .thumbnail:hover {
+            transform: scale(1.02);
+        }
+        .active-thumbnail {
+            border: 2px solid #2ecc71;
+            box-shadow: 0 0 15px rgba(46,204,113,0.3);
+        }
+        [dir="rtl"] .flex-row {
+            flex-direction: row-reverse;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: { /* minimal */ },
+                    borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+                    spacing: { unit: "4px", sm: "1rem", xl: "4rem", lg: "2.5rem", xs: "0.5rem", md: "1.5rem", margin: "32px", gutter: "24px" },
+                    fontFamily: { "label-caps": ["Manrope"], "body-md": ["Manrope"], "headline-sm": ["Noto Serif"], "display-lg": ["Noto Serif"], "headline-md": ["Noto Serif"], "body-lg": ["Manrope"] },
+                    fontSize: {
+                        "label-caps": ["12px", { lineHeight: "1.2", letterSpacing: "0.1em", fontWeight: "700" }],
+                        "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "headline-sm": ["24px", { lineHeight: "1.3", fontWeight: "500" }],
+                        "display-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "headline-md": ["32px", { lineHeight: "1.2", fontWeight: "600" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen flex flex-col font-body-md text-body-md bg-background">
+    <!-- SHARED NAVBAR (مطابق لبقية الصفحات) -->
+    <header class="fixed top-0 w-full z-50 border-b border-emerald-900/30 bg-neutral-950/70 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+        <div class="flex justify-between items-center max-w-7xl mx-auto px-6 h-20">
+            <div class="text-2xl font-serif tracking-widest text-emerald-500 uppercase" id="brandName">Bloom Store</div>
+            <nav class="hidden md:flex items-center space-gap-8 gap-x-8 font-serif tracking-tight text-neutral-100">
+                <a href="/" class="text-neutral-400 hover:text-neutral-100 transition-colors" id="navHome">Home</a>
+                <a href="/shop" class="text-neutral-400 hover:text-neutral-100 transition-colors" id="navShop">Shop</a>
+                <a href="/categories" class="text-neutral-400 hover:text-neutral-100 transition-colors" id="navCategories">Categories</a>
+                <a href="/occasions" class="text-neutral-400 hover:text-neutral-100 transition-colors" id="navOccasions">Occasions</a>
+                <a href="/contact" class="text-neutral-400 hover:text-neutral-100 transition-colors" id="navContact">Contact</a>
+            </nav>
+            <div class="flex items-center gap-x-6 text-emerald-500">
+                <button id="themeToggle" class="material-symbols-outlined active:scale-95 transition-transform hover:text-emerald-400">light_mode</button>
+                <button id="langToggle" class="text-sm font-bold px-2 py-1 rounded-full border border-emerald-500/50 hover:bg-emerald-500/10 transition">AR</button>
+                <a href="/cart" class="relative">
+                    <span class="material-symbols-outlined active:scale-95 transition-transform hover:text-emerald-400">shopping_bag</span>
+                    <span id="cartCount" class="absolute -top-2 -right-2 bg-emerald-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                </a>
+                <a href="/profile" class="material-symbols-outlined active:scale-95 transition-transform hover:text-emerald-400">person</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow pt-32 pb-xl px-4 md:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div id="productContainer" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-12 text-center py-12 text-primary animate-pulse">Loading product details...</div>
+            </div>
+            <section id="relatedSection" class="mt-12 hidden">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="font-headline-md text-headline-md text-on-surface" id="relatedTitle">Curated Companions</h2>
+                </div>
+                <div id="relatedGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="w-full border-t border-neutral-900 bg-neutral-950 flex flex-col items-center py-12 px-6 gap-8 text-center mt-auto">
+        <div class="text-xl font-serif text-emerald-500 mb-4 uppercase tracking-widest">Bloom Store</div>
+        <div class="flex flex-wrap justify-center gap-x-8 gap-y-4 font-serif text-sm tracking-wide text-neutral-400">
+            <a href="#" class="hover:text-emerald-300 transition-colors" id="footerPrivacy">Privacy Policy</a>
+            <a href="#" class="hover:text-emerald-300 transition-colors" id="footerTerms">Terms of Service</a>
+            <a href="#" class="hover:text-emerald-300 transition-colors" id="footerShipping">Shipping Info</a>
+            <a href="#" class="hover:text-emerald-300 transition-colors" id="footerContact">Contact</a>
+        </div>
+        <div class="font-serif text-sm tracking-wide text-neutral-500" id="copyright">© 2024 Bloom Store. Cultivating Elegance.</div>
+    </footer>
+
+    <script>
+        // ========== GLOBALS ==========
+        const htmlTag = document.documentElement;
+        let currentLang = localStorage.getItem('bloomLang') || 'en';
+        let currentTheme = localStorage.getItem('bloomTheme') || 'dark';
+        let productId = null;
+        let productData = null;
+
+        // ========== TRANSLATIONS ==========
+        const dict = {
+            en: {
+                brandName: 'Bloom Store', navHome: 'Home', navShop: 'Shop', navCategories: 'Categories', navOccasions: 'Occasions', navContact: 'Contact',
+                relatedTitle: 'Curated Companions', addToCart: 'ADD TO CART', inStock: 'In Stock', outOfStock: 'Out of Stock',
+                category: 'Category', tags: 'Tags', shippingReturns: 'Shipping & Returns', shippingDesc: 'Express climate-controlled delivery within 24 hours. Returns accepted for quality issues within 2 hours of delivery.',
+                share: 'SHARE ARTISTRY', loading: 'Loading product details...', error: 'Product not found', backToShop: 'Back to Shop',
+                footerPrivacy: 'Privacy Policy', footerTerms: 'Terms of Service', footerShipping: 'Shipping Info', footerContact: 'Contact',
+                copyright: '© 2024 Bloom Store. Cultivating Elegance.', addToCartSuccess: 'Added to Cart!', addToCartFail: 'Could not add to cart'
+            },
+            ar: {
+                brandName: 'شغف', navHome: 'الرئيسية', navShop: 'تسوق', navCategories: 'الفئات', navOccasions: 'المناسبات', navContact: 'اتصل بنا',
+                relatedTitle: 'قد يعجبك أيضاً', addToCart: 'أضف للسلة', inStock: 'متوفر', outOfStock: 'غير متوفر',
+                category: 'الفئة', tags: 'العلامات', shippingReturns: 'الشحن والإرجاع', shippingDesc: 'توصيل سريع بدرجة حرارة مضبوطة خلال 24 ساعة. نقبل الإرجاع لمشاكل الجودة خلال ساعتين من التسليم.',
+                share: 'شارك الجمال', loading: 'جاري تحميل المنتج...', error: 'المنتج غير موجود', backToShop: 'العودة إلى المتجر',
+                footerPrivacy: 'سياسة الخصوصية', footerTerms: 'شروط الخدمة', footerShipping: 'معلومات الشحن', footerContact: 'اتصل بنا',
+                copyright: '© 2024 شغف. نرتقي بالأناقة.', addToCartSuccess: 'تمت الإضافة!', addToCartFail: 'تعذرت الإضافة'
+            }
+        };
+
+        function applyLanguage(lang) {
+            const t = dict[lang];
+            htmlTag.setAttribute('lang', lang);
+            htmlTag.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            for (let id in t) { const el = document.getElementById(id); if (el) el.innerText = t[id]; }
+            document.getElementById('langToggle').innerText = (lang === 'en') ? 'AR' : 'EN';
+            if (productId) loadProduct();
+        }
+
+        function setTheme(theme) {
+            if (theme === 'light') {
+                htmlTag.classList.remove('dark');
+                htmlTag.classList.add('light');
+                localStorage.setItem('bloomTheme', 'light');
+                document.querySelector('#themeToggle').innerText = 'dark_mode';
+            } else {
+                htmlTag.classList.remove('light');
+                htmlTag.classList.add('dark');
+                localStorage.setItem('bloomTheme', 'dark');
+                document.querySelector('#themeToggle').innerText = 'light_mode';
+            }
+        }
+
+        // ========== CART ==========
+        async function updateCartCount() {
+            const token = localStorage.getItem('access_token');
+            if (!token) return;
+            try {
+                const res = await fetch('/api/cart/', { headers: { 'Authorization': `Bearer ${token}` } });
+                const data = await res.json();
+                const countEl = document.getElementById('cartCount');
+                if (countEl && data.item_count > 0) { countEl.innerText = data.item_count; countEl.classList.remove('hidden'); }
+                else if (countEl) countEl.classList.add('hidden');
+            } catch(e) {}
+        }
+
+        async function addToCart(flowerId, quantity = 1) {
+            const token = localStorage.getItem('access_token');
+            if (!token) {
+                Swal.fire({ icon: 'warning', title: currentLang === 'en' ? 'Login Required' : 'مطلوب تسجيل الدخول', text: currentLang === 'en' ? 'Please login to add items to your cart' : 'يرجى تسجيل الدخول لإضافة المنتجات إلى السلة', confirmButtonColor: '#2ecc71' }).then(() => { window.location.href = '/login'; });
+                return;
+            }
+            try {
+                const res = await fetch('/api/cart/add', {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ flower_id: parseInt(flowerId), quantity: quantity })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    Swal.fire({ icon: 'success', title: dict[currentLang].addToCartSuccess, timer: 1500, showConfirmButton: false });
+                    updateCartCount();
+                } else {
+                    Swal.fire({ icon: 'error', title: 'Error', text: data.error || dict[currentLang].addToCartFail });
+                }
+            } catch (err) {
+                Swal.fire({ icon: 'error', title: 'Network Error', text: 'Please try again later.' });
+            }
+        }
+
+        // ========== PRODUCT LOADING ==========
+        async function loadProduct() {
+            const container = document.getElementById('productContainer');
+            const t = dict[currentLang];
+            container.innerHTML = `<div class="lg:col-span-12 text-center py-12 text-primary animate-pulse">${t.loading}</div>`;
+            try {
+                const res = await fetch(`/api/flowers/${productId}`);
+                if (!res.ok) throw new Error();
+                const product = await res.json();
+                productData = product;
+                renderProduct(product);
+                loadRelatedProducts(product.category, product.id);
+                updateCartCount();
+            } catch (err) {
+                container.innerHTML = `<div class="lg:col-span-12 text-center py-12 text-error">${t.error}<br><a href="/shop" class="text-primary mt-4 inline-block underline">${t.backToShop}</a></div>`;
+            }
+        }
+
+        function fixImageUrl(url) {
+            if (!url) return 'https://placehold.co/600x600?text=Bloom';
+            if (url.startsWith('http')) return url;
+            if (url.startsWith('/static/')) return url;
+            return '/static/' + url;
+        }
+
+        function renderProduct(product) {
+            const t = dict[currentLang];
+            const container = document.getElementById('productContainer');
+            const images = product.images || [];
+            const mainImage = images.find(img => img.is_primary) || images[0] || { url: fixImageUrl(product.image_url) };
+            const thumbnails = images.filter(img => img.url !== mainImage.url);
+            const stockHtml = (product.stock > 0 || product.stock === undefined) 
+                ? `<span class="text-primary font-label-caps text-label-caps border border-primary/30 px-2 py-1 rounded">${t.inStock}</span>` 
+                : `<span class="text-red-500 font-label-caps text-label-caps border border-red-500/30 px-2 py-1 rounded">${t.outOfStock}</span>`;
+            const tags = product.tags ? product.tags.split(',').map(tag => tag.trim()) : ['Luxury', 'Rare'];
+            
+            container.innerHTML = `
+                <div class="lg:col-span-7 space-y-4">
+                    <div class="glass rounded-xl overflow-hidden aspect-[4/5] relative">
+                        <img id="mainProductImage" class="w-full h-full object-cover" src="${fixImageUrl(mainImage.url)}" alt="${escapeHtml(product.name)}">
+                        ${product.is_best_seller ? `<div class="absolute top-4 left-4"><span class="bg-primary/20 border border-primary text-primary px-2 py-1 rounded-full font-label-caps text-label-caps backdrop-blur-md">Rare Species</span></div>` : ''}
+                    </div>
+                    <div id="thumbnailContainer" class="grid grid-cols-4 gap-3">
+                        ${thumbnails.map((img, idx) => `
+                            <div class="thumbnail glass rounded-lg overflow-hidden aspect-square ${idx === 0 ? 'active-thumbnail' : ''} cursor-pointer" data-image="${fixImageUrl(img.url)}">
+                                <img class="w-full h-full object-cover" src="${fixImageUrl(img.url)}" alt="Thumbnail">
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="lg:col-span-5 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <h1 class="font-display-lg text-display-lg text-on-surface">${escapeHtml(product.name)}</h1>
+                            <div class="flex items-center text-primary gap-0.5">
+                                ${Array(5).fill().map(() => `<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>`).join('')}
+                            </div>
+                        </div>
+                        <div class="flex items-baseline gap-4 mb-6">
+                            <span class="font-headline-md text-headline-md text-primary">$${parseFloat(product.price).toFixed(2)}</span>
+                            <span>${stockHtml}</span>
+                        </div>
+                        <p class="font-body-lg text-body-lg text-on-surface-variant mb-8 leading-relaxed italic">${escapeHtml(product.description || 'No description available.')}</p>
+                        
+                        <div class="space-y-6 mb-8">
+                            <div class="flex items-center gap-4">
+                                <div class="glass rounded-full flex items-center p-1 border-outline-variant">
+                                    <button id="decrQty" class="quantity-btn w-10 h-10 flex items-center justify-center rounded-full hover:text-primary transition-colors active:scale-90">
+                                        <span class="material-symbols-outlined">remove</span>
+                                    </button>
+                                    <span id="qtyValue" class="w-12 text-center font-bold">1</span>
+                                    <button id="incrQty" class="quantity-btn w-10 h-10 flex items-center justify-center rounded-full hover:text-primary transition-colors active:scale-90">
+                                        <span class="material-symbols-outlined">add</span>
+                                    </button>
+                                </div>
+                                <button id="addToCartBtn" class="flex-grow bg-primary text-white font-label-caps text-label-caps py-3 rounded-full emerald-glow transition-all active:scale-[0.98]">
+                                    ${t.addToCart}
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="glass rounded-xl p-4 space-y-3">
+                            <div class="flex justify-between border-b border-outline-variant pb-2">
+                                <span class="text-on-surface-variant font-label-caps text-label-caps">${t.category}</span>
+                                <span class="text-on-surface">${escapeHtml(product.category || 'Uncategorized')}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-outline-variant pb-2">
+                                <span class="text-on-surface-variant font-label-caps text-label-caps">${t.tags}</span>
+                                <span class="text-on-surface">${tags.join(', ')}</span>
+                            </div>
+                            <div class="pt-2">
+                                <div class="flex items-center gap-1 text-primary mb-2">
+                                    <span class="material-symbols-outlined text-sm">local_shipping</span>
+                                    <span class="font-label-caps text-label-caps">${t.shippingReturns}</span>
+                                </div>
+                                <p class="text-on-surface-variant text-sm">${t.shippingDesc}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 pt-6 mt-4">
+                        <span class="text-on-tertiary-container font-label-caps text-label-caps">${t.share}</span>
+                        <div class="flex gap-2">
+                            <a class="w-10 h-10 glass rounded-full flex items-center justify-center text-on-surface hover:text-primary transition-colors" href="javascript:void(0)" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'_blank')">
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                            </a>
+                            <a class="w-10 h-10 glass rounded-full flex items-center justify-center text-on-surface hover:text-primary transition-colors" href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=${encodeURIComponent(product.name)}&url='+encodeURIComponent(location.href),'_blank')">
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.84 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                            </a>
+                            <a class="w-10 h-10 glass rounded-full flex items-center justify-center text-on-surface hover:text-primary transition-colors" href="javascript:void(0)" onclick="window.open('https://wa.me/?text=${encodeURIComponent(product.name)}%20${encodeURIComponent(location.href)}','_blank')">
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Thumbnail click handler
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.addEventListener('click', () => {
+                    const newSrc = thumb.getAttribute('data-image');
+                    document.getElementById('mainProductImage').src = newSrc;
+                    document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active-thumbnail'));
+                    thumb.classList.add('active-thumbnail');
+                });
+            });
+            
+            // Quantity buttons
+            let quantity = 1;
+            const qtySpan = document.getElementById('qtyValue');
+            document.getElementById('decrQty').addEventListener('click', () => {
+                if (quantity > 1) { quantity--; qtySpan.innerText = quantity; }
+            });
+            document.getElementById('incrQty').addEventListener('click', () => {
+                if (product.stock > quantity) { quantity++; qtySpan.innerText = quantity; }
+            });
+            document.getElementById('addToCartBtn').addEventListener('click', () => {
+                addToCart(product.id, quantity);
+            });
+        }
+
+        async function loadRelatedProducts(category, excludeId) {
+            const section = document.getElementById('relatedSection');
+            const grid = document.getElementById('relatedGrid');
+            if (!category) { section.classList.add('hidden'); return; }
+            try {
+                const res = await fetch(`/api/flowers?category=${encodeURIComponent(category)}&limit=4`);
+                const products = await res.json();
+                const filtered = products.filter(p => p.id != excludeId).slice(0, 4);
+                if (filtered.length === 0) { section.classList.add('hidden'); return; }
+                section.classList.remove('hidden');
+                grid.innerHTML = filtered.map(p => `
+                    <div class="glass group p-2 rounded-xl transition-all hover:-translate-y-2">
+                        <a href="/product/${p.id}" class="block">
+                            <div class="aspect-[3/4] rounded-lg overflow-hidden mb-2 relative">
+                                <img class="w-full h-full object-cover transition-all duration-500" src="${fixImageUrl(p.image_url)}" alt="${escapeHtml(p.name)}">
+                                <div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-60"></div>
+                            </div>
+                            <div class="px-2 pb-2">
+                                <h3 class="font-headline-sm text-headline-sm text-on-surface mb-1">${escapeHtml(p.name)}</h3>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-primary font-bold">$${parseFloat(p.price).toFixed(2)}</span>
+                                    <span class="material-symbols-outlined text-primary-container text-sm">add_circle</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                `).join('');
+            } catch (err) { section.classList.add('hidden'); }
+        }
+
+        function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])); }
+
+        // ========== INIT ==========
+        const pathParts = window.location.pathname.split('/');
+        productId = pathParts[pathParts.length - 1];
+        if (isNaN(productId)) productId = null;
+        
+        document.getElementById('themeToggle').addEventListener('click', () => { 
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light'; 
+            setTheme(currentTheme); 
+            if (productId) loadProduct(); 
+        });
+        document.getElementById('langToggle').addEventListener('click', () => { 
+            currentLang = currentLang === 'en' ? 'ar' : 'en'; 
+            localStorage.setItem('bloomLang', currentLang); 
+            applyLanguage(currentLang); 
+        });
+        
+        setTheme(currentTheme);
+        applyLanguage(currentLang);
+        if (productId) loadProduct();
+        else document.getElementById('productContainer').innerHTML = '<div class="lg:col-span-12 text-center py-12 text-error">Invalid product ID.</div>';
+    </script>
+</body>
+</html>

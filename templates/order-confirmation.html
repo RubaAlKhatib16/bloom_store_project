@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html class="dark" lang="en" id="html-tag" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation | Bloom Store</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        /* ========== GLOBAL STYLES (مطابقة لبقية الموقع) ========== */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            backdrop-filter: blur(12px);
+            transition: transform 0.2s;
+        }
+        .glass-panel:hover {
+            transform: translateY(-2px);
+        }
+        /* Dark mode (default) */
+        html.dark body {
+            background-color: #111415;
+            color: #e1e3e4;
+        }
+        html.dark .glass-panel {
+            background: rgba(17, 20, 21, 0.65);
+            border: 1px solid rgba(134, 148, 134, 0.12);
+        }
+        html.dark .bg-black {
+            background-color: #0c0f10 !important;
+        }
+        html.dark .text-zinc-600 {
+            color: #869486 !important;
+        }
+        html.dark .text-zinc-500 {
+            color: #6c757d !important;
+        }
+        html.dark .border-zinc-900 {
+            border-color: #1a1e24 !important;
+        }
+        /* Light mode */
+        html.light body {
+            background-color: #f4f7f5;
+            color: #1a1c1c;
+        }
+        html.light .glass-panel {
+            background: rgba(255, 255, 255, 0.80);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        html.light .bg-black {
+            background-color: #f0f4f2 !important;
+        }
+        html.light .text-zinc-600 {
+            color: #4a5568 !important;
+        }
+        html.light .text-zinc-500 {
+            color: #6c757d !important;
+        }
+        html.light .border-zinc-900 {
+            border-color: #e2e8f0 !important;
+        }
+        /* Shared */
+        [dir="rtl"] .text-left {
+            text-align: right;
+        }
+        .text-primary {
+            color: #2ecc71;
+        }
+        html.dark .text-primary {
+            color: #54e98a;
+        }
+        .bg-primary {
+            background-color: #2ecc71;
+        }
+        html.dark .bg-primary {
+            background-color: #54e98a;
+        }
+        .border-primary\/50 {
+            border-color: rgba(46, 204, 113, 0.5);
+        }
+        html.dark .border-primary\/50 {
+            border-color: rgba(84, 233, 138, 0.5);
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: { extend: {
+                fontFamily: { "body-md": ["Manrope"], "headline-md": ["Noto Serif"] }
+            } }
+        }
+    </script>
+</head>
+<body class="font-body-md bg-background text-on-background">
+
+    <!-- Top Navigation Bar (مطابق لبقية الصفحات) -->
+    <header class="fixed top-0 w-full z-50 border-b border-emerald-500/20 bg-black/80 backdrop-blur-xl shadow-[0_0_30px_rgba(46,204,113,0.1)] flex justify-between items-center px-8 h-20">
+        <div class="text-2xl font-serif italic tracking-tight text-emerald-500" id="brandName">Bloom Store</div>
+        <nav class="hidden md:flex space-x-8">
+            <a href="/" class="font-serif text-zinc-400 hover:text-emerald-200 transition-colors">Home</a>
+            <a href="/shop" class="font-serif text-zinc-400 hover:text-emerald-200 transition-colors">Shop</a>
+            <a href="/categories" class="font-serif text-zinc-400 hover:text-emerald-200 transition-colors">Categories</a>
+            <a href="/occasions" class="font-serif text-zinc-400 hover:text-emerald-200 transition-colors">Occasions</a>
+            <a href="/contact" class="font-serif text-zinc-400 hover:text-emerald-200 transition-colors">Contact</a>
+        </nav>
+        <div class="flex items-center gap-6">
+            <button id="themeToggle" class="material-symbols-outlined cursor-pointer hover:text-emerald-500 transition-all">dark_mode</button>
+            <button id="langToggle" class="text-sm font-bold px-2 py-1 rounded-full border border-emerald-500/50 hover:bg-emerald-500/10 transition">AR</button>
+            <a href="/cart" class="relative">
+                <span class="material-symbols-outlined cursor-pointer hover:text-emerald-500 transition-all">shopping_bag</span>
+                <span id="cartCount" class="absolute -top-2 -right-2 bg-emerald-500 text-white text-xs rounded-full w-5 h-5 hidden">0</span>
+            </a>
+            <a href="/profile" class="material-symbols-outlined cursor-pointer hover:text-emerald-500 transition-all">person</a>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 pt-32 pb-20">
+        <div id="confirmationContainer" class="glass-panel rounded-xl p-6 md:p-8">
+            <div class="text-center py-12 text-primary animate-pulse">Loading order details...</div>
+        </div>
+        <div class="text-center mt-8">
+            <a href="/shop" class="inline-flex items-center gap-2 text-primary hover:underline">
+                <span class="material-symbols-outlined">arrow_back</span>
+                Continue Shopping
+            </a>
+        </div>
+    </main>
+
+    <footer class="w-full py-12 px-8 border-t border-zinc-900 bg-black flex flex-col items-center gap-6 mt-10">
+        <div class="text-emerald-500 font-serif italic mb-2">Bloom Store</div>
+        <div class="flex flex-wrap justify-center gap-8">
+            <a href="#" class="font-serif text-sm text-zinc-600 hover:text-emerald-400 transition">Privacy Policy</a>
+            <a href="#" class="font-serif text-sm text-zinc-600 hover:text-emerald-400 transition">Terms of Service</a>
+            <a href="#" class="font-serif text-sm text-zinc-600 hover:text-emerald-400 transition">Shipping Info</a>
+            <a href="#" class="font-serif text-sm text-zinc-600 hover:text-emerald-400 transition">Contact</a>
+        </div>
+        <p class="font-serif text-sm text-zinc-500">© 2024 Bloom Store. Botanical Elegance.</p>
+    </footer>
+
+    <script>
+        // ========== GLOBALS ==========
+        const htmlTag = document.documentElement;
+        let currentLang = localStorage.getItem('bloomLang') || 'en';
+        let currentTheme = localStorage.getItem('bloomTheme') || 'dark';
+        const orderId = {{ order_id }};
+
+        // ========== Helper: fix image URL ==========
+        function fixImageUrl(url) {
+            if (!url) return 'https://placehold.co/80x80?text=Bloom';
+            if (url.startsWith('http')) return url;
+            if (url.startsWith('/static/')) return url;
+            return '/static/' + url;
+        }
+
+        // ========== TRANSLATIONS ==========
+        const dict = {
+            en: {
+                title: 'Order Confirmation',
+                thankYou: 'Thank you for your purchase!',
+                orderNumber: 'Order #',
+                date: 'Date',
+                status: 'Status',
+                shippingAddress: 'Shipping Address',
+                items: 'Order Items',
+                product: 'Product',
+                quantity: 'Qty',
+                price: 'Price',
+                subtotal: 'Subtotal',
+                total: 'Total',
+                backToShop: 'Continue Shopping',
+                orderNotFound: 'Order not found. Please contact support.'
+            },
+            ar: {
+                title: 'تأكيد الطلب',
+                thankYou: 'شكراً لك على شرائك!',
+                orderNumber: 'الطلب رقم',
+                date: 'التاريخ',
+                status: 'الحالة',
+                shippingAddress: 'عنوان الشحن',
+                items: 'عناصر الطلب',
+                product: 'المنتج',
+                quantity: 'الكمية',
+                price: 'السعر',
+                subtotal: 'المجموع الفرعي',
+                total: 'المجموع الكلي',
+                backToShop: 'متابعة التسوق',
+                orderNotFound: 'الطلب غير موجود. يرجى الاتصال بالدعم.'
+            }
+        };
+
+        function applyLanguage(lang) {
+            const t = dict[lang];
+            htmlTag.setAttribute('lang', lang);
+            htmlTag.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            document.getElementById('langToggle').innerText = (lang === 'en') ? 'AR' : 'EN';
+            if (window.orderData) renderOrder(window.orderData);
+        }
+
+        function setTheme(theme) {
+            if (theme === 'light') {
+                htmlTag.classList.remove('dark');
+                htmlTag.classList.add('light');
+                localStorage.setItem('bloomTheme', 'light');
+                document.querySelector('#themeToggle').innerText = 'light_mode';
+            } else {
+                htmlTag.classList.remove('light');
+                htmlTag.classList.add('dark');
+                localStorage.setItem('bloomTheme', 'dark');
+                document.querySelector('#themeToggle').innerText = 'dark_mode';
+            }
+        }
+
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(currentTheme);
+        });
+        document.getElementById('langToggle').addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            localStorage.setItem('bloomLang', currentLang);
+            applyLanguage(currentLang);
+        });
+
+        async function loadOrder() {
+            const container = document.getElementById('confirmationContainer');
+            const token = localStorage.getItem('access_token');
+            if (!token) {
+                container.innerHTML = `<div class="text-center py-12 text-error">Please <a href="/login" class="text-primary underline">login</a> to view your order.</div>`;
+                return;
+            }
+            try {
+                const res = await fetch(`/api/orders/${orderId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!res.ok) throw new Error('Order not found');
+                const order = await res.json();
+                window.orderData = order;
+                renderOrder(order);
+            } catch (err) {
+                container.innerHTML = `<div class="text-center py-12 text-error">${dict[currentLang].orderNotFound}</div>`;
+            }
+        }
+
+        function renderOrder(order) {
+            const t = dict[currentLang];
+            const container = document.getElementById('confirmationContainer');
+            const statusColor = 
+                order.status === 'Delivered' ? 'text-green-400' :
+                order.status === 'Shipped' ? 'text-blue-400' :
+                order.status === 'Processing' ? 'text-yellow-400' : 'text-gray-400';
+            htmlTag.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            container.innerHTML = `
+                <div class="text-center mb-6">
+                    <span class="material-symbols-outlined text-6xl text-primary">check_circle</span>
+                    <h1 class="font-headline-md text-headline-md mt-2">${t.thankYou}</h1>
+                    <p class="text-on-surface-variant">${t.orderNumber}${order.id}</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="glass-panel p-4 rounded-xl">
+                        <h3 class="font-headline-sm text-headline-sm mb-2">${t.date}</h3>
+                        <p>${new Date(order.date).toLocaleDateString()}</p>
+                        <h3 class="font-headline-sm text-headline-sm mt-4 mb-2">${t.status}</h3>
+                        <p class="${statusColor} capitalize">${order.status}</p>
+                    </div>
+                    <div class="glass-panel p-4 rounded-xl">
+                        <h3 class="font-headline-sm text-headline-sm mb-2">${t.shippingAddress}</h3>
+                        <p>${order.shipping_address}</p>
+                    </div>
+                </div>
+                <div class="glass-panel p-4 rounded-xl mb-6">
+                    <h3 class="font-headline-sm text-headline-sm mb-4">${t.items}</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="border-b border-outline-variant">
+                                <tr>
+                                    <th class="text-left py-2">${t.product}</th>
+                                    <th class="text-center py-2">${t.quantity}</th>
+                                    <th class="text-right py-2">${t.price}</th>
+                                    <th class="text-right py-2">${t.subtotal}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${order.items.map(item => `
+                                    <tr class="border-b border-outline-variant">
+                                        <td class="py-3 flex items-center gap-3">
+                                            <img src="${fixImageUrl(item.image_url)}" class="w-12 h-12 object-cover rounded" alt="${escapeHtml(item.name)}">
+                                            <span>${escapeHtml(item.name)}</span>
+                                         </td>
+                                        <td class="text-center py-3">${item.quantity}</td>
+                                        <td class="text-right py-3">$${item.price.toFixed(2)}</td>
+                                        <td class="text-right py-3">$${(item.price * item.quantity).toFixed(2)}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="flex justify-end mt-4 pt-4 border-t border-outline-variant">
+                        <div class="text-right">
+                            <p class="text-lg font-bold">${t.total}: <span class="text-primary">$${order.total.toFixed(2)}</span></p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
+        }
+
+        setTheme(currentTheme);
+        applyLanguage(currentLang);
+        loadOrder();
+    </script>
+</body>
+</html>

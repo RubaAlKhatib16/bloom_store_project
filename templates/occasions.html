@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html class="dark" lang="en" id="html-tag" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Occasions | Bloom Store</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Noto+Serif:ital,wght@0,500;0,600;0,700;1,500&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        html.light body {
+            background-color: #f4f7f5;
+            color: #1a1c1c;
+        }
+
+        html.light .glass-panel {
+            background: rgba(255, 255, 255, 0.80);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(46, 204, 113, 0.15);
+        }
+
+        html.light .emerald-glow-hover:hover {
+            box-shadow: 0 0 40px rgba(46, 204, 113, 0.18);
+        }
+
+        html.light nav {
+            background: rgba(255, 255, 255, 0.88) !important;
+        }
+
+        html.light .text-white\/70,
+        html.light .text-white {
+            color: #1a1c1c !important;
+        }
+
+        html.light .text-white\/70 {
+            color: #4a5568 !important;
+        }
+
+        html.light footer.bg-gray-950 {
+            background-color: #f0f4f2 !important;
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+
+        html.light .bg-gray-950 {
+            background-color: #f0f4f2 !important;
+        }
+
+        html.light .bg-surface-container {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        html.dark body {
+            background-color: #111415;
+            color: #e1e3e4;
+        }
+
+        html.dark .glass-panel {
+            background: rgba(17, 20, 21, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(134, 148, 134, 0.12);
+        }
+
+        html.dark .emerald-glow-hover:hover {
+            box-shadow: 0 0 40px rgba(46, 204, 113, 0.15);
+        }
+
+        .glass-panel {
+            transition: transform 0.3s ease, box-shadow 0.3s;
+        }
+
+        .glass-panel:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Hero Slider styles */
+        .hero-slider {
+            position: relative;
+            min-height: 85vh;
+            overflow: hidden;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 1;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+            z-index: 2;
+        }
+
+        .hero-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7));
+            z-index: 3;
+        }
+
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 4;
+            width: 100%;
+            max-width: 1000px;
+            padding: 0 2rem;
+        }
+
+        .hero-dots {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .hero-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            padding: 0;
+        }
+
+        .hero-dot.active {
+            background-color: #2ecc71;
+            transform: scale(1.2);
+        }
+
+        html.light .hero-dot {
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        html.light .hero-dot.active {
+            background-color: #1a9e52;
+        }
+
+        [dir="rtl"] .flex-row {
+            flex-direction: row-reverse;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {},
+                    borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+                    spacing: { margin: "32px", md: "1.5rem", gutter: "24px", sm: "1rem", unit: "4px", xs: "0.5rem", xl: "4rem", lg: "2.5rem" },
+                    fontFamily: { "label-caps": ["Manrope"], "body-md": ["Manrope"], "headline-sm": ["Noto Serif"], "display-lg": ["Noto Serif"], "headline-md": ["Noto Serif"], "body-lg": ["Manrope"] },
+                    fontSize: {
+                        "label-caps": ["12px", { lineHeight: "1.2", letterSpacing: "0.1em", fontWeight: "700" }],
+                        "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "headline-sm": ["24px", { lineHeight: "1.3", fontWeight: "500" }],
+                        "display-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "headline-md": ["32px", { lineHeight: "1.2", fontWeight: "600" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="font-body-md bg-background text-on-background">
+
+    <!-- Top Navigation Bar -->
+    <nav
+        class="fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-[1200px] rounded-lg border border-white/10 bg-gray-950/60 backdrop-blur-md flex justify-between items-center px-8 py-4 z-50 shadow-[0_0_40px_rgba(46,204,113,0.1)]">
+        <div class="text-2xl font-serif italic text-emerald-400" id="brandName">Bloom Store</div>
+        <div class="hidden md:flex gap-8 items-center">
+            <a href="/" class="font-serif text-sm tracking-wide uppercase font-medium text-white/70 hover:text-white transition-colors" id="navHome">Home</a>
+            <a href="/shop" class="font-serif text-sm tracking-wide uppercase font-medium text-white/70 hover:text-white transition-colors" id="navShop">Shop</a>
+            <a href="/categories" class="font-serif text-sm tracking-wide uppercase font-medium text-white/70 hover:text-white transition-colors" id="navCategories">Categories</a>
+            <a href="/occasions" class="font-serif text-sm tracking-wide uppercase font-medium text-emerald-400 border-b-2 border-emerald-400 pb-1" id="navOccasions">Occasions</a>
+            <a href="/contact" class="font-serif text-sm tracking-wide uppercase font-medium text-white/70 hover:text-white transition-colors" id="navContact">Contact</a>
+        </div>
+        <div class="flex items-center gap-6">
+            <button id="themeToggle" class="text-white/70 hover:text-emerald-400 transition-all"><span class="material-symbols-outlined">light_mode</span></button>
+            <button id="langToggle" class="text-white/70 hover:text-emerald-400 transition-all text-sm font-bold px-2 py-1 rounded-full border border-white/20">AR</button>
+            <a href="/cart" class="text-white/70 hover:text-emerald-400 transition-all relative">
+                <span class="material-symbols-outlined">shopping_cart</span>
+                <span id="cartCount" class="absolute -top-2 -right-2 bg-emerald-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+            </a>
+            <a href="/profile" class="text-white/70 hover:text-emerald-400 transition-all"><span class="material-symbols-outlined">person</span></a>
+        </div>
+    </nav>
+
+    <!-- Hero Carousel (Dynamic) -->
+    <div id="heroContainer" class="hero-slider relative h-screen">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="font-display-lg text-display-lg text-white mb-4" id="heroTitle">Unforgettable Moments</h1>
+            <p class="font-body-lg text-body-lg text-white/90 max-w-2xl mx-auto mb-8" id="heroDesc">Curating the silent language of flowers for life's most precious milestones.</p>
+            <button id="heroExploreBtn" class="px-8 py-3 bg-primary text-on-primary font-label-caps text-label-caps uppercase tracking-widest rounded-full emerald-glow-hover transition-all">Explore Collection</button>
+        </div>
+        <div class="hero-dots" id="heroDots"></div>
+    </div>
+
+    <!-- Trust Elements -->
+    <section class="max-w-[1200px] mx-auto px-4 md:px-8 -mt-16 relative z-20">
+        <div class="glass-panel rounded-xl grid grid-cols-1 md:grid-cols-2 gap-8 p-6 md:p-8 shadow-xl">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 flex items-center justify-center rounded-full bg-primary/10 text-primary"><span class="material-symbols-outlined text-3xl">schedule</span></div>
+                <div>
+                    <h4 class="font-headline-sm text-sm uppercase tracking-widest mb-1 text-on-surface" id="trustTitle1">Timely Delivery</h4>
+                    <p class="text-on-surface-variant text-sm" id="trustDesc1">Pristine arrangements delivered with clockwork precision for your event.</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 border-t md:border-t-0 md:border-l border-outline-variant pt-6 md:pt-0 md:pl-8">
+                <div class="w-12 h-12 flex items-center justify-center rounded-full bg-primary/10 text-primary"><span class="material-symbols-outlined text-3xl">brush</span></div>
+                <div>
+                    <h4 class="font-headline-sm text-sm uppercase tracking-widest mb-1 text-on-surface" id="trustTitle2">Artisan Crafted</h4>
+                    <p class="text-on-surface-variant text-sm" id="trustDesc2">Every bouquet is a unique masterpiece hand-assembled by master florists.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Occasion Grid (Dynamic from API) -->
+    <section class="max-w-[1200px] mx-auto px-4 md:px-8 py-16">
+        <div class="mb-8">
+            <h2 class="font-headline-md text-headline-md text-on-background mb-2" id="gridTitle">Browse by Occasion</h2>
+            <div class="h-1 w-24 bg-primary"></div>
+        </div>
+        <div id="occasionsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="col-span-full text-center py-12 text-primary animate-pulse">Loading occasions...</div>
+        </div>
+    </section>
+
+    <!-- Special Services -->
+    <section class="bg-surface-container py-16">
+        <div class="max-w-[1200px] mx-auto px-4 md:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="order-2 md:order-1">
+                    <h2 class="font-headline-md text-headline-md mb-4 text-on-surface" id="servicesTitle">Bespoke Event Styling</h2>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant mb-6" id="servicesDesc">Transforming spaces into living art. Our lead florists work directly with you to conceptualize and execute large-scale botanical installations that redefine your venue.</p>
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary">check_circle</span><span class="font-body-md" id="service1">Initial Moodboard &amp; Conceptualization</span></div>
+                        <div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary">check_circle</span><span class="font-body-md" id="service2">Sourcing Rare &amp; Seasonal Blooms</span></div>
+                        <div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary">check_circle</span><span class="font-body-md" id="service3">On-site Installation &amp; Strike</span></div>
+                    </div>
+                    <a href="/consultation" id="consultBtn" class="inline-block px-6 py-2 border-2 border-primary text-primary font-label-caps text-label-caps rounded-full hover:bg-primary hover:text-on-primary transition-all">BOOK A CONSULTATION</a>
+                </div>
+                <div class="order-1 md:order-2 relative">
+                    <div class="aspect-square glass-panel p-4 rounded-xl"><img class="w-full h-full object-cover rounded-lg shadow-2xl" src="../static/images/imageoccasion/bloom.png" alt="Florist working"></div>
+                    <div class="absolute -bottom-8 -left-8 glass-panel p-4 rounded-xl max-w-xs shadow-2xl hidden md:block">
+                        <h4 class="font-headline-sm text-sm mb-1 text-primary" id="subscriptionTitle">Subscription Gifts</h4>
+                        <p class="text-xs text-on-surface-variant" id="subscriptionDesc">Give the gift of ongoing beauty. Weekly or monthly botanical rotations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-950 w-full border-t border-white/5 py-12">
+        <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left"><div class="text-lg font-serif italic text-white mb-2" id="footerBrand">Bloom Store</div><p class="font-serif text-xs uppercase tracking-widest text-white/40" id="footerCopyright">© 2024 Bloom Store. Botanical Elegance.</p></div>
+            <div class="flex flex-wrap justify-center gap-8"><a href="#" class="font-serif text-xs uppercase tracking-widest text-white/40 hover:text-emerald-400 transition-colors" id="footerPrivacy">Privacy Policy</a><a href="#" class="font-serif text-xs uppercase tracking-widest text-white/40 hover:text-emerald-400 transition-colors" id="footerTerms">Terms of Service</a><a href="#" class="font-serif text-xs uppercase tracking-widest text-white/40 hover:text-emerald-400 transition-colors" id="footerShipping">Shipping Info</a><a href="#" class="font-serif text-xs uppercase tracking-widest text-white/40 hover:text-emerald-400 transition-colors" id="footerContact">Contact</a></div>
+            <div class="flex gap-6"><span class="material-symbols-outlined text-white/40 cursor-pointer hover:text-emerald-300 transition-colors">nest_eco_leaf</span><span class="material-symbols-outlined text-white/40 cursor-pointer hover:text-emerald-300 transition-colors">potted_plant</span></div>
+        </div>
+    </footer>
+
+    <script>
+        // ========== HERO CAROUSEL ==========
+        let slidesData = [];
+        let currentSlide = 0;
+        let autoInterval;
+        const heroTitle = document.getElementById('heroTitle');
+        const heroDesc = document.getElementById('heroDesc');
+        const heroContainer = document.getElementById('heroContainer');
+        const heroDots = document.getElementById('heroDots');
+
+        // ========== GLOBALS ==========
+        const htmlTag = document.documentElement;
+        let currentLang = localStorage.getItem('bloomLang') || 'en';
+        let currentTheme = localStorage.getItem('bloomTheme') || 'dark';
+        let occasionsData = [];
+
+        // ========== TRANSLATIONS ==========
+        const dict = {
+            en: {
+                brandName: 'Bloom Store', navHome: 'Home', navShop: 'Shop', navCategories: 'Categories', navOccasions: 'Occasions', navContact: 'Contact',
+                trustTitle1: 'Timely Delivery', trustDesc1: 'Pristine arrangements delivered with clockwork precision for your event.',
+                trustTitle2: 'Artisan Crafted', trustDesc2: 'Every bouquet is a unique masterpiece hand-assembled by master florists.',
+                gridTitle: 'Browse by Occasion',
+                servicesTitle: 'Bespoke Event Styling', servicesDesc: 'Transforming spaces into living art. Our lead florists work directly with you to conceptualize and execute large-scale botanical installations that redefine your venue.',
+                service1: 'Initial Moodboard & Conceptualization', service2: 'Sourcing Rare & Seasonal Blooms', service3: 'On-site Installation & Strike',
+                consultBtn: 'BOOK A CONSULTATION',
+                subscriptionTitle: 'Subscription Gifts', subscriptionDesc: 'Give the gift of ongoing beauty. Weekly or monthly botanical rotations.',
+                footerBrand: 'Bloom Store', footerCopyright: '© 2024 Bloom Store. Botanical Elegance.',
+                footerPrivacy: 'Privacy Policy', footerTerms: 'Terms of Service', footerShipping: 'Shipping Info', footerContact: 'Contact',
+                heroExploreBtn: 'Explore Collection', exploreBtn: 'EXPLORE COLLECTION →', viewGallery: 'VIEW GALLERY →', explore: 'EXPLORE',
+                loading: 'Loading...'
+            },
+            ar: {
+                brandName: 'شغف', navHome: 'الرئيسية', navShop: 'تسوق', navCategories: 'الفئات', navOccasions: 'المناسبات', navContact: 'اتصل بنا',
+                trustTitle1: 'تسليم في الوقت المحدد', trustDesc1: 'تنسيقات نقية يتم تسليمها بدقة متناهية لحدثك.',
+                trustTitle2: 'صناعة حرفية', trustDesc2: 'كل باقة هي تحفة فنية فريدة يتم تجميعها يدويًا بواسطة كبار خبراء الزهور.',
+                gridTitle: 'تصفح حسب المناسبة',
+                servicesTitle: 'تصميم خاص للمناسبات', servicesDesc: 'تحويل المساحات إلى فن حي. يعمل كبار خبراء الزهور لدينا مباشرة معك لوضع وتنفيذ تركيبات نباتية واسعة النطاق تعيد تعريف مكانك.',
+                service1: 'لوحة المزاج الأولية والتخطيط', service2: 'الحصول على الأزهار النادرة والموسمية', service3: 'التركيب والإزالة في الموقع',
+                consultBtn: 'احجز استشارة',
+                subscriptionTitle: 'هدايا الاشتراك', subscriptionDesc: 'اهدَ هدية الجمال المستمر. تشكيلات نباتية أسبوعية أو شهرية لمنزلهم أو مكتبهم.',
+                footerBrand: 'شغف', footerCopyright: '© 2024 شغف. أناقة نباتية.',
+                footerPrivacy: 'سياسة الخصوصية', footerTerms: 'شروط الخدمة', footerShipping: 'معلومات الشحن', footerContact: 'اتصل بنا',
+                heroExploreBtn: 'استكشف المجموعة', exploreBtn: 'اكتشف المجموعة ←', viewGallery: 'استعراض المعرض ←', explore: 'استكشف',
+                loading: 'جاري التحميل...'
+            }
+        };
+
+        function applyLanguage(lang) {
+            const t = dict[lang];
+            htmlTag.setAttribute('lang', lang);
+            htmlTag.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            for (let id in t) { 
+                const el = document.getElementById(id); 
+                if (el) el.innerText = t[id]; 
+            }
+            document.getElementById('langToggle').innerText = (lang === 'en') ? 'AR' : 'EN';
+            renderOccasions();
+            // Update hero slider text if slides exist
+            if (slidesData.length > 0) updateHeroSlideContent(currentSlide, lang);
+        }
+
+        function setTheme(theme) {
+            if (theme === 'light') {
+                htmlTag.classList.remove('dark'); htmlTag.classList.add('light');
+                localStorage.setItem('bloomTheme', 'light');
+                document.querySelector('#themeToggle span').innerText = 'dark_mode';
+            } else {
+                htmlTag.classList.remove('light'); htmlTag.classList.add('dark');
+                localStorage.setItem('bloomTheme', 'dark');
+                document.querySelector('#themeToggle span').innerText = 'light_mode';
+            }
+        }
+
+        // ========== UPDATE CART COUNT ==========
+        async function updateCartCount() {
+            const token = localStorage.getItem('access_token');
+            if (!token) return;
+            try {
+                const res = await fetch('/api/cart/', { headers: { 'Authorization': `Bearer ${token}` } });
+                const data = await res.json();
+                const countEl = document.getElementById('cartCount');
+                if (countEl && data.item_count > 0) {
+                    countEl.innerText = data.item_count;
+                    countEl.classList.remove('hidden');
+                } else if (countEl) {
+                    countEl.classList.add('hidden');
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        // ========== HERO SLIDER FUNCTIONS ==========
+        function renderHeroSlider() {
+            if (!slidesData.length) return;
+            
+            // Clear existing slides
+            const existingSlides = document.querySelectorAll('.hero-slide:not(.hero-overlay):not(.hero-content)');
+            existingSlides.forEach(slide => slide.remove());
+            
+            slidesData.forEach((slide, idx) => {
+                const slideDiv = document.createElement('div');
+                slideDiv.className = `hero-slide ${idx === 0 ? 'active' : ''}`;
+                slideDiv.innerHTML = `<img src="${slide.image_url}" alt="${slide.name}">`;
+                heroContainer.appendChild(slideDiv);
+            });
+            
+            // Re-add overlay and content to ensure correct z-index
+            const overlay = document.querySelector('.hero-overlay');
+            const contentDiv = document.querySelector('.hero-content');
+            const dotsDiv = document.getElementById('heroDots');
+            
+            if (overlay) heroContainer.appendChild(overlay);
+            if (contentDiv) heroContainer.appendChild(contentDiv);
+            if (dotsDiv) heroContainer.appendChild(dotsDiv);
+            
+            // Create dots
+            dotsDiv.innerHTML = slidesData.map((_, i) => `<button class="hero-dot ${i === 0 ? 'active' : ''}" data-index="${i}"></button>`).join('');
+            
+            // Attach dot click events
+            document.querySelectorAll('.hero-dot').forEach(dot => {
+                dot.addEventListener('click', (e) => {
+                    const idx = parseInt(dot.getAttribute('data-index'));
+                    showSlide(idx);
+                    resetAutoSlide();
+                });
+            });
+            
+            currentSlide = 0;
+            updateHeroSlideContent(0, currentLang);
+            startAutoSlide();
+        }
+
+        function updateHeroSlideContent(index, lang) {
+            if (!slidesData[index]) return;
+            const slide = slidesData[index];
+            const title = lang === 'en' ? slide.name : (slide.name_ar || slide.name);
+            const desc = lang === 'en' ? slide.description : (slide.description_ar || slide.description);
+            heroTitle.innerText = title;
+            heroDesc.innerText = desc;
+        }
+
+        function showSlide(index) {
+            const slides = document.querySelectorAll('.hero-slide');
+            slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+            document.querySelectorAll('.hero-dot').forEach((dot, i) => dot.classList.toggle('active', i === index));
+            currentSlide = index;
+            updateHeroSlideContent(currentSlide, currentLang);
+        }
+
+        function nextSlide() { 
+            if (slidesData.length) showSlide((currentSlide + 1) % slidesData.length); 
+        }
+
+        function startAutoSlide() { 
+            if (autoInterval) clearInterval(autoInterval); 
+            if (slidesData.length) autoInterval = setInterval(nextSlide, 6000); 
+        }
+
+        function resetAutoSlide() { startAutoSlide(); }
+
+        // ========== LOAD OCCASIONS ==========
+        async function loadOccasions() {
+            const grid = document.getElementById('occasionsGrid');
+            grid.innerHTML = `<div class="col-span-full text-center py-12 text-primary animate-pulse">${dict[currentLang].loading}</div>`;
+            try {
+                const res = await fetch('/api/occasions');
+                if (!res.ok) throw new Error('API error');
+                const data = await res.json();
+                occasionsData = data;
+                slidesData = data.filter(o => o.is_featured === true || o.is_featured === 1 || o.badge === 'featured').slice(0, 5);
+                if (slidesData.length === 0 && occasionsData.length > 0) slidesData = occasionsData.slice(0, 5);
+                
+                renderHeroSlider();
+                renderOccasions();
+                updateCartCount();
+            } catch (err) {
+                console.error(err);
+                // Fallback data
+                occasionsData = [
+                    {id: 1, name: "Wedding", slug: "wedding", description: "Ethereal white and cream arrangements for your fairytale day.", image_url: "/static/images/imageoccasion/w.jpg", is_featured: true},
+                    {id: 2, name: "Birthday", slug: "birthday", description: "Vibrant blooms to make their day unforgettable.", image_url: "/static/images/imageoccasion/h.jpeg", is_featured: false},
+                    {id: 3, name: "Graduation", slug: "graduation", description: "Celebrate achievements with bright blossoms.", image_url: "/static/images/imageoccasion/g.jpeg", is_featured: false},
+                    {id: 4, name: "Anniversary", slug: "anniversary", description: "Timeless roses to celebrate your journey.", image_url: "/static/images/imageoccasion/l.jpeg", is_featured: false}
+                ];
+                slidesData = occasionsData.filter(o => o.is_featured).slice(0, 3);
+                renderHeroSlider();
+                renderOccasions();
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-error">Failed to load from API. Showing fallback data.</div>`;
+                setTimeout(() => renderOccasions(), 100);
+            }
+        }
+
+        function renderOccasions() {
+            const grid = document.getElementById('occasionsGrid');
+            const t = dict[currentLang];
+            
+            // Remove duplicates by name
+            const uniqueOccasions = [];
+            const namesSet = new Set();
+            for (const occ of occasionsData) {
+                if (!namesSet.has(occ.name)) {
+                    namesSet.add(occ.name);
+                    uniqueOccasions.push(occ);
+                }
+            }
+            
+            if (uniqueOccasions.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-zinc-500">No occasions found.</div>`;
+                return;
+            }
+            
+            grid.innerHTML = uniqueOccasions.map(occasion => `
+                <div class="group relative overflow-hidden glass-panel rounded-xl h-[400px] transition-all duration-500 hover:-translate-y-2">
+                    <div class="absolute inset-0">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                             src="${occasion.image_url}" 
+                             onerror="this.src='https://placehold.co/800x800?text=Bloom'"
+                             alt="${occasion.name}">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 p-6 w-full">
+                        ${occasion.badge ? `<span class="font-label-caps text-label-caps text-primary uppercase mb-2 inline-block">${occasion.badge}</span>` : ''}
+                        <h3 class="font-headline-md text-headline-md text-white mb-2">${occasion.name}</h3>
+                        <p class="text-white/70 text-sm mb-4 line-clamp-2">${occasion.description}</p>
+                        <a href="/shop?occasion=${occasion.slug}" class="inline-flex items-center gap-2 text-primary font-bold hover:underline transition-all">
+                            ${t.explore} <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Event Listeners
+        document.getElementById('themeToggle').addEventListener('click', () => { currentTheme = currentTheme === 'light' ? 'dark' : 'light'; setTheme(currentTheme); });
+        document.getElementById('langToggle').addEventListener('click', () => { currentLang = currentLang === 'en' ? 'ar' : 'en'; localStorage.setItem('bloomLang', currentLang); applyLanguage(currentLang); loadOccasions(); });
+        document.getElementById('heroExploreBtn').addEventListener('click', () => { window.location.href = '/shop'; });
+        document.getElementById('consultBtn')?.addEventListener('click', () => { window.location.href = '/consultation'; });
+
+        // Initialize
+        setTheme(currentTheme);
+        applyLanguage(currentLang);
+        loadOccasions();
+    </script>
+</body>
+</html>

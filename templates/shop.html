@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html class="light" lang="en" id="html-tag" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloom Store | Shop</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        html.light body {
+            background-color: #f4f7f5;
+            color: #1a1c1c;
+        }
+
+        html.light .glass,
+        html.light .glass-panel {
+            background: rgba(255, 255, 255, 0.80);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(46, 204, 113, 0.15);
+        }
+
+        html.light .emerald-glow:hover {
+            box-shadow: 0 0 40px rgba(46, 204, 113, 0.18);
+        }
+
+        html.light nav {
+            background: rgba(255, 255, 255, 0.88) !important;
+            border-bottom-color: rgba(0, 0, 0, 0.07) !important;
+        }
+
+        html.light footer.bg-zinc-950 {
+            background-color: #f0f4f2 !important;
+            border-top-color: rgba(0, 0, 0, 0.08) !important;
+        }
+
+        html.light .text-zinc-400,
+        html.light .text-zinc-500,
+        html.light .text-zinc-600 {
+            color: #4a5568 !important;
+        }
+
+        html.light .text-on-surface {
+            color: #1a1c1c !important;
+        }
+
+        html.light .text-on-surface-variant {
+            color: #4a5568 !important;
+        }
+
+        html.light .text-primary {
+            color: #1a9e52 !important;
+        }
+
+        html.light .border-white\/10,
+        html.light .border-white\/5 {
+            border-color: rgba(0, 0, 0, 0.08) !important;
+        }
+
+        html.light .bg-zinc-900 {
+            background-color: #e8f0ec !important;
+        }
+
+        html.light .bg-zinc-950 {
+            background-color: #f0f4f2 !important;
+        }
+
+        html.light .bg-zinc-950\/50 {
+            background-color: rgba(240, 244, 242, 0.6) !important;
+        }
+
+        html.light .bg-zinc-800 {
+            background-color: #d1ddd7 !important;
+        }
+
+        html.light .bg-primary {
+            background-color: #2ecc71 !important;
+        }
+
+        html.light .bg-primary\/10 {
+            background-color: rgba(46, 204, 113, 0.10) !important;
+        }
+
+        html.light .border-zinc-800 {
+            border-color: rgba(0, 0, 0, 0.10) !important;
+        }
+
+        html.light .border-zinc-900 {
+            border-color: rgba(0, 0, 0, 0.08) !important;
+        }
+
+        html.light .text-white {
+            color: #1a1c1c !important;
+        }
+
+        html.light .text-zinc-300 {
+            color: #2d3748 !important;
+        }
+
+        html.light aside {
+            background: rgba(240, 244, 242, 0.7) !important;
+            border-right-color: rgba(0, 0, 0, 0.08) !important;
+        }
+
+        html.light .cat-link {
+            color: #4a5568;
+        }
+
+        html.light .cat-link:hover {
+            background: rgba(46, 204, 113, 0.10) !important;
+            color: #1a9e52 !important;
+        }
+
+        html.light .cat-link.active {
+            background: rgba(46, 204, 113, 0.15) !important;
+            color: #1a9e52 !important;
+            border-right-color: #2ecc71 !important;
+        }
+
+        html.light .product-card {
+            background: rgba(255, 255, 255, 0.85);
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+
+        html.light .product-card:hover {
+            border-color: rgba(46, 204, 113, 0.35) !important;
+        }
+
+        html.light .product-img-bg {
+            background-color: #e8f0ec !important;
+        }
+
+        html.light .badge {
+            background: #e8f0ec !important;
+            color: #4a5568 !important;
+        }
+
+        html.dark body {
+            background-color: #111415;
+            color: #e1e3e4;
+        }
+
+        html.dark .glass,
+        html.dark .glass-panel {
+            background: rgba(17, 20, 21, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(134, 148, 134, 0.12);
+        }
+
+        html.dark .emerald-glow:hover {
+            box-shadow: 0 0 40px rgba(46, 204, 113, 0.15);
+        }
+
+        html.dark nav {
+            background: rgba(17, 20, 21, 0.75) !important;
+            border-bottom-color: rgba(255, 255, 255, 0.07) !important;
+        }
+
+        html.dark footer.bg-zinc-950 {
+            background-color: #0c0f10 !important;
+        }
+
+        html.dark .text-zinc-400,
+        html.dark .text-zinc-500 {
+            color: #869486 !important;
+        }
+
+        html.dark .text-on-surface {
+            color: #e1e3e4 !important;
+        }
+
+        html.dark .text-on-surface-variant {
+            color: #bbcbbb !important;
+        }
+
+        html.dark .text-primary {
+            color: #54e98a !important;
+        }
+
+        html.dark .border-white\/10 {
+            border-color: rgba(255, 255, 255, 0.07) !important;
+        }
+
+        html.dark .bg-zinc-900 {
+            background-color: #1d2021 !important;
+        }
+
+        html.dark .bg-zinc-950 {
+            background-color: #0c0f10 !important;
+        }
+
+        html.dark .bg-zinc-950\/50 {
+            background-color: rgba(12, 15, 16, 0.5) !important;
+        }
+
+        html.dark .bg-primary {
+            background-color: #54e98a !important;
+        }
+
+        html.dark .cat-link {
+            color: #869486;
+        }
+
+        html.dark .cat-link:hover {
+            background: rgba(46, 204, 113, 0.08) !important;
+            color: #54e98a !important;
+        }
+
+        html.dark .cat-link.active {
+            background: rgba(46, 204, 113, 0.15) !important;
+            color: #54e98a !important;
+            border-right-color: #54e98a !important;
+        }
+
+        html.dark .product-card {
+            background: rgba(17, 20, 21, 0.65);
+            border-color: rgba(255, 255, 255, 0.07);
+        }
+
+        html.dark .product-card:hover {
+            border-color: rgba(84, 233, 138, 0.30) !important;
+        }
+
+        html.dark .product-img-bg {
+            background-color: #1d2021 !important;
+        }
+
+        html.dark .badge {
+            background: #1d2021 !important;
+            color: #869486 !important;
+        }
+
+        [dir="rtl"] .flex-row {
+            flex-direction: row-reverse;
+        }
+
+        [dir="rtl"] aside {
+            border-right: none !important;
+            border-left: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        [dir="rtl"] .cat-link.active {
+            border-right: none !important;
+            border-left: 4px solid;
+        }
+
+        input[type="range"] {
+            accent-color: #2ecc71;
+        }
+
+        html.dark input[type="range"] {
+            accent-color: #54e98a;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-primary": "#003919", "on-primary-fixed-variant": "#005228",
+                        "primary-container": "#2ecc71", "on-background": "#e1e3e4",
+                        "on-surface": "#e1e3e4", "on-surface-variant": "#bbcbbb",
+                        "outline": "#869486", "primary": "#54e98a", "error": "#ffb4ab",
+                    },
+                    borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+                    spacing: { xs: "0.5rem", xl: "4rem", lg: "2.5rem", margin: "32px", gutter: "24px", sm: "1rem", md: "1.5rem", unit: "4px" },
+                    fontFamily: { "display-lg": ["Noto Serif"], "body-lg": ["Manrope"], "label-caps": ["Manrope"], "headline-md": ["Noto Serif"], "body-md": ["Manrope"], "headline-sm": ["Noto Serif"] },
+                    fontSize: {
+                        "display-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "label-caps": ["12px", { lineHeight: "1.2", letterSpacing: "0.1em", fontWeight: "700" }],
+                        "headline-md": ["32px", { lineHeight: "1.2", fontWeight: "600" }],
+                        "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "headline-sm": ["24px", { lineHeight: "1.3", fontWeight: "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="font-body-md text-on-background selection:bg-primary-container selection:text-on-primary-container">
+
+    <!-- Top Navigation Bar -->
+    <nav
+        class="fixed top-0 w-full z-50 border-b border-white/10 bg-zinc-950/70 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+        <div class="flex justify-between items-center px-8 py-4 w-full max-w-7xl mx-auto">
+            <div class="text-2xl font-serif font-light tracking-[0.2em] text-emerald-500" id="brandName">BLOOM</div>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="/"
+                    class="font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all duration-500"
+                    id="navHome">Home</a>
+                <a href="/shop" class="font-serif tracking-tight text-emerald-400 border-b-2 border-emerald-500 pb-1"
+                    id="navShop">Shop</a>
+                <a href="/categories"
+                    class="font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all duration-500"
+                    id="navCategory">Category</a>
+                <a href="/occasions"
+                    class="font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all duration-500"
+                    id="navOccasions">Occasions</a>
+                <a href="/contact"
+                    class="font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all duration-500"
+                    id="navContact">Contact</a>
+            </div>
+            <div class="flex items-center gap-6">
+                <button id="themeToggle" class="text-emerald-500 hover:bg-white/5 p-2 rounded-full transition-all">
+                    <span class="material-symbols-outlined">light_mode</span>
+                </button>
+                <button id="langToggle"
+                    class="text-emerald-500 border border-emerald-500/50 px-3 py-1 rounded-full text-sm font-bold hover:bg-emerald-500/10 transition">AR</button>
+                <a href="/cart" class="relative">
+                    <span class="material-symbols-outlined text-emerald-500">shopping_cart</span>
+                    <span id="cartCount"
+                        class="absolute -top-2 -right-2 bg-emerald-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                </a>
+                <a href="/profile"
+                    class="material-symbols-outlined text-emerald-500 cursor-pointer hover:bg-white/5 p-2 rounded-full transition-all">person</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex pt-20">
+        <!-- Sidebar -->
+        <aside
+            class="hidden lg:flex flex-col pt-12 h-[calc(100vh-80px)] w-64 bg-zinc-950/50 backdrop-blur-lg border-r border-white/5 sticky top-20 overflow-y-auto">
+            <div class="px-6 mb-6">
+                <h2 class="text-emerald-500 font-bold font-headline-sm text-headline-sm" id="collectionsTitle">
+                    Collections</h2>
+                <p class="text-zinc-500 text-xs font-body-md" id="filterSub">Filter by Type</p>
+            </div>
+            <nav id="categoryNav" class="flex-1 space-y-1">
+                <a href="#"
+                    class="cat-link active flex items-center gap-3 px-6 py-3 transition-all font-serif text-sm border-r-4 border-emerald-500"
+                    data-type="all">
+                    <span class="material-symbols-outlined text-lg">eco</span>
+                    <span id="catAll">All Flora</span>
+                </a>
+            </nav>
+            <div class="p-6 border-t border-zinc-900">
+                <h3 class="text-zinc-300 font-label-caps text-label-caps mb-4 uppercase" id="priceRangeTitle">Price
+                    Range</h3>
+                <div class="space-y-3">
+                    <input id="priceSlider" type="range" min="0" max="1000" step="1" value="1000"
+                        class="w-full h-1 rounded-lg appearance-none cursor-pointer bg-zinc-800">
+                    <div class="flex justify-between text-xs text-zinc-500 font-label-caps">
+                        <span id="priceMinLabel">$0</span>
+                        <span id="priceCurrentLabel" class="text-emerald-500 font-bold">Max: $1000</span>
+                        <span id="priceMaxLabel">$1000+</span>
+                    </div>
+                </div>
+                <h3 class="text-zinc-300 font-label-caps text-label-caps mt-6 mb-3 uppercase" id="sortTitle">Sort By
+                </h3>
+                <div class="space-y-1">
+                    <label
+                        class="flex items-center gap-2 text-sm text-zinc-500 cursor-pointer hover:text-emerald-400 transition-colors">
+                        <input type="radio" name="sort" value="default" checked class="accent-emerald-500"> <span
+                            id="sortDefault">Default</span>
+                    </label>
+                    <label
+                        class="flex items-center gap-2 text-sm text-zinc-500 cursor-pointer hover:text-emerald-400 transition-colors">
+                        <input type="radio" name="sort" value="price_asc" class="accent-emerald-500"> <span
+                            id="sortPriceAsc">Price: Low to High</span>
+                    </label>
+                    <label
+                        class="flex items-center gap-2 text-sm text-zinc-500 cursor-pointer hover:text-emerald-400 transition-colors">
+                        <input type="radio" name="sort" value="price_desc" class="accent-emerald-500"> <span
+                            id="sortPriceDesc">Price: High to Low</span>
+                    </label>
+                    <label
+                        class="flex items-center gap-2 text-sm text-zinc-500 cursor-pointer hover:text-emerald-400 transition-colors">
+                        <input type="radio" name="sort" value="name_asc" class="accent-emerald-500"> <span
+                            id="sortName">Name A to Z</span>
+                    </label>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8 lg:p-12 overflow-x-hidden">
+            <section
+                class="mb-xl relative h-[360px] rounded-xl overflow-hidden glass group emerald-glow transition-all duration-500">
+                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCq0UbJp8J5zXwv5q-nK7JXTExpoasvJ7_gk7BxlXokGu3QiLopckca1alFUUUupxUpbV04v_xO2yM-hGoifa9ucHQKhtOjHMrw93HVytu_rXJ25ZfQ6CyT0jQVcDwW25Wv60vHkjvycTbyR9D5rAwfrvE2mSTsl7PIX0mj2UeHzlCg-4bxdsgiX4saim2UC8VkeUZld2IHtnfTUZUbiVhXxPqjsAMb_rl-hyqNiVS67s5kPNBauHBofiXk3EEJc4gq-sdjw3ZjWlU')">
+                </div>
+                <div
+                    class="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/40 to-transparent flex flex-col justify-center px-12">
+                    <span
+                        class="inline-block px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-full font-label-caps text-[10px] uppercase mb-4 tracking-widest"
+                        id="bannerTag">Limited Release</span>
+                    <h2 class="font-display-lg text-display-lg text-white mb-4 max-w-lg leading-tight" id="bannerTitle">
+                        Seasonal Collections: The Noir Solstice</h2>
+                    <p class="font-body-lg text-body-lg text-zinc-300 max-w-md mb-6" id="bannerDesc">Discover a curated
+                        selection of winter-blooming flora.</p>
+                    <button id="bannerBtn"
+                        class="self-start bg-primary-container text-on-primary-fixed-variant px-8 py-3 font-label-caps text-label-caps rounded-lg emerald-glow transition-all active:scale-95">Explore
+                        Curator's Choice</button>
+                </div>
+            </section>
+
+            <div class="flex justify-between items-end mb-lg">
+                <div>
+                    <h3 class="font-headline-md text-headline-md text-on-surface" id="boutiqueTitle">The Boutique</h3>
+                    <p class="text-zinc-500 font-body-md" id="productCountText">Loading products...</p>
+                </div>
+                <button id="mobileFilterBtn"
+                    class="lg:hidden glass px-4 py-2 flex items-center gap-2 text-zinc-400 font-label-caps text-[11px] rounded-lg border border-zinc-800 hover:text-emerald-400 transition-colors">
+                    <span class="material-symbols-outlined text-sm">filter_list</span>
+                    <span>Filter</span>
+                </button>
+            </div>
+
+            <div id="mobileFilters" class="hidden lg:hidden mb-8 glass rounded-xl p-4 border border-zinc-800">
+                <div class="mb-4">
+                    <p class="text-zinc-500 text-xs font-label-caps uppercase mb-2">Filter by Type</p>
+                    <div id="mobileCategoryBtns" class="flex flex-wrap gap-2"></div>
+                </div>
+                <div>
+                    <p class="text-zinc-500 text-xs font-label-caps uppercase mb-2">Max Price: <span
+                            id="mobilePriceLabel" class="text-emerald-500">$1000</span></p>
+                    <input id="mobilePriceSlider" type="range" min="0" max="1000" step="1" value="1000"
+                        class="w-full h-1 rounded-lg appearance-none cursor-pointer bg-zinc-800">
+                </div>
+            </div>
+
+            <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-lg">
+                <div class="col-span-full text-center py-12 text-primary animate-pulse">Loading botanical
+                    masterpieces...</div>
+            </div>
+
+            <div id="paginationContainer" class="mt-xl flex justify-center items-center gap-4 hidden">
+                <button id="prevPage"
+                    class="w-10 h-10 glass rounded-lg flex items-center justify-center text-zinc-500 hover:text-emerald-400 transition-colors">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <div id="pageButtons" class="flex gap-2"></div>
+                <button id="nextPage"
+                    class="w-10 h-10 glass rounded-lg flex items-center justify-center text-zinc-500 hover:text-emerald-400 transition-colors">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <footer class="bg-zinc-950 w-full py-12 border-t border-zinc-900">
+        <div class="flex flex-col items-center gap-6 w-full max-w-7xl mx-auto px-8">
+            <div class="text-xl font-serif italic text-emerald-500">BLOOM</div>
+            <div class="flex flex-wrap justify-center gap-8 md:gap-12">
+                <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300 transition-colors"
+                    id="footerPrivacy">Privacy Policy</a>
+                <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300 transition-colors"
+                    id="footerTerms">Terms of Service</a>
+                <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300 transition-colors"
+                    id="footerShipping">Shipping Info</a>
+                <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300 transition-colors"
+                    id="footerWholesale">Wholesale</a>
+            </div>
+            <p class="font-serif text-sm text-zinc-600 mt-8 text-center opacity-80" id="copyright">© 2024 Bloom Store.
+                Cultivated with Botanical Mystery.</p>
+        </div>
+    </footer>
+
+    <!-- Quick View Modal -->
+    <div id="quickViewModal"
+        class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm transition-all duration-300">
+        <div
+            class="glass-panel rounded-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto relative animate-fadeInUp">
+            <button id="closeModalBtn"
+                class="absolute top-4 right-4 text-white/70 hover:text-white transition-colors z-10">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <div id="quickViewContent" class="p-6 md:p-8">
+                <div class="text-center py-12 text-primary animate-pulse">Loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeInUp {
+            animation: fadeInUp 0.3s ease-out;
+        }
+    </style>
+
+    <script>
+        // ========== STATE ==========
+        const htmlTag = document.documentElement;
+        let currentLang = localStorage.getItem('bloomLang') || 'en';
+        let currentTheme = localStorage.getItem('bloomTheme') || 'light';
+        let allProducts = [];
+        let currentType = 'all';
+        let maxPrice = 1000;
+        let sortMode = 'default';
+        let currentPage = 1;
+        const PER_PAGE = 9;
+
+        const typeIcons = {
+            'Rose': 'local_florist', 'Tulip': 'filter_vintage', 'Lily': 'eco',
+            'Sunflower': 'wb_sunny', 'Orchid': 'spa', 'Gypsophila': 'blur_on',
+            'Carnation': 'yard', 'Daisy': 'brightness_5', 'Lavender': 'grass',
+            'Peony': 'favorite', 'Gerbera': 'lens_blur', 'Iris': 'water_drop',
+        };
+
+        const dict = {
+            en: {
+                brandName: 'BLOOM', navHome: 'Home', navShop: 'Shop', navCategory: 'Category',
+                navOccasions: 'Occasions', navContact: 'Contact',
+                collectionsTitle: 'Collections', filterSub: 'Filter by Type', catAll: 'All Flora',
+                priceRangeTitle: 'Price Range', sortTitle: 'Sort By',
+                sortDefault: 'Default', sortPriceAsc: 'Price: Low to High',
+                sortPriceDesc: 'Price: High to Low', sortName: 'Name A to Z',
+                bannerTag: 'Limited Release', bannerTitle: 'Seasonal Collections: The Noir Solstice',
+                bannerDesc: 'Discover a curated selection of winter-blooming flora.',
+                bannerBtn: "Explore Curator's Choice", boutiqueTitle: 'The Boutique',
+                productCount: 'Showing {count} Hand-Selected Specimens',
+                addToCart: 'ADD TO CART', quickView: 'Quick View', bestSeller: 'Best Seller',
+                footerPrivacy: 'Privacy Policy', footerTerms: 'Terms of Service',
+                footerShipping: 'Shipping Info', footerWholesale: 'Wholesale',
+                copyright: '© 2024 Bloom Store. Cultivated with Botanical Mystery.',
+                loading: 'Loading botanical masterpieces...', errorMsg: 'Failed to load products.',
+                noProducts: 'No products match the current filters.',
+            },
+            ar: {
+                brandName: 'شغف', navHome: 'الرئيسية', navShop: 'تسوق', navCategory: 'الفئات',
+                navOccasions: 'المناسبات', navContact: 'اتصل بنا',
+                collectionsTitle: 'المجموعات', filterSub: 'تصفية حسب النوع', catAll: 'الكل',
+                priceRangeTitle: 'نطاق السعر', sortTitle: 'ترتيب حسب',
+                sortDefault: 'الافتراضي', sortPriceAsc: 'السعر من الاقل',
+                sortPriceDesc: 'السعر من الاعلى', sortName: 'الاسم ا الى ي',
+                bannerTag: 'اصدار محدود', bannerTitle: 'مجموعات موسمية: الانقلاب الليلي',
+                bannerDesc: 'اكتشف مجموعة منتقاة من النباتات الشتوية المزهرة.',
+                bannerBtn: 'استكشف اختيارات المنسق', boutiqueTitle: 'المتجر',
+                productCount: 'عرض {count} منتج',
+                addToCart: 'اضف للسلة', quickView: 'معاينة', bestSeller: 'الاكثر مبيعا',
+                footerPrivacy: 'سياسة الخصوصية', footerTerms: 'شروط الخدمة',
+                footerShipping: 'معلومات الشحن', footerWholesale: 'الجملة',
+                copyright: '2024 شغف. زرع بغموض نباتي.',
+                loading: 'جاري تحميل المنتجات...', errorMsg: 'فشل تحميل المنتجات.',
+                noProducts: 'لا توجد منتجات تطابق الفلتر الحالي.',
+            }
+        };
+
+        // ========== Helper: fix image URL ==========
+        function fixImageUrl(url) {
+            if (!url) return 'https://placehold.co/600x600?text=Bloom';
+            if (url.startsWith('http')) return url;
+            if (url.startsWith('/static/')) return url;
+            return '/static/' + url;
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m]);
+        }
+
+        // ========== MODAL ELEMENTS ==========
+        const modal = document.getElementById('quickViewModal');
+        const modalContent = document.getElementById('quickViewContent');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+
+        // ✅ FIX: قبل كل شيء، تحقق إن productId موجود وصحيح
+        function openQuickView(productId) {
+            if (!modal) return;
+            // ✅ FIX: تحويل القيمة لـ integer والتحقق منها
+            const id = parseInt(productId);
+            if (!id || isNaN(id)) {
+                console.error('openQuickView: Invalid productId =>', productId);
+                return;
+            }
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+            modalContent.innerHTML = `<div class="text-center py-12 text-primary animate-pulse">Loading product details...</div>`;
+            fetch(`/api/flowers/${id}`)
+                .then(res => {
+                    if (!res.ok) throw new Error('Product not found');
+                    return res.json();
+                })
+                .then(product => {
+                    renderQuickViewContent(product);
+                })
+                .catch(err => {
+                    console.error('Quick view error:', err);
+                    modalContent.innerHTML = `<div class="text-center py-12 text-error">Failed to load product details.</div>`;
+                });
+        }
+
+        function closeQuickView() {
+            if (!modal) return;
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+
+        function renderQuickViewContent(product) {
+            // ✅ FIX: استخدام product.id مباشرة مع التحقق
+            const pid = product.id;
+            if (!pid) {
+                console.error('renderQuickViewContent: product.id is missing', product);
+                return;
+            }
+            const stockHtml = (product.stock === undefined || product.stock > 0)
+                ? `<span class="text-green-500 text-sm">✓ In Stock</span>`
+                : `<span class="text-red-500 text-sm">✗ Out of Stock</span>`;
+
+            modalContent.innerHTML = `
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="md:w-1/2">
+                        <img src="${fixImageUrl(product.image_url)}" alt="${escapeHtml(product.name)}"
+                            class="w-full h-auto rounded-xl object-cover"
+                            onerror="this.src='https://placehold.co/600x600?text=Bloom'">
+                    </div>
+                    <div class="md:w-1/2">
+                        <span class="text-sm text-primary uppercase tracking-wider">${escapeHtml(product.category || 'Botanical')}</span>
+                        <h2 class="font-headline-md text-headline-md mt-2 mb-2">${escapeHtml(product.name)}</h2>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl font-bold text-primary">$${parseFloat(product.price).toFixed(2)}</span>
+                            ${stockHtml}
+                        </div>
+                        <p class="text-on-surface-variant mb-6 leading-relaxed">${escapeHtml(product.description || 'No description available.')}</p>
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="flex items-center border border-outline-variant rounded-full">
+                                <button id="quickQtyDec" class="w-10 h-10 flex items-center justify-center hover:text-primary transition text-xl font-bold">-</button>
+                                <span id="quickQtyValue" class="w-12 text-center font-bold">1</span>
+                                <button id="quickQtyInc" class="w-10 h-10 flex items-center justify-center hover:text-primary transition text-xl font-bold">+</button>
+                            </div>
+                            <button id="quickAddToCart" data-id="${pid}"
+                                class="flex-1 bg-primary-container text-on-primary-fixed-variant py-3 rounded-full font-bold hover:opacity-90 transition font-label-caps text-label-caps">
+                                ADD TO CART
+                            </button>
+                        </div>
+                        <a href="/product/${pid}" class="text-primary hover:underline text-sm">View Full Details →</a>
+                    </div>
+                </div>
+            `;
+
+            let qty = 1;
+            const qtySpan = document.getElementById('quickQtyValue');
+            const decBtn = document.getElementById('quickQtyDec');
+            const incBtn = document.getElementById('quickQtyInc');
+            const addBtn = document.getElementById('quickAddToCart');
+
+            if (decBtn) decBtn.onclick = () => {
+                if (qty > 1) { qty--; if (qtySpan) qtySpan.innerText = qty; }
+            };
+            // ✅ FIX: إزالة شرط product.stock لأنه مش موجود في الـ API
+            if (incBtn) incBtn.onclick = () => {
+                qty++;
+                if (qtySpan) qtySpan.innerText = qty;
+            };
+            if (addBtn) addBtn.onclick = () => {
+                addToCart(pid, qty);
+                closeQuickView();
+            };
+        }
+
+        if (closeModalBtn) closeModalBtn.addEventListener('click', closeQuickView);
+        if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeQuickView(); });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) closeQuickView();
+        });
+
+        // ========== CART ==========
+        async function addToCart(flowerId, quantity = 1) {
+            const token = localStorage.getItem('access_token');
+            if (!token) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: currentLang === 'en' ? 'Login Required' : 'مطلوب تسجيل الدخول',
+                    text: currentLang === 'en' ? 'Please login to add items to your cart' : 'يرجى تسجيل الدخول لاضافة المنتجات الى السلة',
+                    confirmButtonColor: '#2ecc71'
+                }).then(() => { window.location.href = '/login'; });
+                return;
+            }
+            try {
+                const res = await fetch('/api/cart/add', {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ flower_id: parseInt(flowerId), quantity: quantity })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: currentLang === 'en' ? 'Added to Cart!' : 'تمت الاضافة!',
+                        text: currentLang === 'en' ? 'Product has been added to your cart' : 'تمت اضافة المنتج الى سلتك',
+                        timer: 1500, showConfirmButton: false
+                    });
+                    updateCartCount();
+                } else {
+                    Swal.fire({ icon: 'error', title: currentLang === 'en' ? 'Error' : 'خطأ', text: data.error || 'Could not add to cart' });
+                }
+            } catch (err) {
+                Swal.fire({ icon: 'error', title: 'Network Error', text: 'Please try again later.' });
+            }
+        }
+
+        async function updateCartCount() {
+            const token = localStorage.getItem('access_token');
+            if (!token) return;
+            try {
+                const res = await fetch('/api/cart/', { headers: { 'Authorization': `Bearer ${token}` } });
+                if (!res.ok) return;
+                const data = await res.json();
+                const countEl = document.getElementById('cartCount');
+                if (!countEl) return;
+                if (data.item_count > 0) {
+                    countEl.innerText = data.item_count;
+                    countEl.classList.remove('hidden');
+                } else {
+                    countEl.classList.add('hidden');
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        // ========== THEME & LANGUAGE ==========
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                htmlTag.classList.replace('light', 'dark');
+                localStorage.setItem('bloomTheme', 'dark');
+                document.querySelector('#themeToggle span').innerText = 'dark_mode';
+            } else {
+                htmlTag.classList.replace('dark', 'light');
+                localStorage.setItem('bloomTheme', 'light');
+                document.querySelector('#themeToggle span').innerText = 'light_mode';
+            }
+        }
+
+        function applyLanguage(lang) {
+            const t = dict[lang];
+            htmlTag.setAttribute('lang', lang);
+            htmlTag.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            for (let id in t) {
+                const el = document.getElementById(id);
+                if (el) el.innerText = t[id];
+            }
+            document.getElementById('langToggle').innerText = lang === 'en' ? 'AR' : 'EN';
+            updateProductCount();
+            buildCategoryNav();
+            renderProducts();
+        }
+
+        // ========== CATEGORY NAV ==========
+        function buildCategoryNav() {
+            const t = dict[currentLang];
+            const types = [...new Set(allProducts.map(p => p.type).filter(Boolean))].sort();
+            const nav = document.getElementById('categoryNav');
+            nav.innerHTML = `
+                <a href="#" class="cat-link ${currentType === 'all' ? 'active border-r-4 border-emerald-500' : ''} flex items-center gap-3 px-6 py-3 transition-all font-serif text-sm" data-type="all">
+                    <span class="material-symbols-outlined text-lg">eco</span><span>${t.catAll}</span>
+                </a>
+                ${types.map(type => `
+                    <a href="#" class="cat-link ${currentType === type ? 'active border-r-4 border-emerald-500' : ''} flex items-center gap-3 px-6 py-3 transition-all font-serif text-sm" data-type="${escapeHtml(type)}">
+                        <span class="material-symbols-outlined text-lg">${typeIcons[type] || 'local_florist'}</span><span>${escapeHtml(type)}</span>
+                    </a>
+                `).join('')}
+            `;
+            const mob = document.getElementById('mobileCategoryBtns');
+            if (mob) {
+                mob.innerHTML = `
+                    <button class="mobile-cat-btn px-3 py-1 rounded-full text-xs font-label-caps border transition-all ${currentType === 'all' ? 'bg-emerald-500 text-white border-emerald-500' : 'border-zinc-700 text-zinc-400'}" data-type="all">${t.catAll}</button>
+                    ${types.map(type => `<button class="mobile-cat-btn px-3 py-1 rounded-full text-xs font-label-caps border transition-all ${currentType === type ? 'bg-emerald-500 text-white border-emerald-500' : 'border-zinc-700 text-zinc-400'}" data-type="${escapeHtml(type)}">${escapeHtml(type)}</button>`).join('')}
+                `;
+                document.querySelectorAll('.mobile-cat-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        currentType = btn.getAttribute('data-type');
+                        currentPage = 1;
+                        buildCategoryNav();
+                        renderProducts();
+                    });
+                });
+            }
+            document.querySelectorAll('.cat-link').forEach(link => {
+                link.addEventListener('click', e => {
+                    e.preventDefault();
+                    currentType = link.getAttribute('data-type');
+                    currentPage = 1;
+                    buildCategoryNav();
+                    renderProducts();
+                });
+            });
+        }
+
+        function getFilteredProducts() {
+            let list = [...allProducts];
+            if (currentType !== 'all') list = list.filter(p => p.type && p.type.toLowerCase() === currentType.toLowerCase());
+            list = list.filter(p => parseFloat(p.price) <= maxPrice);
+            if (sortMode === 'price_asc') list.sort((a, b) => a.price - b.price);
+            else if (sortMode === 'price_desc') list.sort((a, b) => b.price - a.price);
+            else if (sortMode === 'name_asc') list.sort((a, b) => a.name.localeCompare(b.name));
+            return list;
+        }
+
+        function updateProductCount() {
+            const el = document.getElementById('productCountText');
+            if (el) el.innerText = dict[currentLang].productCount.replace('{count}', getFilteredProducts().length);
+        }
+
+        // ========== RENDER PRODUCTS ==========
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            const t = dict[currentLang];
+            const filtered = getFilteredProducts();
+            updateProductCount();
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="col-span-full text-center py-16 text-zinc-500">' + t.noProducts + '</div>';
+                document.getElementById('paginationContainer').classList.add('hidden');
+                return;
+            }
+
+            const totalPages = Math.ceil(filtered.length / PER_PAGE);
+            if (currentPage > totalPages) currentPage = 1;
+            const paginated = filtered.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
+
+            grid.innerHTML = paginated.map(product => {
+                // ✅ FIX: التحقق من وجود product.id قبل بناء الكارت
+                const pid = product.id;
+                if (!pid) {
+                    console.warn('Product missing id:', product);
+                    return '';
+                }
+                const imgSrc = fixImageUrl(product.image_url);
+                return `
+                <div class="product-card rounded-xl overflow-hidden group border transition-all duration-500 emerald-glow">
+                    <div class="h-72 overflow-hidden relative product-img-bg">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100"
+                            src="${imgSrc}" alt="${escapeHtml(product.name)}"
+                            onerror="this.style.display='none';this.parentElement.querySelector('.img-fallback').style.display='flex';">
+                        <div class="img-fallback absolute inset-0 items-center justify-center hidden">
+                            <span class="material-symbols-outlined text-6xl text-emerald-500/30">local_florist</span>
+                        </div>
+                        <div class="absolute inset-x-0 bottom-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex gap-2">
+                            <button class="flex-1 bg-white/10 backdrop-blur-md text-white py-2 font-label-caps text-[10px] rounded hover:bg-emerald-500 transition-colors uppercase quick-view-btn"
+                                data-id="${pid}">${t.quickView}</button>
+                            <button class="w-10 h-10 bg-emerald-500 text-white flex items-center justify-center rounded hover:shadow-lg hover:shadow-emerald-500/20 transition-all add-to-cart-btn"
+                                data-id="${pid}">
+                                <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-1">
+                            <h4 class="font-headline-sm text-headline-sm text-white">${escapeHtml(product.name)}</h4>
+                            <span class="text-emerald-400 font-bold ml-2 whitespace-nowrap">$${parseFloat(product.price).toFixed(2)}</span>
+                        </div>
+                        <p class="text-zinc-500 text-xs mb-3 line-clamp-2">${escapeHtml(product.description || '')}</p>
+                        <div class="flex flex-wrap gap-2">
+                            ${product.type ? `<span class="badge px-2 py-0.5 text-[9px] uppercase font-bold tracking-widest rounded">${escapeHtml(product.type)}</span>` : ''}
+                            ${product.is_best_seller ? `<span class="badge px-2 py-0.5 text-[9px] uppercase font-bold tracking-widest rounded text-emerald-500">${t.bestSeller}</span>` : ''}
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+
+            // ✅ FIX: استخدام أسماء classes واضحة بدلاً من .quick-view و .add-to-cart
+            document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = btn.getAttribute('data-id');
+                    if (id) addToCart(id, 1);
+                });
+            });
+
+            document.querySelectorAll('.quick-view-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = btn.getAttribute('data-id');
+                    if (id) openQuickView(id);
+                });
+            });
+
+            renderPagination(totalPages);
+        }
+
+        function renderPagination(totalPages) {
+            const container = document.getElementById('paginationContainer');
+            const btns = document.getElementById('pageButtons');
+            if (totalPages <= 1) { container.classList.add('hidden'); return; }
+            container.classList.remove('hidden');
+            btns.innerHTML = Array.from({ length: totalPages }, (_, i) => i + 1).map(p =>
+                `<button class="page-btn w-10 h-10 rounded-lg font-label-caps text-[10px] transition-all ${p === currentPage ? 'bg-emerald-500 text-white' : 'glass text-zinc-400 hover:text-emerald-400'}" data-page="${p}">${p}</button>`
+            ).join('');
+            document.querySelectorAll('.page-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentPage = parseInt(btn.getAttribute('data-page'));
+                    renderProducts();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            });
+            document.getElementById('prevPage').onclick = () => {
+                if (currentPage > 1) { currentPage--; renderProducts(); }
+            };
+            document.getElementById('nextPage').onclick = () => {
+                if (currentPage < totalPages) { currentPage++; renderProducts(); }
+            };
+        }
+
+        async function loadAllProducts() {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '<div class="col-span-full text-center py-12 text-primary animate-pulse">' + dict[currentLang].loading + '</div>';
+            try {
+                const res = await fetch('/api/flowers/');
+                if (!res.ok) throw new Error('Failed to fetch');
+                allProducts = await res.json();
+                buildCategoryNav();
+                renderProducts();
+                updateCartCount();
+            } catch (err) {
+                console.error('Load products error:', err);
+                grid.innerHTML = '<div class="col-span-full text-center py-12 text-error">' + dict[currentLang].errorMsg + '</div>';
+            }
+        }
+
+        // ========== EVENT LISTENERS ==========
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(currentTheme);
+        });
+        document.getElementById('langToggle').addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            localStorage.setItem('bloomLang', currentLang);
+            applyLanguage(currentLang);
+        });
+        document.getElementById('priceSlider').addEventListener('input', e => {
+            maxPrice = parseInt(e.target.value);
+            document.getElementById('priceCurrentLabel').innerText = 'Max: $' + maxPrice;
+            currentPage = 1;
+            renderProducts();
+        });
+        document.getElementById('mobilePriceSlider')?.addEventListener('input', e => {
+            maxPrice = parseInt(e.target.value);
+            document.getElementById('priceSlider').value = maxPrice;
+            document.getElementById('priceCurrentLabel').innerText = 'Max: $' + maxPrice;
+            document.getElementById('mobilePriceLabel').innerText = '$' + maxPrice;
+            currentPage = 1;
+            renderProducts();
+        });
+        document.querySelectorAll('input[name="sort"]').forEach(radio => {
+            radio.addEventListener('change', e => {
+                sortMode = e.target.value;
+                currentPage = 1;
+                renderProducts();
+            });
+        });
+        document.getElementById('mobileFilterBtn')?.addEventListener('click', () => {
+            document.getElementById('mobileFilters').classList.toggle('hidden');
+        });
+        document.getElementById('bannerBtn').addEventListener('click', () => {
+            Swal.fire({
+                icon: 'info',
+                title: "Curator's Choice",
+                text: 'Exclusive collection coming soon.',
+                confirmButtonColor: '#2ecc71'
+            });
+        });
+
+        // ========== INIT ==========
+        setTheme(currentTheme);
+        applyLanguage(currentLang);
+        loadAllProducts();
+    </script>
+</body>
+</html>

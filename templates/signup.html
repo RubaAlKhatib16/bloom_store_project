@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" id="html-tag" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloom Store | Create Account</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Noto+Serif:ital,wght@0,500;0,600;0,700;1,500&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root {
+            --bg-body: #f8f9fa;
+            --text-primary: #1a1c1c;
+            --surface-card: rgba(255, 255, 255, 0.8);
+            --border-color: rgba(112, 121, 112, 0.2);
+            --primary: #2ecc71;
+            --primary-dark: #27ae60;
+            --error: #ba1a1a;
+            --overlay: linear-gradient(to right, rgba(248, 249, 250, 0.1), rgba(248, 249, 250, 0.8));
+        }
+
+        html.dark {
+            --bg-body: #111415;
+            --text-primary: #e1e3e4;
+            --surface-card: rgba(29, 32, 33, 0.6);
+            --border-color: rgba(134, 148, 134, 0.2);
+            --overlay: linear-gradient(to right, rgba(17, 20, 21, 0.4), rgba(17, 20, 21, 0.9));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .glass-card {
+            background: var(--surface-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            border-radius: 0.75rem;
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .social-btn {
+            background-color: rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            transition: all 0.2s;
+        }
+
+        .social-btn:hover {
+            transform: scale(0.97);
+        }
+
+        input {
+            background: transparent;
+            border-bottom: 1px solid var(--border-color);
+            width: 100%;
+            padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+            border-radius: 0.75rem 0.75rem 0 0;
+        }
+
+        input:focus {
+            outline: none;
+            border-bottom-color: var(--primary);
+        }
+
+        .error-message {
+            font-size: 0.7rem;
+            color: var(--error);
+            display: none;
+            margin-top: 0.25rem;
+            margin-left: 0.5rem;
+        }
+
+        [dir="rtl"] .absolute.left-3 {
+            left: auto;
+            right: 0.75rem;
+        }
+
+        [dir="rtl"] .pl-10 {
+            padding-left: 0;
+            padding-right: 2.5rem;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+    <main class="flex-1 flex flex-col md:flex-row">
+        <section class="relative w-full md:w-1/2 min-h-[300px] md:min-h-screen overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <img alt="Botanical" class="w-full h-full object-cover"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXcgW6LWIhcDoFFyTSJ1K6lgWsxfe3XpWR-M5oOjiPcLZrOmp_OT2KRxLBh4tN4_j5xuIeX9ejuD22aBmByF9bpBDJBPYcfLfqA5NNJjhN1cdJ07Sha7QMXC8AcJiRKjH_pqZ3jb6iu6v4U-nZvnoiQ4eupCfeHTtl4Gl2llplvWqc8fF_3KNvmbtTJFXBX7grwdIxRH69e4-suczQ0G1Tg1-alCP8K7z7WLz3eNX-uCCqUVI-LjnYWA44fN5-j2yvVe-QmR3Xn40">
+                <div class="absolute inset-0" style="background: var(--overlay);"></div>
+            </div>
+            <div class="relative z-10 h-full flex flex-col justify-center px-8 md:px-16">
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-primary mb-2" id="brandName">Bloom Store</h2>
+                <p class="text-2xl md:text-3xl font-serif italic" id="leftSlogan">start your journey</p>
+                <div class="mt-6 w-12 h-1 bg-primary rounded-full"></div>
+            </div>
+        </section>
+
+        <section class="w-full md:w-1/2 flex items-center justify-center p-4 md:p-6">
+            <div class="w-full max-w-md glass-card rounded-xl p-6 md:p-8">
+                <div class="flex justify-end gap-3 mb-4">
+                    <button id="lightModeBtn" class="text-sm px-2 py-1 rounded-full border">☀️</button>
+                    <button id="darkModeBtn" class="text-sm px-2 py-1 rounded-full border">🌙</button>
+                    <button id="langToggleBtn" class="text-sm px-3 py-1 rounded-full border font-mono">AR</button>
+                </div>
+                <h1 class="text-3xl font-serif font-semibold text-center mb-2" id="signupTitle">CREATE ACCOUNT</h1>
+                <p class="text-center text-base mb-6" id="signupSubtitle">Join our botanical community</p>
+
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <button id="googleBtn" class="social-btn flex justify-center gap-2 p-3"><i
+                            class="fab fa-google text-2xl text-[#DB4437]"></i><span
+                            id="googleText">Google</span></button>
+                    <button id="fbBtn" class="social-btn flex justify-center gap-2 p-3"><i
+                            class="fab fa-facebook-f text-2xl text-[#1877F2]"></i><span
+                            id="fbText">Facebook</span></button>
+                </div>
+
+                <div class="flex items-center gap-3 my-4">
+                    <div class="h-px flex-1 bg-gray-400"></div><span class="text-xs" id="dividerText">OR SIGN UP WITH
+                        EMAIL</span>
+                    <div class="h-px flex-1 bg-gray-400"></div>
+                </div>
+
+                <form id="signupForm">
+                    <div class="relative mb-4"><span
+                            class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-gray-500">person</span><input
+                            type="text" id="username" placeholder="Username">
+                        <div class="error-message" id="usernameError"></div>
+                    </div>
+                    <div class="relative mb-4"><span
+                            class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-gray-500">mail</span><input
+                            type="email" id="email" placeholder="Email">
+                        <div class="error-message" id="emailError"></div>
+                    </div>
+                    <div class="relative mb-4"><span
+                            class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-gray-500">lock</span><input
+                            type="password" id="password" placeholder="Password"><button type="button"
+                            class="toggle-pwd absolute right-3 top-1/2 -translate-y-1/2"><span
+                                class="material-symbols-outlined">visibility</span></button>
+                        <div class="error-message" id="passError"></div>
+                    </div>
+                    <div class="relative mb-4"><span
+                            class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-gray-500">lock_reset</span><input
+                            type="password" id="confirmPassword" placeholder="Confirm Password"><button type="button"
+                            class="toggle-confirm absolute right-3 top-1/2 -translate-y-1/2"><span
+                                class="material-symbols-outlined">visibility</span></button>
+                        <div class="error-message" id="confirmError"></div>
+                    </div>
+                    <div class="relative mb-4"><span
+                            class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-gray-500">home</span><input
+                            type="text" id="address" placeholder="Address">
+                        <div class="error-message" id="addressError"></div>
+                    </div>
+                    <div class="flex items-start gap-2 my-3"><input type="checkbox" id="termsCheckbox"><label
+                            id="termsLabel" class="text-xs">I agree to the <a href="#" class="text-primary">Terms</a>
+                            and <a href="#" class="text-primary">Privacy</a></label></div>
+                    <button type="submit" class="btn-primary w-full py-3 rounded-lg flex justify-center gap-2"><span
+                            id="registerBtnTxt">CREATE ACCOUNT</span><span
+                            class="material-symbols-outlined">arrow_forward</span></button>
+                </form>
+                <p class="text-center text-sm mt-6" id="footerText">Already have an account? <a href="/login"
+                        class="text-primary font-bold underline">Sign In</a></p>
+            </div>
+        </section>
+    </main>
+    <footer class="w-full py-8 border-t bg-gray-50 dark:bg-surface">
+        <div class="flex justify-between items-center px-12 text-xs">
+            <div>Bloom Store</div>
+            <div id="copyright">© 2025 Bloom Store</div>
+            <div class="flex gap-4"><a href="#">Privacy</a><a href="#">Terms</a></div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme & Language (مختصر لكن يعمل)
+        const htmlTag = document.documentElement;
+        const lightBtn = document.getElementById('lightModeBtn');
+        const darkBtn = document.getElementById('darkModeBtn');
+        const langBtn = document.getElementById('langToggleBtn');
+        let currentLang = localStorage.getItem('bloomLang') || 'en';
+        let currentTheme = localStorage.getItem('bloomTheme') || 'light';
+        const dict = {
+            en: { brand: "Bloom Store", slogan: "start your journey", title: "CREATE ACCOUNT", subtitle: "Join our botanical community", divider: "OR SIGN UP WITH EMAIL", usernamePlace: "Username", emailPlace: "Email", passPlace: "Password", confirmPlace: "Confirm Password", addressPlace: "Address", registerBtn: "CREATE ACCOUNT", footer: "Already have an account? ", signinLink: "Sign In", copyright: "© 2025 Bloom Store", errors: { usernameReq: "Username required", emailReq: "Email required", emailValid: "Valid email", passReq: "Password required", passLen: "Min 6 chars", confirmMatch: "Passwords mismatch", addressReq: "Address required" }, sweetSuccessTitle: "Welcome!", sweetSuccessMsg: "Account created. Please log in." },
+            ar: { brand: "شغف", slogan: "ابدأ رحلتك", title: "إنشاء حساب", subtitle: "انضم إلينا", divider: "أو سجل بالإيميل", usernamePlace: "اسم المستخدم", emailPlace: "البريد", passPlace: "كلمة المرور", confirmPlace: "تأكيد", addressPlace: "العنوان", registerBtn: "تسجيل", footer: "لديك حساب؟ ", signinLink: "تسجيل الدخول", copyright: "© 2025 شغف", errors: { usernameReq: "اسم المستخدم مطلوب", emailReq: "البريد مطلوب", emailValid: "بريد صالح", passReq: "كلمة المرور مطلوبة", passLen: "6 أحرف على الأقل", confirmMatch: "غير متطابقتين", addressReq: "العنوان مطلوب" }, sweetSuccessTitle: "مرحباً!", sweetSuccessMsg: "تم إنشاء الحساب. سجل دخولك" }
+        };
+        function applyLanguage(lang) { const t = dict[lang]; htmlTag.setAttribute('lang', lang); htmlTag.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr'); document.getElementById('brandName').innerText = t.brand; document.getElementById('leftSlogan').innerText = t.slogan; document.getElementById('signupTitle').innerText = t.title; document.getElementById('signupSubtitle').innerText = t.subtitle; document.getElementById('dividerText').innerText = t.divider; document.getElementById('username').placeholder = t.usernamePlace; document.getElementById('email').placeholder = t.emailPlace; document.getElementById('password').placeholder = t.passPlace; document.getElementById('confirmPassword').placeholder = t.confirmPlace; document.getElementById('address').placeholder = t.addressPlace; document.getElementById('registerBtnTxt').innerText = t.registerBtn; document.getElementById('footerText').innerHTML = `${t.footer}<a href="/login" class="text-primary font-bold underline">${t.signinLink}</a>`; document.getElementById('copyright').innerText = t.copyright; langBtn.innerText = (lang === 'en') ? 'AR' : 'EN'; }
+        function setTheme(theme) { if (theme === 'dark') { htmlTag.classList.add('dark'); localStorage.setItem('bloomTheme', 'dark'); } else { htmlTag.classList.remove('dark'); localStorage.setItem('bloomTheme', 'light'); } }
+        lightBtn.onclick = () => setTheme('light'); darkBtn.onclick = () => setTheme('dark'); langBtn.onclick = () => { currentLang = currentLang === 'en' ? 'ar' : 'en'; localStorage.setItem('bloomLang', currentLang); applyLanguage(currentLang); };
+        setTheme(currentTheme); applyLanguage(currentLang);
+        // Password toggle
+        document.querySelectorAll('.toggle-pwd, .toggle-confirm').forEach(btn => btn.addEventListener('click', function () { const input = this.parentElement.querySelector('input'); const icon = this.querySelector('span'); input.type = input.type === 'password' ? 'text' : 'password'; icon.innerText = input.type === 'password' ? 'visibility' : 'visibility_off'; }));
+        // API
+        const API_BASE = "/api/auth";
+        const username = document.getElementById('username'), email = document.getElementById('email'), password = document.getElementById('password'), confirm = document.getElementById('confirmPassword'), address = document.getElementById('address'), terms = document.getElementById('termsCheckbox');
+        const nameErr = document.getElementById('usernameError'), emailErr = document.getElementById('emailError'), passErr = document.getElementById('passError'), confirmErr = document.getElementById('confirmError'), addrErr = document.getElementById('addressError');
+        function hideErrors() { [nameErr, emailErr, passErr, confirmErr, addrErr].forEach(e => e.style.display = 'none'); }
+        function showError(el, msg) { el.innerText = msg; el.style.display = 'block'; }
+        function validate() { let ok = true; const e = dict[currentLang].errors; hideErrors(); if (!username.value.trim()) { showError(nameErr, e.usernameReq); ok = false; } if (!email.value.trim()) { showError(emailErr, e.emailReq); ok = false; } else if (!/^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/.test(email.value.trim())) { showError(emailErr, e.emailValid); ok = false; } if (!password.value) { showError(passErr, e.passReq); ok = false; } else if (password.value.length < 6) { showError(passErr, e.passLen); ok = false; } if (password.value !== confirm.value) { showError(confirmErr, e.confirmMatch); ok = false; } if (!address.value.trim()) { showError(addrErr, e.addressReq); ok = false; } if (!terms.checked) { Swal.fire({ icon: 'warning', title: 'Terms', text: 'Accept terms', confirmButtonColor: '#2ecc71' }); ok = false; } return ok; }
+        document.getElementById('signupForm').addEventListener('submit', async (e) => { e.preventDefault(); if (!validate()) return; try { const res = await fetch(`${API_BASE}/users`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: username.value.trim(), email: email.value.trim(), password: password.value, address: address.value.trim() }) }); const data = await res.json(); if (res.ok) { Swal.fire({ icon: 'success', title: dict[currentLang].sweetSuccessTitle, text: dict[currentLang].sweetSuccessMsg, confirmButtonColor: '#2ecc71' }).then(() => window.location.href = '/login'); } else { Swal.fire({ icon: 'error', title: 'Failed', text: data.error || 'Registration failed', confirmButtonColor: '#2ecc71' }); } } catch (err) { Swal.fire({ icon: 'error', title: 'Network Error', text: 'Check connection', confirmButtonColor: '#2ecc71' }); } });
+        document.getElementById('googleBtn')?.addEventListener('click', () => Swal.fire({ icon: 'info', title: 'Coming soon' }));
+        document.getElementById('fbBtn')?.addEventListener('click', () => Swal.fire({ icon: 'info', title: 'Coming soon' }));
+    </script>
+</body>
+
+</html>

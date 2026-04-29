@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html class="light" lang="en" id="html-tag" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloom Store | {{ category | capitalize }}</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        /* نفس الأنماط الموجودة في shop.html */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        html.light body {
+            background-color: #f4f7f5;
+            color: #1a1c1c;
+        }
+
+        html.light .glass-card {
+            background: rgba(255, 255, 255, 0.80);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(46, 204, 113, 0.15);
+        }
+
+        html.light .emerald-glow:hover {
+            box-shadow: 0 0 40px rgba(46, 204, 113, 0.18);
+        }
+
+        html.light nav {
+            background: rgba(255, 255, 255, 0.88) !important;
+            border-bottom-color: rgba(0, 0, 0, 0.07) !important;
+        }
+
+        html.light footer.bg-zinc-950 {
+            background-color: #f0f4f2 !important;
+            border-top-color: rgba(0, 0, 0, 0.08) !important;
+        }
+
+        html.light .text-zinc-400,
+        .text-zinc-500 {
+            color: #4a5568 !important;
+        }
+
+        html.light .text-on-surface {
+            color: #1a1c1c !important;
+        }
+
+        html.light .bg-primary {
+            background-color: #2ecc71 !important;
+        }
+
+        html.dark body {
+            background-color: #111415;
+            color: #e1e3e4;
+        }
+
+        html.dark .glass-card {
+            background: rgba(17, 20, 21, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(134, 148, 134, 0.12);
+        }
+
+        html.dark .emerald-glow:hover {
+            box-shadow: 0 0 40px rgba(46, 204, 113, 0.15);
+        }
+
+        html.dark nav {
+            background: rgba(17, 20, 21, 0.75) !important;
+            border-bottom-color: rgba(255, 255, 255, 0.07) !important;
+        }
+
+        html.dark footer.bg-zinc-950 {
+            background-color: #0c0f10 !important;
+        }
+
+        html.dark .text-zinc-400,
+        .text-zinc-500 {
+            color: #869486 !important;
+        }
+
+        html.dark .text-on-surface {
+            color: #e1e3e4 !important;
+        }
+
+        [dir="rtl"] .flex-row {
+            flex-direction: row-reverse;
+        }
+
+        .glass-card {
+            transition: transform 0.5s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+    <script>
+        tailwind.config = { darkMode: "class", theme: { extend: { /* same as before */ } } };
+    </script>
+</head>
+
+<body class="font-body-md text-on-background">
+
+    <!-- Top Navigation Bar (موحد) -->
+    <nav
+        class="fixed top-0 w-full z-50 border-b border-white/10 bg-zinc-950/70 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+        <div class="flex justify-between items-center px-8 py-4 w-full max-w-7xl mx-auto">
+            <div class="text-2xl font-serif font-light tracking-[0.2em] text-emerald-500" id="brandName">BLOOM</div>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="/" class="font-serif tracking-tight text-zinc-400 hover:text-emerald-200" id="navHome">Home</a>
+                <a href="/shop" class="font-serif tracking-tight text-zinc-400 hover:text-emerald-200"
+                    id="navShop">Shop</a>
+                <a href="/categories" class="font-serif tracking-tight text-zinc-400 hover:text-emerald-200"
+                    id="navCategory">Category</a>
+                <a href="/occasions" class="font-serif tracking-tight text-zinc-400 hover:text-emerald-200"
+                    id="navOccasions">Occasions</a>
+                <a href="/contact" class="font-serif tracking-tight text-zinc-400 hover:text-emerald-200"
+                    id="navContact">Contact</a>
+            </div>
+            <div class="flex items-center gap-6">
+                <button id="themeToggle" class="text-emerald-500 hover:bg-white/5 p-2 rounded-full"><span
+                        class="material-symbols-outlined">light_mode</span></button>
+                <button id="langToggle"
+                    class="text-emerald-500 border border-emerald-500/50 px-3 py-1 rounded-full text-sm font-bold">AR</button>
+                <a href="/cart" class="text-white/70 hover:text-emerald-400 transition-all relative">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                    <span id="cartCount"
+                        class="absolute -top-2 -right-2 bg-emerald-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                </a>
+                <a href="/profile" class="material-symbols-outlined text-emerald-500">person</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="pt-20">
+        <main class="max-w-7xl mx-auto p-8 lg:p-12">
+            <div class="mb-lg">
+                <h1 class="font-headline-md text-headline-md text-on-surface" id="categoryTitle">Loading...</h1>
+                <p class="text-zinc-500 font-body-md" id="categoryDesc">Discover our collection.</p>
+            </div>
+            <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+                <div class="col-span-full text-center py-12 text-primary animate-pulse">Loading products...</div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="bg-zinc-950 w-full py-12 border-t border-zinc-900">
+        <div class="flex flex-col items-center gap-6 w-full max-w-7xl mx-auto px-8">
+            <div class="text-xl font-serif italic text-emerald-500">BLOOM</div>
+            <div class="flex flex-wrap justify-center gap-8 md:gap-12">
+                <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300" id="footerPrivacy">Privacy
+                    Policy</a>
+                <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300" id="footerTerms">Terms of
+                    Service</a>
+                <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300" id="footerShipping">Shipping
+                    Info</a>
+                <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300"
+                    id="footerWholesale">Wholesale</a>
+            </div>
+            <div class="flex gap-6 mt-4">
+                <span class="material-symbols-outlined text-zinc-500 hover:text-primary">nest_eco_leaf</span>
+                <span class="material-symbols-outlined text-zinc-500 hover:text-primary">potted_plant</span>
+                <span class="material-symbols-outlined text-zinc-500 hover:text-primary">filter_vintage</span>
+            </div>
+            <p class="font-serif text-sm text-zinc-600 mt-8 text-center opacity-80" id="copyright">© 2024 Bloom Store.
+                Cultivated with Botanical Mystery.</p>
+        </div>
+    </footer>
+
+    <script>
+        const htmlTag = document.documentElement;
+        let currentLang = localStorage.getItem('bloomLang') || 'en';
+        let currentTheme = localStorage.getItem('bloomTheme') || 'light';
+
+        // اسم الفئة من Flask (مضمن)
+        const categorySlug = "{{ category }}";
+
+        // ترجمة أسماء الفئات
+        const categoryNames = {
+            en: { orchids: 'Orchids', ferns: 'Ferns', succulents: 'Succulents', terrariums: 'Terrariums', roses: 'Roses', bouquets: 'Bouquets', gifts: 'Gifts' },
+            ar: { orchids: 'الأوركيد', ferns: 'السراخس', succulents: 'الصبار', terrariums: 'التراريوم', roses: 'الورود', bouquets: 'الباقات', gifts: 'الهدايا' }
+        };
+
+        const dict = {
+            en: {
+                brandName: 'BLOOM', navHome: 'Home', navShop: 'Shop', navCategory: 'Category', navOccasions: 'Occasions', navContact: 'Contact',
+                footerPrivacy: 'Privacy Policy', footerTerms: 'Terms of Service', footerShipping: 'Shipping Info', footerWholesale: 'Wholesale',
+                copyright: '© 2024 Bloom Store. Cultivated with Botanical Mystery.', addToCart: 'ADD TO CART', quickView: 'Quick View',
+                categoryDesc: 'Discover our handpicked collection.', loading: 'Loading products...', errorMsg: 'Failed to load products.'
+            },
+            ar: {
+                brandName: 'شغف', navHome: 'الرئيسية', navShop: 'تسوق', navCategory: 'الفئات', navOccasions: 'المناسبات', navContact: 'اتصل بنا',
+                footerPrivacy: 'سياسة الخصوصية', footerTerms: 'شروط الخدمة', footerShipping: 'معلومات الشحن', footerWholesale: 'الجملة',
+                copyright: '© 2024 شغف. زُرع بغموض نباتي.', addToCart: 'أضف للسلة', quickView: 'معاينة سريعة',
+                categoryDesc: 'اكتشف مجموعتنا المختارة.', loading: 'جاري تحميل المنتجات...', errorMsg: 'فشل تحميل المنتجات.'
+            }
+        };
+
+        function applyLanguage(lang) {
+            const t = dict[lang];
+            htmlTag.setAttribute('lang', lang);
+            htmlTag.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            for (let id in t) {
+                const el = document.getElementById(id);
+                if (el) el.innerText = t[id];  // ✅ أضف if (el)
+            }
+            document.getElementById('langToggle').innerText = (lang === 'en') ? 'AR' : 'EN';
+            const catName = categoryNames[lang][categorySlug] || categorySlug;
+            document.getElementById('categoryTitle').innerHTML = catName;
+            document.getElementById('categoryDesc').innerText = t.categoryDesc;
+        }
+
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                htmlTag.classList.remove('light'); htmlTag.classList.add('dark');
+                localStorage.setItem('bloomTheme', 'dark');
+                document.querySelector('#themeToggle span').innerText = 'dark_mode';
+            } else {
+                htmlTag.classList.remove('dark'); htmlTag.classList.add('light');
+                localStorage.setItem('bloomTheme', 'light');
+                document.querySelector('#themeToggle span').innerText = 'light_mode';
+            }
+        }
+
+        async function loadProducts() {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = `<div class="col-span-full text-center py-12 text-primary animate-pulse">${dict[currentLang].loading}</div>`;
+            try {
+                const res = await fetch(`/api/flowers/category/${categorySlug}`);
+                if (!res.ok) throw new Error();
+                const products = await res.json();
+                if (products.length === 0) {
+                    grid.innerHTML = `<div class="col-span-full text-center py-12 text-zinc-500">No products found in this category.</div>`;
+                    return;
+                }
+                grid.innerHTML = products.map(p => `
+                    <div class="glass-card rounded-xl overflow-hidden group border border-zinc-800 hover:border-emerald-500/30 transition-all">
+                        <div class="h-80 overflow-hidden relative">
+                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="${p.image_url && !p.image_url.startsWith('http') ? '/static/' + p.image_url : (p.image_url || 'https://placehold.co/400x500?text=Bloom')}" alt="${p.name}">
+                            <div class="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex gap-2">
+                                <button class="flex-1 bg-white/10 backdrop-blur-md text-white py-2 font-label-caps text-[10px] rounded hover:bg-emerald-500 quick-view" data-id="${p.id}">${dict[currentLang].quickView}</button>
+                                <button class="w-10 h-10 bg-emerald-500 text-white flex items-center justify-center rounded add-to-cart" data-id="${p.id}">
+                                    <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-headline-sm text-headline-sm text-white">${escapeHtml(p.name)}</h4>
+                                <span class="text-emerald-400 font-headline-sm">$${parseFloat(p.price).toFixed(2)}</span>
+                            </div>
+                            <p class="text-zinc-500 text-xs mb-4 line-clamp-2">${escapeHtml(p.description)}</p>
+                        </div>
+                    </div>
+                `).join('');
+                attachEvents();
+            } catch (err) {
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-error">${dict[currentLang].errorMsg}</div>`;
+            }
+        }
+
+        function attachEvents() {
+            document.querySelectorAll('.add-to-cart').forEach(btn => {
+                btn.onclick = () => Swal.fire({ icon: 'success', title: 'Added!', text: 'Product added to cart', timer: 1500, showConfirmButton: false });
+            });
+            document.querySelectorAll('.quick-view').forEach(btn => {
+                btn.onclick = () => Swal.fire({ icon: 'info', title: 'Quick View', text: 'Details coming soon', confirmButtonColor: '#2ecc71' });
+            });
+        }
+
+        function escapeHtml(str) { return str ? str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])) : ''; }
+
+        document.getElementById('themeToggle').addEventListener('click', () => { currentTheme = currentTheme === 'light' ? 'dark' : 'light'; setTheme(currentTheme); });
+        document.getElementById('langToggle').addEventListener('click', () => { currentLang = currentLang === 'en' ? 'ar' : 'en'; localStorage.setItem('bloomLang', currentLang); applyLanguage(currentLang); loadProducts(); });
+
+        setTheme(currentTheme);
+        applyLanguage(currentLang);
+        loadProducts();
+    </script>
+    <script>
+        async function updateCartCount() {
+    try {
+        const res = await fetch('/api/cart/', { headers: { 'Authorization': `Bearer ${token}` } });
+        const data = await res.json();
+        const countEl = document.getElementById('cartCount');
+        if (countEl && data.item_count > 0) {
+            countEl.innerText = data.item_count;
+            countEl.classList.remove('hidden');
+        } else if (countEl) {
+            countEl.classList.add('hidden');
+        }
+    } catch(e) {}
+}
+    </script>
+</body>
+
+</html>

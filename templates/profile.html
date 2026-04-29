@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en" id="html-tag" class="dark" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloom Store | Dashboard</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&amp;family=Noto+Serif:ital,wght@0,500;0,600;0,700;1,500&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "error-container": "#93000a",
+                        "primary-fixed": "#6bfe9c",
+                        "on-background": "#e1e3e4",
+                        "error": "#ffb4ab",
+                        "inverse-surface": "#e1e3e4",
+                        "on-secondary-fixed": "#0b1f1c",
+                        "inverse-primary": "#006d37",
+                        "primary-container": "#2ecc71",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-tertiary": "#2f3131",
+                        "on-primary": "#003919",
+                        "background": "#111415",
+                        "surface-container-lowest": "#0c0f10",
+                        "secondary-fixed": "#d1e7e1",
+                        "surface-container-high": "#282a2b",
+                        "surface": "#111415",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-low": "#191c1d",
+                        "surface-dim": "#111415",
+                        "surface-bright": "#373a3b",
+                        "on-secondary-container": "#a4bab4",
+                        "on-error": "#690005",
+                        "tertiary": "#cecece",
+                        "primary-fixed-dim": "#4ae183",
+                        "on-primary-container": "#005027",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-primary-fixed-variant": "#005228",
+                        "on-primary-fixed": "#00210c",
+                        "outline": "#869486",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-surface": "#e1e3e4",
+                        "surface-container": "#1d2021",
+                        "on-surface-variant": "#bbcbbb",
+                        "tertiary-container": "#b2b3b3",
+                        "surface-tint": "#4ae183",
+                        "outline-variant": "#3d4a3e",
+                        "on-secondary-fixed-variant": "#374b46",
+                        "secondary-fixed-dim": "#b5cbc5",
+                        "secondary-container": "#374b46",
+                        "inverse-on-surface": "#2e3132",
+                        "surface-container-highest": "#323536",
+                        "surface-variant": "#323536",
+                        "on-tertiary-container": "#434546",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "secondary": "#b5cbc5",
+                        "on-secondary": "#213430",
+                        "primary": "#54e98a"
+                    },
+                    borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+                    spacing: { xs: "0.5rem", xl: "4rem", sm: "1rem", margin: "32px", lg: "2.5rem", gutter: "24px", unit: "4px", md: "1.5rem" },
+                    fontFamily: { "body-lg": ["Manrope"], "label-caps": ["Manrope"], "display-lg": ["Noto Serif"], "body-md": ["Manrope"], "headline-md": ["Noto Serif"], "headline-sm": ["Noto Serif"] },
+                    fontSize: {
+                        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "label-caps": ["12px", { lineHeight: "1.2", letterSpacing: "0.1em", fontWeight: "700" }],
+                        "display-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "headline-md": ["32px", { lineHeight: "1.2", fontWeight: "600" }],
+                        "headline-sm": ["24px", { lineHeight: "1.3", fontWeight: "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass {
+            background: rgba(17, 20, 21, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(134, 148, 134, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .emerald-glow:hover {
+            box-shadow: 0 0 40px rgba(46, 204, 113, 0.15);
+        }
+
+        .bg-botanical-noir {
+            background-color: #111415;
+            background-image: radial-gradient(circle at 0% 0%, rgba(46, 204, 113, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(46, 204, 113, 0.02) 0%, transparent 50%);
+        }
+
+        html.light .bg-botanical-noir {
+            background-color: #f8f9fa;
+            background-image: radial-gradient(circle at 0% 0%, rgba(46, 204, 113, 0.1) 0%, transparent 60%);
+        }
+
+        html.light .glass {
+            background: rgba(255, 255, 255, 0.7);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        html.light .bg-zinc-950\/80 {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        html.light .bg-zinc-950\/70 {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        html.light .text-zinc-200,
+        html.light .text-zinc-100,
+        html.light .text-zinc-400,
+        html.light .text-zinc-500 {
+            color: #1a1c1c;
+        }
+
+        html.light .bg-zinc-900\/50 {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        html.light .border-zinc-800 {
+            border-color: #e2e8f0;
+        }
+
+        [dir="rtl"] .flex-row {
+            flex-direction: row-reverse;
+        }
+    </style>
+</head>
+
+<body class="bg-botanical-noir text-on-background min-h-screen flex">
+    <!-- Sidebar -->
+    <aside
+        class="h-full w-64 border-r border-emerald-500/10 bg-zinc-950/80 backdrop-blur-lg shadow-2xl hidden md:flex flex-col p-6 gap-4 sticky top-0 transition-all">
+        <div class="mb-8"><span class="text-xl font-bold text-emerald-400 font-serif" id="brandSide">Bloom Store</span>
+        </div>
+        <div class="flex flex-col gap-6 mb-10">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-full border-2 border-emerald-500/30 overflow-hidden relative">
+
+                    <img class="w-full h-full object-cover hidden" id="avatarImg" src="#" alt="profile">
+
+                    <div id="sidebarAvatarPlaceholder"
+                        class="w-full h-full flex items-center justify-center bg-emerald-500/20 text-emerald-300 font-bold text-lg">
+                        ?
+                    </div>
+
+                </div>
+                <div>
+                    <p class="font-serif text-zinc-200 font-bold" id="welcomeMsg">Welcome back</p>
+                    <p class="text-xs text-zinc-500 font-serif" id="userRole">...</p>
+                </div>
+            </div>
+        </div>
+        <nav class="flex flex-col gap-2 flex-grow">
+            <a href="#"
+                class="flex items-center gap-3 px-4 py-3 text-emerald-400 bg-emerald-500/10 rounded-lg font-bold transition-all"
+                id="navDashboard"><span class="material-symbols-outlined">dashboard</span><span
+                    id="navDashboardTxt">Dashboard</span></a>
+            <a href="#"
+                class="flex items-center gap-3 px-4 py-3 text-zinc-500 hover:bg-emerald-500/5 hover:text-emerald-200 transition-all"
+                id="navOrders"><span class="material-symbols-outlined">history</span><span id="navOrdersTxt">Order
+                    History</span></a>
+            <a href="#"
+                class="flex items-center gap-3 px-4 py-3 text-zinc-500 hover:bg-emerald-500/5 hover:text-emerald-200 transition-all"
+                id="navAddresses"><span class="material-symbols-outlined">location_on</span><span
+                    id="navAddressesTxt">Addresses</span></a>
+            <a href="#"
+                class="flex items-center gap-3 px-4 py-3 text-zinc-500 hover:bg-emerald-500/5 hover:text-emerald-200 transition-all"
+                id="navPayments"><span class="material-symbols-outlined">payments</span><span
+                    id="navPaymentsTxt">Payment Methods</span></a>
+        </nav>
+        <div class="mt-auto"><button id="shopNowBtn"
+                class="w-full py-3 px-4 bg-primary-container text-on-primary-container rounded-lg font-label-caps text-label-caps uppercase emerald-glow transition-all"><span
+                    id="shopNowTxt">Shop New Blooms</span></button></div>
+    </aside>
+
+    <main class="flex-grow overflow-y-auto">
+        <header
+            class="flex justify-between items-center px-8 h-20 w-full z-50 bg-zinc-950/70 backdrop-blur-xl border-b border-emerald-500/20 shadow-md">
+            <div class="flex items-center gap-8">
+                <h1 class="text-2xl font-serif italic text-emerald-400" id="topBrand">Bloom Store</h1>
+            </div>
+            <div class="flex items-center gap-6">
+                <div
+                    class="hidden lg:flex items-center gap-4 bg-zinc-900/50 px-4 py-2 rounded-full border border-zinc-800">
+                    <span class="material-symbols-outlined text-zinc-400">search</span>
+                    <input id="searchInput"
+                        class="bg-transparent border-none focus:ring-0 text-sm text-zinc-100 placeholder-zinc-500 w-48"
+                        placeholder="Search rare species..." type="text">
+                </div>
+                <div class="flex gap-4">
+                    <a href="/cart" class="relative">
+                    <span class="material-symbols-outlined text-emerald-500">shopping_cart</span>
+                    <span id="cartCount"
+                        class="absolute -top-2 -right-2 bg-emerald-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                </a>
+                    <button id="themeToggle" class="text-zinc-100 hover:text-emerald-300 transition-colors"><span
+                            class="material-symbols-outlined">dark_mode</span></button>
+                    <button id="langToggle"
+                        class="text-emerald-400 border-b-2 border-emerald-400 pb-1 px-1 text-sm font-bold">AR</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="max-w-[1200px] mx-auto px-margin py-xl flex flex-col gap-xl">
+            <!-- Profile Header -->
+            <section class="flex flex-col md:flex-row items-center md:items-end gap-md">
+                <div class="relative group">
+                    <div
+                        class="w-32 h-32 rounded-full overflow-hidden border-2 border-primary ring-8 ring-primary/5 bg-gray-800 flex items-center justify-center">
+                        <img id="profileAvatar" class="w-full h-full object-cover hidden" alt="Avatar">
+                        <div id="avatarPlaceholder"
+                            class="w-full h-full flex items-center justify-center text-4xl font-bold bg-gradient-to-br from-primary/30 to-primary/10 text-primary">
+                            ?
+                        </div>
+                    </div>
+                    <label for="avatarUpload"
+                        class="absolute bottom-1 right-1 bg-primary text-on-primary w-8 h-8 rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-transform cursor-pointer">
+                        <span class="material-symbols-outlined text-[18px]">camera_alt</span>
+                    </label>
+                    <input type="file" id="avatarUpload" accept="image/jpeg,image/png,image/jpg" class="hidden">
+                </div>
+                <div class="text-center md:text-left">
+                    <h2 class="text-display-lg font-display-lg text-on-surface" id="profileName">Loading...</h2>
+                    <div class="flex items-center gap-2 mt-2">
+                        <span
+                            class="px-3 py-1 bg-primary/10 text-primary border border-primary/20 rounded-full text-label-caps font-label-caps uppercase"
+                            id="userBadge">...</span>
+                        <span class="text-zinc-500 text-body-md font-body-md">• Joined <span
+                                id="joinDateValue">...</span></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Overview Cards -->
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+                <div class="glass p-md rounded-xl flex flex-col justify-between emerald-glow transition-all">
+                    <div class="flex justify-between items-start"><span
+                            class="material-symbols-outlined text-primary">local_florist</span><span
+                            class="text-xs text-primary font-bold" id="totalOrdersExtra">Loading...</span></div>
+                    <div class="mt-8">
+                        <p class="text-label-caps font-label-caps text-zinc-500 uppercase" id="totalBloomsLabel">Total
+                            Orders</p>
+                        <h3 class="text-display-lg font-display-lg text-on-surface" id="totalOrdersCount">0</h3>
+                    </div>
+                </div>
+                <div class="glass p-md rounded-xl flex flex-col justify-between emerald-glow transition-all">
+                    <div class="flex justify-between items-start"><span
+                            class="material-symbols-outlined text-primary">calendar_month</span><span
+                            class="text-xs text-zinc-500" id="nextDelivery">Next order: --</span></div>
+                    <div class="mt-8">
+                        <p class="text-label-caps font-label-caps text-zinc-500 uppercase" id="activeSubsLabel">Active
+                            Subscriptions</p>
+                        <h3 class="text-display-lg font-display-lg text-on-surface" id="activeSubsCount">0</h3>
+                    </div>
+                </div>
+                <div class="glass p-md rounded-xl flex flex-col justify-between emerald-glow transition-all">
+                    <div class="flex justify-between items-start"><span
+                            class="material-symbols-outlined text-primary">loyalty</span><span
+                            class="text-xs text-emerald-300" id="memberTier">Member</span></div>
+                    <div class="mt-8">
+                        <p class="text-label-caps font-label-caps text-zinc-500 uppercase" id="pointsLabel">Loyalty
+                            Points</p>
+                        <h3 class="text-display-lg font-display-lg text-on-surface" id="pointsCount">0</h3>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Orders + Settings -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-xl">
+                <section class="lg:col-span-2 flex flex-col gap-md">
+                    <div class="flex justify-between items-end border-b border-zinc-800 pb-sm">
+                        <h3 class="text-headline-md font-headline-md text-on-surface italic" id="recentOrdersTitle">
+                            Recent Orders</h3>
+                        <a href="#" class="text-primary text-label-caps font-label-caps uppercase hover:underline"
+                            id="viewAllLink">View All</a>
+                    </div>
+                    <div id="ordersList" class="flex flex-col gap-sm">
+                        <div class="text-center py-8 text-zinc-500">Loading orders...</div>
+                    </div>
+                </section>
+
+                <section class="flex flex-col gap-md">
+                    <div class="flex items-center gap-2 border-b border-zinc-800 pb-sm">
+                        <h3 class="text-headline-sm font-headline-sm text-on-surface italic" id="settingsTitle">Settings
+                        </h3>
+                    </div>
+                    <div class="flex flex-col gap-md">
+                        <div class="flex flex-col gap-3">
+                            <label class="text-label-caps font-label-caps text-zinc-500 uppercase"
+                                id="savedAddressesLabel">Saved Addresses</label>
+                            <div id="addressesContainer" class="space-y-3">
+                                <div class="glass p-4 rounded-xl border-l-4 border-primary">
+                                    <div class="flex items-start gap-3"><span
+                                            class="material-symbols-outlined text-primary">potted_plant</span>
+                                        <div>
+                                            <p class="text-body-md font-body-md text-on-surface font-bold"
+                                                id="addressName">Loading...</p>
+                                            <p class="text-xs text-zinc-500 leading-relaxed" id="addressDetails">...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="addAddressBtn"
+                                class="flex items-center gap-2 text-primary hover:text-emerald-300 transition-colors text-sm font-bold mt-2"><span
+                                    class="material-symbols-outlined text-[18px]">add_location</span><span
+                                    id="addAddressTxt">Add New Address</span></button>
+                        </div>
+                        <div class="flex flex-col gap-3 mt-4">
+                            <label class="text-label-caps font-label-caps text-zinc-500 uppercase"
+                                id="paymentMethodsLabel">Payment Methods</label>
+                            <div id="paymentCard" class="glass p-4 rounded-xl flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-6 bg-zinc-800 rounded flex items-center justify-center"><span
+                                            class="material-symbols-outlined text-[16px]">credit_card</span></div>
+                                    <p class="text-body-md font-body-md text-on-surface" id="cardNumber">•••• 0000</p>
+                                </div><span class="text-xs text-zinc-500" id="cardExpiry">--/--</span>
+                            </div>
+                        </div>
+                        <div class="mt-xl"><button id="logoutBtn"
+                                class="w-full flex items-center justify-center gap-2 px-4 py-3 border border-error/30 text-error hover:bg-error/10 rounded-lg transition-colors text-label-caps font-label-caps uppercase"><span
+                                    class="material-symbols-outlined text-[18px]">logout</span><span id="logoutTxt">Sign
+                                    Out</span></button></div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Edit Profile Section -->
+            <section class="glass p-lg rounded-2xl">
+                <h3 class="text-headline-md font-headline-md text-on-surface italic mb-lg" id="personalDetailsTitle">
+                    Personal Details</h3>
+                <form id="profileForm" class="grid grid-cols-1 md:grid-cols-2 gap-md">
+                    <div><label class="text-label-caps font-label-caps text-zinc-500 uppercase" id="fullNameLabel">Full
+                            Name</label><input id="fullNameInput"
+                            class="bg-zinc-900/40 border-b border-zinc-700 focus:border-primary border-t-0 border-x-0 outline-none px-0 py-2 text-on-surface w-full"
+                            type="text"></div>
+                    <div><label class="text-label-caps font-label-caps text-zinc-500 uppercase" id="emailLabel">Email
+                            Address</label><input id="emailInput"
+                            class="bg-zinc-900/40 border-b border-zinc-700 focus:border-primary border-t-0 border-x-0 outline-none px-0 py-2 text-on-surface w-full"
+                            type="email"></div>
+                    <div class="flex items-end"><button type="submit"
+                            class="px-lg py-3 bg-primary text-on-primary rounded-lg font-label-caps text-label-caps uppercase emerald-glow hover:brightness-110 transition-all"
+                            id="saveChangesBtn">Save Changes</button></div>
+                </form>
+            </section>
+        </div>
+        <footer class="py-xl flex flex-col items-center gap-sm opacity-30 pointer-events-none"><span
+                class="material-symbols-outlined text-primary text-4xl">eco</span>
+            <p class="text-label-caps font-label-caps uppercase tracking-[0.4em] text-zinc-500" id="footerText">Nurtured
+                by Nature</p>
+        </footer>
+    </main>
+    <nav
+        class="md:hidden fixed bottom-0 w-full bg-zinc-950/90 backdrop-blur-xl border-t border-emerald-500/10 h-16 flex items-center justify-around z-50">
+        ...</nav>
+
+    <script>
+        // ---------- GLOBALS ----------
+        const htmlTag = document.documentElement;
+        let currentLang = localStorage.getItem('bloomLang') || 'en';
+        let currentTheme = localStorage.getItem('bloomTheme') || 'dark';
+        let token = localStorage.getItem('access_token');
+        let userData = {};
+
+        // ---------- Helper Functions ----------
+        async function fetchAPI(endpoint, options = {}) {
+            const res = await fetch(endpoint, {
+                headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                ...options
+            });
+            if (res.status === 401) {
+                localStorage.clear();
+                window.location.href = '/login';
+                throw new Error('Unauthorized');
+            }
+            return res.json();
+        }
+
+        // ---------- Load Real Data ----------
+        async function loadProfile() {
+            if (!token) { window.location.href = '/login'; return; }
+            try {
+                const user = await fetchAPI('/api/auth/me');
+                userData = user;
+                document.getElementById('profileName').innerText = user.username || user.UserName;
+                document.getElementById('fullNameInput').value = user.username || user.UserName;
+                document.getElementById('emailInput').value = user.email || user.Email;
+                document.getElementById('userBadge').innerText = user.role || 'Member';
+                document.getElementById('userRole').innerText = user.role || 'Member';
+                document.getElementById('joinDateValue').innerText = user.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A';
+                loadAvatar();
+            } catch (e) { console.error(e); }
+        }
+
+        async function loadStats() {
+            try {
+                const stats = await fetchAPI('/api/user/stats');
+                document.getElementById('totalOrdersCount').innerText = stats.total_orders || 0;
+                document.getElementById('totalOrdersExtra').innerText = `+${stats.new_this_month || 0} this month`;
+                document.getElementById('activeSubsCount').innerText = stats.active_subscriptions || 0;
+                document.getElementById('pointsCount').innerText = stats.loyalty_points || 0;
+                document.getElementById('memberTier').innerText = stats.member_tier || 'Member';
+                document.getElementById('nextDelivery').innerText = stats.next_delivery ? `Next: ${stats.next_delivery}` : 'No upcoming';
+            } catch (e) { console.warn('Stats endpoint not yet implemented', e); }
+        }
+
+        async function loadRecentOrders() {
+            try {
+                const orders = await fetchAPI('/api/user/recent_orders');
+                const container = document.getElementById('ordersList');
+                if (!orders.length) { container.innerHTML = '<div class="text-center py-4 text-zinc-500">No orders yet</div>'; return; }
+                container.innerHTML = orders.map(order => `
+                    <div class="glass p-sm rounded-lg flex items-center justify-between group hover:bg-white/5 transition-colors">
+                        <div class="flex items-center gap-md">
+                            <img class="w-16 h-16 object-cover rounded-lg" src="${order.image || ''}" alt="${order.name}">
+                            <div><h4 class="font-bold">${order.name}</h4><p class="text-xs text-zinc-500">${order.id} • ${order.date}</p></div>
+                        </div>
+                        <div class="text-right"><span class="font-bold">$${order.total}</span><br><span class="text-xs px-2 py-0.5 rounded-full ${order.status === 'Delivered' ? 'bg-primary/10 text-primary' : 'bg-emerald-500 text-white'}">${order.status}</span></div>
+                    </div>
+                `).join('');
+            } catch (e) { console.warn('Orders endpoint not ready', e); }
+        }
+
+        async function loadAddresses() {
+            try {
+                const addresses = await fetchAPI('/api/user/addresses');
+                const container = document.getElementById('addressesContainer');
+                if (!addresses.length) { container.innerHTML = '<div class="glass p-4"><p class="text-center">No addresses saved</p></div>'; return; }
+                const addr = addresses[0];
+                document.getElementById('addressName').innerText = addr.label || 'Home';
+                document.getElementById('addressDetails').innerHTML = `${addr.street}<br>${addr.city}, ${addr.postal_code}`;
+            } catch (e) { console.warn('Addresses endpoint not ready', e); }
+        }
+
+        async function loadPayment() {
+            try {
+                const payment = await fetchAPI('/api/user/payment');
+                document.getElementById('cardNumber').innerText = payment.last4 ? `•••• ${payment.last4}` : '•••• 0000';
+                document.getElementById('cardExpiry').innerText = payment.expiry || '--/--';
+            } catch (e) { console.warn('Payment endpoint not ready', e); }
+        }
+
+        async function updateProfile(e) {
+            e.preventDefault();
+            const newName = document.getElementById('fullNameInput').value.trim();
+            const newEmail = document.getElementById('emailInput').value.trim();
+            try {
+                await fetchAPI('/api/user/update', { method: 'PUT', body: JSON.stringify({ username: newName, email: newEmail }) });
+                Swal.fire({ icon: 'success', title: 'Updated', text: 'Profile updated successfully' });
+                document.getElementById('profileName').innerText = newName;
+                updateAvatarPlaceholder(newName);
+            } catch (e) { Swal.fire({ icon: 'error', title: 'Error', text: 'Could not update' }); }
+        }
+
+        async function logout() {
+            Swal.fire({
+                title: currentLang === 'en' ? 'Log out?' : 'تسجيل الخروج؟',
+                text: 'Are you sure?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#2ecc71',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    try { await fetch('/api/auth/logout', { method: 'POST', headers: { 'Authorization': `Bearer ${token}` } }); } catch (e) { }
+                    localStorage.clear();
+                    window.location.href = '/login';
+                }
+            });
+        }
+
+        // ---------- Avatar Handling ----------
+        const profileAvatar = document.getElementById('profileAvatar');
+        const avatarPlaceholder = document.getElementById('avatarPlaceholder');
+
+        function updateAvatarPlaceholder(userName) {
+            if (!userName) return;
+            const firstLetter = userName.charAt(0).toUpperCase();
+            avatarPlaceholder.innerText = firstLetter;
+        }
+
+        async function loadAvatar(username) {
+
+            try {
+
+                const res = await fetch('/api/user/avatar', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const sidebarPlaceholder =
+                    document.getElementById('sidebarAvatarPlaceholder');
+
+                if (res.ok) {
+
+                    const blob = await res.blob();
+                    const url = URL.createObjectURL(blob);
+
+                    profileAvatar.src = url;
+                    document.getElementById('avatarImg').src = url;
+
+                    profileAvatar.classList.remove('hidden');
+                    document.getElementById('avatarImg').classList.remove('hidden');
+
+                    avatarPlaceholder.classList.add('hidden');
+                    sidebarPlaceholder.classList.add('hidden');
+
+                } else {
+
+                    const firstLetter =
+                        username.charAt(0).toUpperCase();
+
+                    avatarPlaceholder.innerText = firstLetter;
+                    sidebarPlaceholder.innerText = firstLetter;
+
+                    profileAvatar.classList.add('hidden');
+                    document.getElementById('avatarImg').classList.add('hidden');
+
+                    avatarPlaceholder.classList.remove('hidden');
+                    sidebarPlaceholder.classList.remove('hidden');
+                }
+
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        async function loadUserData() {
+
+            const res = await fetch("/api/auth/me", {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            const data = await res.json();
+
+            // الاسم الرئيسي
+            document.getElementById("profileName").innerText = data.username;
+
+            // sidebar
+            document.getElementById("welcomeMsg").innerText =
+                `Welcome back, ${data.username}`;
+
+            document.getElementById("userRole").innerText =
+                data.username;
+
+            // تحميل الصورة بعد الاسم
+            loadAvatar(data.username);
+        }
+        loadUserData();
+        const avatarUpload = document.getElementById('avatarUpload');
+        avatarUpload.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('avatar', file);
+
+            try {
+                const res = await fetch('/api/user/avatar', {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` },
+                    body: formData
+                });
+                if (res.ok) {
+                    const blob = await res.blob();
+                    const url = URL.createObjectURL(blob);
+                    profileAvatar.src = url;
+                    profileAvatar.classList.remove('hidden');
+                    avatarPlaceholder.classList.add('hidden');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Avatar Updated',
+                        text: 'Your profile picture has been changed.',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                } else {
+                    const error = await res.json();
+                    Swal.fire({ icon: 'error', title: 'Upload Failed', text: error.error || 'Something went wrong' });
+                }
+            } catch (err) {
+                Swal.fire({ icon: 'error', title: 'Network Error', text: 'Please check your connection.' });
+            }
+        });
+
+        // ---------- Translations ----------
+        const dict = {
+            en: {
+                brandSide: "Bloom Store", topBrand: "Bloom Store", welcomeMsg: "Welcome back",
+                navDashboard: "Dashboard", navOrders: "Order History", navAddresses: "Addresses", navPayments: "Payment Methods",
+                shopNow: "Shop New Blooms", totalBloomsLabel: "Total Orders", activeSubsLabel: "Active Subscriptions",
+                pointsLabel: "Loyalty Points", recentOrdersTitle: "Recent Orders", viewAll: "View All",
+                settingsTitle: "Settings", savedAddressesLabel: "Saved Addresses", addAddress: "Add New Address",
+                paymentMethodsLabel: "Payment Methods", logoutTxt: "Sign Out", personalDetailsTitle: "Personal Details",
+                fullNameLabel: "Full Name", emailLabel: "Email Address", saveChanges: "Save Changes", footerText: "Nurtured by Nature",
+                memberTier: "Member", totalOrdersExtra: "Loading..."
+            },
+            ar: {
+                brandSide: "شغف", topBrand: "شغف", welcomeMsg: "مرحباً بعودتك",
+                navDashboard: "لوحة التحكم", navOrders: "تاريخ الطلبات", navAddresses: "العناوين", navPayments: "وسائل الدفع",
+                shopNow: "تسوق الآن", totalBloomsLabel: "إجمالي الطلبات", activeSubsLabel: "الاشتراكات النشطة",
+                pointsLabel: "نقاط الولاء", recentOrdersTitle: "الطلبات الأخيرة", viewAll: "عرض الكل",
+                settingsTitle: "الإعدادات", savedAddressesLabel: "العناوين المحفوظة", addAddress: "أضف عنواناً جديداً",
+                paymentMethodsLabel: "وسائل الدفع", logoutTxt: "تسجيل الخروج", personalDetailsTitle: "التفاصيل الشخصية",
+                fullNameLabel: "الاسم الكامل", emailLabel: "البريد الإلكتروني", saveChanges: "حفظ التغييرات", footerText: "رعته الطبيعة",
+                memberTier: "عضو", totalOrdersExtra: "جار التحميل..."
+            }
+        };
+
+        function applyLanguage(lang) {
+            const t = dict[lang];
+            htmlTag.setAttribute('lang', lang);
+            htmlTag.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            document.getElementById('brandSide').innerText = t.brandSide;
+            document.getElementById('topBrand').innerText = t.topBrand;
+            document.getElementById('welcomeMsg').innerText = t.welcomeMsg;
+            document.getElementById('navDashboardTxt').innerText = t.navDashboard;
+            document.getElementById('navOrdersTxt').innerText = t.navOrders;
+            document.getElementById('navAddressesTxt').innerText = t.navAddresses;
+            document.getElementById('navPaymentsTxt').innerText = t.navPayments;
+            document.getElementById('shopNowTxt').innerText = t.shopNow;
+            document.getElementById('totalBloomsLabel').innerText = t.totalBloomsLabel;
+            document.getElementById('activeSubsLabel').innerText = t.activeSubsLabel;
+            document.getElementById('pointsLabel').innerText = t.pointsLabel;
+            document.getElementById('recentOrdersTitle').innerText = t.recentOrdersTitle;
+            document.getElementById('viewAllLink').innerText = t.viewAll;
+            document.getElementById('settingsTitle').innerText = t.settingsTitle;
+            document.getElementById('savedAddressesLabel').innerText = t.savedAddressesLabel;
+            document.getElementById('addAddressTxt').innerText = t.addAddress;
+            document.getElementById('paymentMethodsLabel').innerText = t.paymentMethodsLabel;
+            document.getElementById('logoutTxt').innerText = t.logoutTxt;
+            document.getElementById('personalDetailsTitle').innerText = t.personalDetailsTitle;
+            document.getElementById('fullNameLabel').innerText = t.fullNameLabel;
+            document.getElementById('emailLabel').innerText = t.emailLabel;
+            document.getElementById('saveChangesBtn').innerText = t.saveChanges;
+            document.getElementById('footerText').innerText = t.footerText;
+            document.getElementById('memberTier').innerText = t.memberTier;
+            document.getElementById('totalOrdersExtra').innerText = t.totalOrdersExtra;
+            langToggle.innerText = (lang === 'en') ? 'AR' : 'EN';
+            // تحديث أي بيانات معروضة
+            if (userData) {
+                document.getElementById('userBadge').innerText = userData.role || t.memberTier;
+                document.getElementById('userRole').innerText = userData.role || t.memberTier;
+            }
+        }
+
+        function setTheme(theme) {
+            if (theme === 'light') {
+                htmlTag.classList.remove('dark');
+                htmlTag.classList.add('light');
+                localStorage.setItem('bloomTheme', 'light');
+                document.querySelector('#themeToggle span').innerText = 'light_mode';
+            } else {
+                htmlTag.classList.remove('light');
+                htmlTag.classList.add('dark');
+                localStorage.setItem('bloomTheme', 'dark');
+                document.querySelector('#themeToggle span').innerText = 'dark_mode';
+            }
+        }
+
+        // ---------- Event Listeners ----------
+        document.getElementById('profileForm').addEventListener('submit', updateProfile);
+        document.getElementById('logoutBtn').addEventListener('click', logout);
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(currentTheme);
+        });
+        document.getElementById('langToggle').addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            localStorage.setItem('bloomLang', currentLang);
+            applyLanguage(currentLang);
+        });
+
+        // ---------- Initialize ----------
+        setTheme(currentTheme);
+        applyLanguage(currentLang);
+        loadProfile();
+        loadStats();
+        loadRecentOrders();
+        loadAddresses();
+        loadPayment();
+    </script>
+</body>
+
+</html>
