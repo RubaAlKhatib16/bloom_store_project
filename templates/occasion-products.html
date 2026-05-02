@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html class="dark" lang="en" id="html-tag" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloom Store | Occasion Flowers</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+
+        /* Light Mode Enhancements */
+        html.light body {
+            background: #f8fafc;
+            color: #1e293b;
+        }
+        html.light .glass-panel {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+        }
+        html.light .product-card {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0;
+        }
+        html.light .product-card .text-white {
+            color: #1e293b !important;
+        }
+        html.light .product-card .text-zinc-500 {
+            color: #4a5b62 !important;
+        }
+        html.light .product-card .badge.bg-zinc-800 {
+            background: #eef2f6;
+            color: #2d3e44;
+        }
+        html.light button.add-to-cart {
+            background-color: #2ecc71;
+            color: white;
+        }
+        html.light button.quick-view {
+            background: rgba(0,0,0,0.05);
+            color: #1e2a2e;
+        }
+        html.light .text-on-surface-variant {
+            color: #475569;
+        }
+        html.light .text-primary {
+            color: #0f6e3a;
+        }
+        html.light .bg-primary {
+            background-color: #2ecc71;
+        }
+        html.light .bg-primary\/10 {
+            background-color: rgba(46,204,113,0.1);
+        }
+        html.light .bg-zinc-800\/50 {
+            background-color: #f1f5f9;
+        }
+        html.light .border-primary {
+            border-color: #2ecc71;
+        }
+        html.light footer.bg-zinc-950 {
+            background: #ffffff !important;
+            border-top: 1px solid #e2e8f0;
+        }
+        html.light footer .text-zinc-500,
+        html.light footer .text-zinc-600 {
+            color: #5a6e76 !important;
+        }
+        html.light .bg-black\/70 {
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(8px);
+        }
+        html.light #quickViewModal .glass {
+            background: #ffffff;
+            border-color: #e2e8f0;
+            color: #1e2a2e;
+        }
+        /* Dark Mode unchanged */
+        html.dark body {
+            background-color: #111415;
+            color: #e1e3e4;
+        }
+        html.dark .glass-panel {
+            background: rgba(17,20,21,0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(134,148,134,0.12);
+        }
+        .product-card { transition: all 0.3s; }
+        .product-card:hover { transform: translateY(-5px); }
+        [dir="rtl"] .flex-row { flex-direction: row-reverse; }
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}.animate-fadeInUp{animation:fadeInUp 0.3s ease-out;}
+    </style>
+    <script>
+        tailwind.config = { darkMode: "class", theme: { extend: {} } };
+    </script>
+</head>
+<body class="font-body-md bg-background text-on-background">
+
+    <!-- Top Navigation Bar -->
+    <nav class="fixed top-0 w-full z-50 border-b border-white/10 bg-zinc-950/70 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+    <div class="flex justify-between items-center px-8 py-4 w-full max-w-7xl mx-auto">
+        <div class="text-2xl font-serif font-light tracking-[0.2em] text-emerald-500" id="brandName">BLOOM</div>
+        <div class="hidden md:flex items-center gap-8">
+            <a href="/" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navHome">Home</a>
+            <a href="/shop" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navShop">Shop</a>
+            <a href="/categories" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navCategory">Categories</a>
+            <a href="/occasions" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navOccasions">Occasions</a>
+            <a href="/bouquets" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navBouquets">Bouquets</a>
+            <a href="/contact" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navContact">Contact</a>
+        </div>
+        <div class="flex items-center gap-6">
+            <button id="themeToggle" class="text-emerald-500 hover:bg-white/5 p-2 rounded-full"><span class="material-symbols-outlined">light_mode</span></button>
+            <button id="langToggle" class="text-emerald-500 border border-emerald-500/50 px-3 py-1 rounded-full text-sm font-bold">AR</button>
+            <a href="/cart" class="relative">
+                <span class="material-symbols-outlined text-emerald-500">shopping_cart</span>
+                <span id="cartCount" class="absolute -top-2 -right-2 bg-emerald-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+            </a>
+            <a href="/profile" class="material-symbols-outlined text-emerald-500">person</a>
+        </div>
+    </div>
+</nav>
+
+<script>
+    // دالة لتفعيل الرابط النشط في شريط التنقل
+    function setActiveNavLink() {
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        navLinks.forEach(link => {
+            // إزالة الكلاسات النشطة من جميع الروابط
+            link.classList.remove('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
+            link.classList.add('text-zinc-400');
+            
+            const linkPath = link.getAttribute('href');
+            
+            // التحقق من تطابق المسار (مع معالجة الحالة الخاصة للصفحة الرئيسية)
+            if (linkPath === '/' && (currentPath === '/' || currentPath === '')) {
+                link.classList.add('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
+                link.classList.remove('text-zinc-400');
+            } else if (linkPath !== '/' && currentPath.startsWith(linkPath)) {
+                link.classList.add('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
+                link.classList.remove('text-zinc-400');
+            }
+        });
+    }
+    
+   
+    document.addEventListener('DOMContentLoaded', setActiveNavLink);
+    window.addEventListener('popstate', setActiveNavLink);
+</script>
+
+    <div class="pt-32 pb-20">
+        <div class="max-w-7xl mx-auto px-4 md:px-8">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h1 class="font-display-lg text-display-lg text-primary" id="pageTitle">Wedding Flowers</h1>
+                <p class="text-on-surface-variant mt-2 max-w-2xl mx-auto" id="pageDesc">Discover the perfect blooms for your special day.</p>
+            </div>
+
+            <!-- Products Grid -->
+            <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="col-span-full text-center py-12 text-primary animate-pulse">Loading products...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-zinc-950 w-full py-12 border-t border-zinc-900">
+        <div class="flex flex-col items-center gap-6 w-full max-w-7xl mx-auto px-8">
+            <div class="text-xl font-serif italic text-emerald-500">BLOOM</div>
+            <div class="flex flex-wrap justify-center gap-8 md:gap-12">
+                <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300 transition-colors" id="footerPrivacy">Privacy Policy</a>
+                <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300 transition-colors" id="footerTerms">Terms of Service</a>
+                <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300 transition-colors" id="footerShipping">Shipping Info</a>
+                <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300 transition-colors" id="footerWholesale">Wholesale</a>
+            </div>
+            <p class="font-serif text-sm text-zinc-600 mt-8 text-center opacity-80" id="copyright">© 2026 Bloom Store. Cultivated with Botanical Mystery.</p>
+        </div>
+    </footer>
+
+    <!-- Quick View Modal -->
+    <div id="quickViewModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm">
+        <div class="glass rounded-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto relative animate-fadeInUp">
+            <button id="closeModalBtn" class="absolute top-4 right-4 text-white/70 hover:text-white"><span class="material-symbols-outlined">close</span></button>
+            <div id="quickViewContent" class="p-6 md:p-8"><div class="text-center py-12 text-primary animate-pulse">Loading...</div></div>
+        </div>
+    </div>
+
+    <script>
+        // ========== GLOBALS ==========
+        const htmlTag = document.documentElement;
+        let currentLang = localStorage.getItem('bloomLang') || 'en';
+        let currentTheme = localStorage.getItem('bloomTheme') || 'dark';
+        let occasionSlug = null;
+        let occasionName = '';
+        let products = [];
+
+        // Extract occasion slug from URL
+        const pathParts = window.location.pathname.split('/');
+        occasionSlug = pathParts[pathParts.length - 1];
+
+        // ========== COMPLETE TRANSLATIONS (EN & AR) ==========
+        const dict = {
+            en: {
+                brandName: 'BLOOM', navHome: 'Home', navShop: 'Shop', navCategory: 'Categories', navOccasions: 'Occasions', navBouquets: 'Bouquets', navContact: 'Contact',
+                pageTitle: 'Flowers for ', pageDesc: 'Discover the perfect blooms for your special occasion.',
+                addToCart: 'ADD TO CART', quickView: 'Quick View', bestSeller: 'Best Seller',
+                loading: 'Loading products...', errorMsg: 'Failed to load products.', noProducts: 'No products found for this occasion.',
+                backToOccasions: '← Back to Occasions',
+                inStock: '✓ In Stock', viewFullDetails: 'View Full Details →',
+                loginRequired: 'Login Required', loginMessage: 'Please login to add items to your cart',
+                addedToCart: 'Added to Cart!', productAdded: 'Product has been added to your cart',
+                errorTitle: 'Error', networkError: 'Network Error', networkMessage: 'Please try again.',
+                loadingDetails: 'Loading product details...', failedDetails: 'Failed to load product details.',
+                footerPrivacy: 'Privacy Policy', footerTerms: 'Terms of Service', footerShipping: 'Shipping Info', footerWholesale: 'Wholesale',
+                copyright: '© 2026 Bloom Store. Cultivated with Botanical Mystery.'
+            },
+            ar: {
+                brandName: 'شغف', navHome: 'الرئيسية', navShop: 'تسوق', navCategory: 'الفئات', navOccasions: 'المناسبات', navBouquets: 'باقات', navContact: 'اتصل بنا',
+                pageTitle: 'زهور ', pageDesc: 'اكتشف الباقات المثالية لمناسبتك الخاصة.',
+                addToCart: 'أضف للسلة', quickView: 'معاينة', bestSeller: 'الأكثر مبيعاً',
+                loading: 'جاري تحميل المنتجات...', errorMsg: 'فشل تحميل المنتجات.', noProducts: 'لا توجد منتجات لهذه المناسبة.',
+                backToOccasions: '← العودة إلى المناسبات',
+                inStock: '✓ متوفر', viewFullDetails: 'عرض التفاصيل الكاملة ←',
+                loginRequired: 'مطلوب تسجيل الدخول', loginMessage: 'يرجى تسجيل الدخول لإضافة المنتجات إلى السلة',
+                addedToCart: 'تمت الإضافة!', productAdded: 'تمت إضافة المنتج إلى سلتك',
+                errorTitle: 'خطأ', networkError: 'خطأ في الشبكة', networkMessage: 'يرجى المحاولة لاحقاً',
+                loadingDetails: 'جاري تحميل تفاصيل المنتج...', failedDetails: 'فشل تحميل تفاصيل المنتج.',
+                footerPrivacy: 'سياسة الخصوصية', footerTerms: 'شروط الخدمة', footerShipping: 'معلومات الشحن', footerWholesale: 'الجملة',
+                copyright: '© 2026 شغف. زُرع بغموض نباتي.'
+            }
+        };
+
+        function applyLanguage(lang) {
+            const t = dict[lang];
+            htmlTag.setAttribute('lang', lang);
+            htmlTag.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            // Update all translatable elements
+            document.getElementById('brandName').innerText = t.brandName;
+            document.getElementById('navHome').innerText = t.navHome;
+            document.getElementById('navShop').innerText = t.navShop;
+            document.getElementById('navCategory').innerText = t.navCategory;
+            document.getElementById('navOccasions').innerText = t.navOccasions;
+            document.getElementById('navBouquets').innerText = t.navBouquets;
+            document.getElementById('navContact').innerText = t.navContact;
+            document.getElementById('pageTitle').innerHTML = t.pageTitle + occasionName;
+            document.getElementById('pageDesc').innerText = t.pageDesc;
+            document.getElementById('footerPrivacy').innerText = t.footerPrivacy;
+            document.getElementById('footerTerms').innerText = t.footerTerms;
+            document.getElementById('footerShipping').innerText = t.footerShipping;
+            document.getElementById('footerWholesale').innerText = t.footerWholesale;
+            document.getElementById('copyright').innerText = t.copyright;
+            document.getElementById('langToggle').innerText = (lang === 'en') ? 'AR' : 'EN';
+            // Re-render products to update button texts (addToCart, quickView, bestSeller)
+            renderProducts();
+        }
+
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                htmlTag.classList.replace('light', 'dark');
+                localStorage.setItem('bloomTheme', 'dark');
+                document.querySelector('#themeToggle span').innerText = 'dark_mode';
+            } else {
+                htmlTag.classList.replace('dark', 'light');
+                localStorage.setItem('bloomTheme', 'light');
+                document.querySelector('#themeToggle span').innerText = 'light_mode';
+            }
+        }
+
+        // Helper: fix image URL (removes duplicate /static)
+        function fixImageUrl(url) {
+            if (!url) return '';
+            if (url.startsWith('http')) return url;
+            let clean = url.replace(/^\/static\/static\//, '/static/');
+            if (clean.startsWith('/static/')) return clean;
+            if (clean.startsWith('/')) return '/static' + clean;
+            return '/static/' + clean;
+        }
+
+        function escapeHtml(str) { 
+            if (!str) return '';
+            return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])); 
+        }
+
+        // ========== ADD TO CART ==========
+        async function addToCart(flowerId, quantity = 1) {
+            const token = localStorage.getItem('access_token');
+            const t = dict[currentLang];
+            if (!token) {
+                Swal.fire({ icon: 'warning', title: t.loginRequired, text: t.loginMessage, confirmButtonColor: '#2ecc71' }).then(() => window.location.href = '/login');
+                return;
+            }
+            try {
+                const res = await fetch('/api/cart/add', {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ flower_id: parseInt(flowerId), quantity: quantity })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    Swal.fire({ icon: 'success', title: t.addedToCart, text: t.productAdded, timer: 1500, showConfirmButton: false });
+                    updateCartCount();
+                } else {
+                    Swal.fire({ icon: 'error', title: t.errorTitle, text: data.error || t.networkMessage });
+                }
+            } catch { Swal.fire({ icon: 'error', title: t.networkError, text: t.networkMessage }); }
+        }
+
+        async function updateCartCount() {
+            const token = localStorage.getItem('access_token');
+            if (!token) return;
+            try {
+                const res = await fetch('/api/cart/', { headers: { 'Authorization': `Bearer ${token}` } });
+                const data = await res.json();
+                const countEl = document.getElementById('cartCount');
+                if (countEl && data.item_count > 0) {
+                    countEl.innerText = data.item_count;
+                    countEl.classList.remove('hidden');
+                } else if (countEl) {
+                    countEl.classList.add('hidden');
+                }
+            } catch(e) {}
+        }
+
+        // ========== QUICK VIEW MODAL ==========
+        const modal = document.getElementById('quickViewModal');
+        const modalContent = document.getElementById('quickViewContent');
+        function openQuickView(productId) {
+            const t = dict[currentLang];
+            if (!productId) return;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+            modalContent.innerHTML = `<div class="text-center py-12 text-primary animate-pulse">${t.loadingDetails}</div>`;
+            fetch(`/api/flowers/${productId}`)
+                .then(res => res.json())
+                .then(product => renderQuickView(product))
+                .catch(() => modalContent.innerHTML = `<div class="text-center py-12 text-error">${t.failedDetails}</div>`);
+        }
+        function closeQuickView() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+        function renderQuickView(product) {
+            const t = dict[currentLang];
+            const pid = product.id;
+            modalContent.innerHTML = `
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="md:w-1/2"><img src="${fixImageUrl(product.image_url)}" class="w-full h-auto rounded-xl object-cover"></div>
+                    <div class="md:w-1/2">
+                        <span class="text-sm text-primary uppercase tracking-wider">${escapeHtml(product.category || 'Botanical')}</span>
+                        <h2 class="font-headline-md text-headline-md mt-2">${escapeHtml(product.name)}</h2>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl font-bold text-primary">$${product.price.toFixed(2)}</span>
+                            <span class="text-green-500 text-sm">${t.inStock}</span>
+                        </div>
+                        <p class="text-on-surface-variant mb-6">${escapeHtml(product.description || 'No description available.')}</p>
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="flex items-center border rounded-full">
+                                <button class="w-10 h-10 hover:text-primary" id="quickQtyDec">-</button>
+                                <span id="quickQtyValue" class="w-12 text-center font-bold">1</span>
+                                <button class="w-10 h-10 hover:text-primary" id="quickQtyInc">+</button>
+                            </div>
+                            <button id="quickAddToCart" data-id="${pid}" class="flex-1 bg-primary text-white py-3 rounded-full font-bold">${t.addToCart}</button>
+                        </div>
+                        <a href="/product/${pid}" class="text-primary hover:underline text-sm">${t.viewFullDetails}</a>
+                    </div>
+                </div>
+            `;
+            let qty = 1;
+            const qtySpan = document.getElementById('quickQtyValue');
+            document.getElementById('quickQtyDec').onclick = () => { if (qty > 1) { qty--; qtySpan.innerText = qty; } };
+            document.getElementById('quickQtyInc').onclick = () => { qty++; qtySpan.innerText = qty; };
+            document.getElementById('quickAddToCart').onclick = () => { addToCart(pid, qty); closeQuickView(); };
+        }
+        document.getElementById('closeModalBtn')?.addEventListener('click', closeQuickView);
+        modal?.addEventListener('click', (e) => { if (e.target === modal) closeQuickView(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) closeQuickView(); });
+
+        // ========== LOAD OCCASION DETAILS AND PRODUCTS ==========
+        async function loadOccasionAndProducts() {
+            const grid = document.getElementById('productsGrid');
+            const t = dict[currentLang];
+            try {
+                // Fetch occasion details from /api/occasions
+                const occRes = await fetch('/api/occasions');
+                let occasions = [];
+                if (occRes.ok) occasions = await occRes.json();
+                const occasion = occasions.find(o => o.slug === occasionSlug);
+                if (occasion) {
+                    occasionName = (currentLang === 'ar' && occasion.name_ar) ? occasion.name_ar : occasion.name;
+                    document.getElementById('pageTitle').innerHTML = t.pageTitle + occasionName;
+                } else {
+                    occasionName = occasionSlug.charAt(0).toUpperCase() + occasionSlug.slice(1).replace(/-/g, ' ');
+                    document.getElementById('pageTitle').innerHTML = t.pageTitle + occasionName;
+                }
+                // Fetch products for this occasion (backend filter: occasion=slug + IsBouquet=1)
+                const prodsRes = await fetch(`/api/flowers?occasion=${occasionSlug}`);
+                if (!prodsRes.ok) throw new Error();
+                products = await prodsRes.json();
+                renderProducts();
+                updateCartCount();
+            } catch (err) {
+                console.error(err);
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-error">${t.errorMsg}</div>`;
+            }
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            const t = dict[currentLang];
+            if (!products.length) {
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-zinc-500">${t.noProducts}</div>`;
+                return;
+            }
+            grid.innerHTML = products.map(product => {
+                const imgSrc = fixImageUrl(product.image_url);
+                return `<div class="product-card rounded-xl overflow-hidden group border transition-all duration-500 emerald-glow bg-zinc-900/50 dark:bg-zinc-900/50 light:bg-white/85">
+                    <div class="h-72 overflow-hidden relative bg-zinc-800/50">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="${imgSrc}" alt="${escapeHtml(product.name)}" onerror="this.parentElement.querySelector('.img-fallback').style.display='flex';this.style.display='none';">
+                        <div class="img-fallback absolute inset-0 items-center justify-center hidden"><span class="material-symbols-outlined text-6xl text-emerald-500/30">local_florist</span></div>
+                        <div class="absolute inset-x-0 bottom-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex gap-2">
+                            <button class="flex-1 bg-white/10 backdrop-blur-md text-white py-2 font-label-caps text-[10px] rounded hover:bg-emerald-500 transition-colors uppercase quick-view" data-id="${product.id}">${t.quickView}</button>
+                            <button class="w-10 h-10 bg-emerald-500 text-white flex items-center justify-center rounded hover:shadow-lg add-to-cart" data-id="${product.id}"><span class="material-symbols-outlined text-sm">add_shopping_cart</span></button>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-1">
+                            <h4 class="font-headline-sm text-headline-sm text-white">${escapeHtml(product.name)}</h4>
+                            <span class="text-emerald-400 font-bold ml-2">$${parseFloat(product.price).toFixed(2)}</span>
+                        </div>
+                        <p class="text-zinc-500 text-xs mb-3 line-clamp-2">${escapeHtml(product.description)}</p>
+                        <div class="flex flex-wrap gap-2">
+                            ${product.type ? `<span class="badge px-2 py-0.5 text-[9px] uppercase font-bold tracking-widest rounded bg-zinc-800 text-zinc-400">${escapeHtml(product.type)}</span>` : ''}
+                            ${product.is_best_seller ? `<span class="badge px-2 py-0.5 text-[9px] uppercase font-bold tracking-widest rounded bg-emerald-500/20 text-emerald-500">${t.bestSeller}</span>` : ''}
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+            // Attach event listeners after DOM update
+            document.querySelectorAll('.add-to-cart').forEach(btn => btn.addEventListener('click', () => addToCart(btn.getAttribute('data-id'))));
+            document.querySelectorAll('.quick-view').forEach(btn => btn.addEventListener('click', () => openQuickView(btn.getAttribute('data-id'))));
+        }
+
+        // ========== EVENT LISTENERS ==========
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(currentTheme);
+        });
+        document.getElementById('langToggle').addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            localStorage.setItem('bloomLang', currentLang);
+            applyLanguage(currentLang);
+            loadOccasionAndProducts(); // Reload to get occasion name in new language
+        });
+
+        // ========== INITIALIZE ==========
+        setTheme(currentTheme);
+        applyLanguage(currentLang);
+        loadOccasionAndProducts();
+    </script>
+
+      <!--
+====================================================================
+  BLOOM STORE — CHATBOT WIDGET
+  
+  HOW TO USE:
+  Paste this entire block just before </body> in any HTML page.
+  The chatbot will appear as a floating button at bottom-right.
+====================================================================
+-->
+
+<!-- ===================== CHATBOT STYLES ===================== -->
+<style>
+  /* ── Chatbot root variables ── */
+  :root {
+    --cb-bg:        #0d1410;
+    --cb-surface:   #141c17;
+    --cb-surface2:  #1c2820;
+    --cb-border:    rgba(84, 233, 138, 0.15);
+    --cb-green:     #54e98a;
+    --cb-green2:    #2ecc71;
+    --cb-text:      #e1e3e4;
+    --cb-muted:     #7a8f80;
+    --cb-user-bg:   #1e3a2a;
+    --cb-bot-bg:    #192218;
+    --cb-radius:    18px;
+    --cb-w:         370px;
+    --cb-h:         520px;
+    --cb-z:         9999;
+  }
+
+  /* ── Floating toggle button ── */
+  #cb-toggle {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: var(--cb-z);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 32px rgba(46, 204, 113, 0.35), 0 0 0 0 rgba(46, 204, 113, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: cb-pulse 2.5s infinite;
+  }
+  #cb-toggle:hover {
+    transform: scale(1.08);
+    box-shadow: 0 12px 40px rgba(46, 204, 113, 0.5), 0 0 0 0 rgba(46, 204, 113, 0.4);
+  }
+  #cb-toggle svg { width: 28px; height: 28px; fill: #fff; transition: transform 0.3s; }
+  #cb-toggle.open svg { transform: rotate(45deg); }
+
+  @keyframes cb-pulse {
+    0%, 100% { box-shadow: 0 8px 32px rgba(46,204,113,0.35), 0 0 0 0 rgba(46,204,113,0.4); }
+    50%       { box-shadow: 0 8px 32px rgba(46,204,113,0.35), 0 0 0 10px rgba(46,204,113,0); }
+  }
+
+  /* Notification dot */
+  #cb-notif {
+    position: absolute;
+    top: 4px; right: 4px;
+    width: 14px; height: 14px;
+    background: #ff4d6d;
+    border-radius: 50%;
+    border: 2px solid #0d1410;
+    animation: cb-bounce 1s infinite alternate;
+  }
+  @keyframes cb-bounce { from { transform: scale(1); } to { transform: scale(1.3); } }
+
+  /* ── Chat window ── */
+  #cb-window {
+    position: fixed;
+    bottom: 100px;
+    right: 28px;
+    z-index: var(--cb-z);
+    width: var(--cb-w);
+    max-height: var(--cb-h);
+    background: var(--cb-bg);
+    border: 1px solid var(--cb-border);
+    border-radius: var(--cb-radius);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(84,233,138,0.08);
+    transform: translateY(20px) scale(0.95);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease;
+    overflow: hidden;
+  }
+  #cb-window.open {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* ── Header ── */
+  #cb-header {
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #1a2e1f, #0f1d13);
+    border-bottom: 1px solid var(--cb-border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .cb-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    box-shadow: 0 0 16px rgba(46,204,113,0.3);
+  }
+  .cb-header-info h3 {
+    color: #fff; font-size: 15px; font-weight: 600;
+    font-family: 'Noto Serif', serif;
+    margin: 0 0 2px;
+  }
+  .cb-header-info p {
+    color: var(--cb-green); font-size: 11px; margin: 0;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .cb-online-dot {
+    width: 7px; height: 7px;
+    background: var(--cb-green); border-radius: 50%;
+    animation: cb-blink 1.5s infinite;
+  }
+  @keyframes cb-blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  #cb-close {
+    margin-left: auto;
+    background: none; border: none; cursor: pointer;
+    color: var(--cb-muted); font-size: 20px; line-height: 1;
+    padding: 4px 8px; border-radius: 8px;
+    transition: color 0.2s, background 0.2s;
+  }
+  #cb-close:hover { color: #fff; background: rgba(255,255,255,0.08); }
+
+  /* ── Messages area ── */
+  #cb-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(84,233,138,0.2) transparent;
+    min-height: 0;
+    max-height: 340px;
+  }
+  #cb-messages::-webkit-scrollbar { width: 4px; }
+  #cb-messages::-webkit-scrollbar-thumb { background: rgba(84,233,138,0.2); border-radius: 4px; }
+
+  /* ── Message bubbles ── */
+  .cb-msg {
+    display: flex;
+    gap: 8px;
+    animation: cb-fadein 0.3s ease;
+  }
+  @keyframes cb-fadein { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+
+  .cb-msg.user { flex-direction: row-reverse; }
+
+  .cb-msg-avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    flex-shrink: 0; display: flex; align-items: center;
+    justify-content: center; font-size: 14px;
+    margin-top: 2px;
+  }
+  .cb-msg.bot .cb-msg-avatar {
+    background: linear-gradient(135deg, #1a3a22, #0f2016);
+    border: 1px solid var(--cb-border);
+  }
+  .cb-msg.user .cb-msg-avatar {
+    background: rgba(46,204,113,0.15);
+    border: 1px solid rgba(46,204,113,0.2);
+  }
+
+  .cb-bubble {
+    max-width: 82%;
+    padding: 10px 14px;
+    border-radius: 16px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    font-family: 'Manrope', sans-serif;
+  }
+  .cb-msg.bot .cb-bubble {
+    background: var(--cb-bot-bg);
+    color: var(--cb-text);
+    border: 1px solid var(--cb-border);
+    border-bottom-left-radius: 4px;
+  }
+  .cb-msg.user .cb-bubble {
+    background: var(--cb-user-bg);
+    color: #c8f5d8;
+    border: 1px solid rgba(84,233,138,0.18);
+    border-bottom-right-radius: 4px;
+  }
+
+  /* Link button inside bot message */
+  .cb-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 8px;
+    padding: 6px 12px;
+    background: linear-gradient(135deg, rgba(46,204,113,0.2), rgba(46,204,113,0.08));
+    border: 1px solid rgba(84,233,138,0.3);
+    border-radius: 20px;
+    color: var(--cb-green) !important;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-decoration: none !important;
+    text-transform: uppercase;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .cb-link-btn:hover {
+    background: rgba(46,204,113,0.25);
+    border-color: rgba(84,233,138,0.5);
+  }
+  .cb-link-btn svg { width: 12px; height: 12px; }
+
+  /* Typing indicator */
+  .cb-typing {
+    display: flex; align-items: center; gap: 5px; padding: 10px 14px;
+    background: var(--cb-bot-bg); border: 1px solid var(--cb-border);
+    border-radius: 16px; border-bottom-left-radius: 4px;
+    width: fit-content;
+  }
+  .cb-typing span {
+    width: 7px; height: 7px; background: var(--cb-green);
+    border-radius: 50%; animation: cb-typing 1.2s infinite ease-in-out;
+  }
+  .cb-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .cb-typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes cb-typing {
+    0%,80%,100% { transform:scale(0.6); opacity:0.4; }
+    40%          { transform:scale(1);   opacity:1; }
+  }
+
+  /* ── Quick replies ── */
+  #cb-quick {
+    padding: 8px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    border-top: 1px solid var(--cb-border);
+    background: var(--cb-surface);
+  }
+  .cb-quick-btn {
+    padding: 5px 12px;
+    background: rgba(84,233,138,0.06);
+    border: 1px solid rgba(84,233,138,0.18);
+    border-radius: 20px;
+    color: var(--cb-green);
+    font-size: 11px;
+    font-family: 'Manrope', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+  .cb-quick-btn:hover {
+    background: rgba(84,233,138,0.15);
+    border-color: rgba(84,233,138,0.4);
+  }
+
+  /* ── Input area ── */
+  #cb-input-area {
+    padding: 12px 16px;
+    border-top: 1px solid var(--cb-border);
+    background: var(--cb-surface2);
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  #cb-input {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 9px 16px;
+    color: var(--cb-text);
+    font-size: 13px;
+    font-family: 'Manrope', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  #cb-input:focus { border-color: rgba(84,233,138,0.4); }
+  #cb-input::placeholder { color: var(--cb-muted); }
+  #cb-send {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 16px rgba(46,204,113,0.25);
+  }
+  #cb-send:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(46,204,113,0.4); }
+  #cb-send svg { width: 17px; height: 17px; fill: #fff; }
+
+  /* ── Mobile ── */
+  @media (max-width: 420px) {
+    :root { --cb-w: calc(100vw - 24px); }
+    #cb-window { right: 12px; bottom: 90px; }
+    #cb-toggle { right: 16px; bottom: 20px; }
+  }
+
+  /* Light mode overrides */
+  html.light #cb-window {
+    --cb-bg: #f8faf9;
+    --cb-surface: #f0f4f2;
+    --cb-surface2: #eaf0ec;
+    --cb-border: rgba(46, 204, 113, 0.2);
+    --cb-text: #1a1c1c;
+    --cb-muted: #6b7c6f;
+    --cb-bot-bg: #f0f5f2;
+    --cb-user-bg: #e0f5e9;
+    background: var(--cb-bg);
+  }
+  html.light #cb-header { background: linear-gradient(135deg, #e8f5ee, #ddf0e7); }
+  html.light #cb-header .cb-header-info h3 { color: #1a1c1c; }
+  html.light .cb-bubble { color: #1a1c1c; }
+  html.light .cb-msg.bot .cb-bubble { background: #f0f5f2; border-color: rgba(46,204,113,0.18); }
+  html.light .cb-msg.user .cb-bubble { background: #dcf0e5; color: #0d3320; }
+  html.light #cb-input { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.1); color: #1a1c1c; }
+  html.light #cb-input::placeholder { color: #9aada0; }
+</style>
+
+<!-- ===================== CHATBOT HTML ===================== -->
+
+<!-- Floating Toggle Button -->
+<button id="cb-toggle" aria-label="Open chat assistant" title="Chat with Bloom">
+  <span id="cb-notif"></span>
+  <!-- Flower/Chat icon -->
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 3.0 1.01 4.29L2 22l5.71-1.01C9 21.64 10.46 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.38 0-2.68-.31-3.84-.86l-.27-.13-2.82.5.5-2.82-.13-.27C4.31 15.18 4 13.88 4 12.5 4 7.81 7.81 4 12.5 4S21 7.81 21 12.5 17.19 21 12.5 21H12zm5-8h-4V8h-2v5H7v2h4v4h2v-4h4v-2z"/>
+  </svg>
+</button>
+
+<!-- Chat Window -->
+<div id="cb-window" role="dialog" aria-label="Bloom floral assistant">
+
+  <!-- Header -->
+  <div id="cb-header">
+    <div class="cb-avatar">🌸</div>
+    <div class="cb-header-info">
+      <h3>Bloom Assistant</h3>
+      <p><span class="cb-online-dot"></span> Online · Here to help</p>
+    </div>
+    <button id="cb-close" aria-label="Close chat">✕</button>
+  </div>
+
+  <!-- Messages -->
+  <div id="cb-messages"></div>
+
+  <!-- Quick Replies -->
+  <div id="cb-quick">
+    <button class="cb-quick-btn" data-msg="birthday flowers">🎂 Birthday</button>
+    <button class="cb-quick-btn" data-msg="wedding bouquet">💍 Wedding</button>
+    <button class="cb-quick-btn" data-msg="graduation flowers">🎓 Graduation</button>
+    <button class="cb-quick-btn" data-msg="valentine roses">❤️ Valentine</button>
+    <button class="cb-quick-btn" data-msg="luxury flowers">💎 Luxury</button>
+    <button class="cb-quick-btn" data-msg="delivery">🚚 Delivery</button>
+  </div>
+
+  <!-- Input -->
+  <div id="cb-input-area">
+    <input id="cb-input" type="text" placeholder="Ask about flowers, occasions..." maxlength="200" autocomplete="off">
+    <button id="cb-send" aria-label="Send message">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ===================== CHATBOT SCRIPT ===================== -->
+<script>
+(function () {
+  'use strict';
+
+  // ── DOM refs ──
+  const toggle   = document.getElementById('cb-toggle');
+  const window_  = document.getElementById('cb-window');
+  const closeBtn = document.getElementById('cb-close');
+  const messages = document.getElementById('cb-messages');
+  const input    = document.getElementById('cb-input');
+  const sendBtn  = document.getElementById('cb-send');
+  const notif    = document.getElementById('cb-notif');
+  const quickBtns = document.querySelectorAll('.cb-quick-btn');
+
+  let isOpen = false;
+  let isTyping = false;
+  let welcomed = false;
+
+  // ── Open / Close ──
+  function openChat() {
+    isOpen = true;
+    window_.classList.add('open');
+    toggle.classList.add('open');
+    notif.style.display = 'none';
+    input.focus();
+    if (!welcomed) {
+      welcomed = true;
+      setTimeout(() => showBotMessage(
+        "🌸 Welcome to <strong>Bloom Store</strong>! I'm your personal floral assistant.<br><br>Tell me about an occasion, emotion, or flower type — and I'll guide you to the perfect arrangement. What brings you here today?",
+        "/shop",
+        "Browse All Flowers"
+      ), 400);
+    }
+  }
+
+  function closeChat() {
+    isOpen = false;
+    window_.classList.remove('open');
+    toggle.classList.remove('open');
+  }
+
+  toggle.addEventListener('click', () => isOpen ? closeChat() : openChat());
+  closeBtn.addEventListener('click', closeChat);
+
+  // Close on outside click
+  document.addEventListener('click', (e) => {
+    if (isOpen && !window_.contains(e.target) && e.target !== toggle) {
+      closeChat();
+    }
+  });
+
+  // ── Append user message ──
+  function appendUserMessage(text) {
+    const div = document.createElement('div');
+    div.className = 'cb-msg user';
+    div.innerHTML = `
+      <div class="cb-msg-avatar">👤</div>
+      <div class="cb-bubble">${escapeHtml(text)}</div>
+    `;
+    messages.appendChild(div);
+    scrollToBottom();
+  }
+
+  // ── Show bot message ──
+  function showBotMessage(text, link, label) {
+    removeTyping();
+    const div = document.createElement('div');
+    div.className = 'cb-msg bot';
+    const linkHtml = link ? `
+      <br>
+      <a href="${link}" class="cb-link-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+        ${escapeHtml(label || 'View')}
+      </a>` : '';
+    div.innerHTML = `
+      <div class="cb-msg-avatar">🌸</div>
+      <div class="cb-bubble">${text}${linkHtml}</div>
+    `;
+    messages.appendChild(div);
+    scrollToBottom();
+  }
+
+  // ── Typing indicator ──
+  function showTyping() {
+    if (isTyping) return;
+    isTyping = true;
+    const div = document.createElement('div');
+    div.className = 'cb-msg bot';
+    div.id = 'cb-typing-msg';
+    div.innerHTML = `
+      <div class="cb-msg-avatar">🌸</div>
+      <div class="cb-typing"><span></span><span></span><span></span></div>
+    `;
+    messages.appendChild(div);
+    scrollToBottom();
+  }
+
+  function removeTyping() {
+    isTyping = false;
+    const el = document.getElementById('cb-typing-msg');
+    if (el) el.remove();
+  }
+
+  // ── Scroll ──
+  function scrollToBottom() {
+    requestAnimationFrame(() => {
+      messages.scrollTop = messages.scrollHeight;
+    });
+  }
+
+  // ── Escape HTML ──
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);
+  }
+
+  // ── Send message ──
+  async function sendMessage() {
+    const text = input.value.trim();
+    if (!text || isTyping) return;
+
+    input.value = '';
+    appendUserMessage(text);
+    showTyping();
+
+    try {
+      const res = await fetch('/api/chatbot/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text })
+      });
+      const data = await res.json();
+
+      // Small delay for natural feel
+      setTimeout(() => {
+        showBotMessage(data.reply, data.link, data.label);
+      }, 600);
+
+    } catch (err) {
+      setTimeout(() => {
+        showBotMessage(
+          "🌿 Sorry, I'm having trouble connecting right now. Please try again in a moment or visit our shop directly.",
+          "/shop",
+          "Browse Shop"
+        );
+      }, 600);
+    }
+  }
+
+  // ── Event listeners ──
+  sendBtn.addEventListener('click', sendMessage);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  // Quick reply buttons
+  quickBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!isOpen) openChat();
+      input.value = btn.getAttribute('data-msg');
+      setTimeout(sendMessage, 100);
+    });
+  });
+
+  // Show notification dot after 3s if chat not opened
+  setTimeout(() => {
+    if (!isOpen) notif.style.display = 'block';
+  }, 3000);
+
+})();
+</script>
+</body>
+</html>

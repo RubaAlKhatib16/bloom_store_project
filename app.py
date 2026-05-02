@@ -3,14 +3,12 @@ from flask_cors import CORS
 
 #openai.api_key = "YOUR_API_KEY"
 
-from flask import Flask, jsonify, request, render_template
 from db import get_db_connection
 from apscheduler.schedulers.background import BackgroundScheduler
 from scheduler_jobs import check_reminders_and_notify_job
 from routes.auth_routes import auth_bp
 from routes.flower_routes import flower_bp
-
-
+from flask import Flask, jsonify, request, render_template, redirect
 
 from flask_jwt_extended import (
     JWTManager,
@@ -51,6 +49,7 @@ from routes.occasion_routes import occasion_bp
 from routes.consultation_routes import consultation_bp
 from routes.contact_routes import contact_bp
 
+from routes.chatbot_route import chatbot_bp
 
 # تسجيل Blueprints مع prefix للـ API
 app.register_blueprint(auth_bp, url_prefix='/api/auth')  
@@ -64,6 +63,7 @@ app.register_blueprint(occasion_bp)
 app.register_blueprint(consultation_bp)
 app.register_blueprint(cart_bp, url_prefix='/api/cart')
 app.register_blueprint(contact_bp)
+app.register_blueprint(chatbot_bp, url_prefix='/api/chatbot')
 # Scheduler
 scheduler = BackgroundScheduler()
 scheduler.add_job(func=check_reminders_and_notify_job, trigger="cron", hour=9, minute=0)
@@ -119,9 +119,23 @@ def consultation_page():
 def order_confirmation(order_id):
     return render_template('order-confirmation.html', order_id=order_id)
 
+@app.route('/bouquets')
+def bouquets_page():
+    return render_template('bouquets.html')
+
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
+
+    
+@app.route('/occasion/<slug>')
+def occasion_products_page(slug):
+    return render_template('occasion-products.html')
+
+@app.route('/admin/dashboard')
+def admin_dashboard():
+    return render_template('admin_dashboard.html')
+
 
 @app.route('/status')
 def status():

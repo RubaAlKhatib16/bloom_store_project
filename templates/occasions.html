@@ -23,15 +23,17 @@
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
 
+        /* ========== LIGHT MODE ENHANCEMENTS ========== */
         html.light body {
-            background-color: #f4f7f5;
-            color: #1a1c1c;
+            background: #f8fafc;
+            color: #f5f6f9;
         }
 
         html.light .glass-panel {
-            background: rgba(255, 255, 255, 0.80);
+            background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(46, 204, 113, 0.15);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
         }
 
         html.light .emerald-glow-hover:hover {
@@ -39,31 +41,45 @@
         }
 
         html.light nav {
-            background: rgba(255, 255, 255, 0.88) !important;
+            background: rgba(255, 255, 255, 0.92) !important;
+            border-bottom-color: rgba(0, 0, 0, 0.06) !important;
         }
 
         html.light .text-white\/70,
         html.light .text-white {
-            color: #1a1c1c !important;
+            color: #1e293b !important;
         }
 
         html.light .text-white\/70 {
-            color: #4a5568 !important;
+            color: #475569 !important;
         }
 
         html.light footer.bg-gray-950 {
-            background-color: #f0f4f2 !important;
-            border-color: rgba(0, 0, 0, 0.08);
+            background-color: #ffffff !important;
+            border-top: 1px solid #e2e8f0;
         }
 
         html.light .bg-gray-950 {
-            background-color: #f0f4f2 !important;
+            background-color: #ffffff !important;
         }
 
         html.light .bg-surface-container {
             background-color: rgba(0, 0, 0, 0.02);
         }
 
+        html.light .text-primary {
+            color: #0f6e3a;
+        }
+
+        html.light .bg-primary {
+            background-color: #2ecc71;
+        }
+
+        html.light .bg-primary\/10 {
+            background-color: rgba(46, 204, 113, 0.1);
+        }
+
+        /* ========== DARK MODE (unchanged) ========== */
         html.dark body {
             background-color: #111415;
             color: #e1e3e4;
@@ -162,7 +178,7 @@
         }
 
         html.light .hero-dot {
-            background-color: rgba(0, 0, 0, 0.4);
+            background-color: rgba(0, 0, 0, 0.3);
         }
 
         html.light .hero-dot.active {
@@ -171,6 +187,19 @@
 
         [dir="rtl"] .flex-row {
             flex-direction: row-reverse;
+        }
+
+        /* Light mode text overrides */
+        html.light .text-on-surface-variant {
+            color: #475569;
+        }
+
+        html.light .text-on-surface {
+            color: #1e293b;
+        }
+
+        html.light .border-outline-variant {
+            border-color: #e2e8f0;
         }
     </style>
     <script>
@@ -199,34 +228,68 @@
 <body class="font-body-md bg-background text-on-background">
 
     <!-- Top Navigation Bar -->
-    <nav
-        class="fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-[1200px] rounded-lg border border-white/10 bg-gray-950/60 backdrop-blur-md flex justify-between items-center px-8 py-4 z-50 shadow-[0_0_40px_rgba(46,204,113,0.1)]">
-        <div class="text-2xl font-serif italic text-emerald-400" id="brandName">Bloom Store</div>
-        <div class="hidden md:flex gap-8 items-center">
-            <a href="/" class="font-serif text-sm tracking-wide uppercase font-medium text-white/70 hover:text-white transition-colors" id="navHome">Home</a>
-            <a href="/shop" class="font-serif text-sm tracking-wide uppercase font-medium text-white/70 hover:text-white transition-colors" id="navShop">Shop</a>
-            <a href="/categories" class="font-serif text-sm tracking-wide uppercase font-medium text-white/70 hover:text-white transition-colors" id="navCategories">Categories</a>
-            <a href="/occasions" class="font-serif text-sm tracking-wide uppercase font-medium text-emerald-400 border-b-2 border-emerald-400 pb-1" id="navOccasions">Occasions</a>
-            <a href="/contact" class="font-serif text-sm tracking-wide uppercase font-medium text-white/70 hover:text-white transition-colors" id="navContact">Contact</a>
+    <nav class="fixed top-0 w-full z-50 border-b border-white/10 bg-zinc-950/70 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+    <div class="flex justify-between items-center px-8 py-4 w-full max-w-7xl mx-auto">
+        <div class="text-2xl font-serif font-light tracking-[0.2em] text-emerald-500" id="brandName">BLOOM</div>
+        <div class="hidden md:flex items-center gap-8">
+            <a href="/" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navHome">Home</a>
+            <a href="/shop" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navShop">Shop</a>
+            <a href="/categories" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navCategory">Categories</a>
+            <a href="/occasions" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navOccasions">Occasions</a>
+            <a href="/bouquets" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navBouquets">Bouquets</a>
+            <a href="/contact" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navContact">Contact</a>
         </div>
         <div class="flex items-center gap-6">
-            <button id="themeToggle" class="text-white/70 hover:text-emerald-400 transition-all"><span class="material-symbols-outlined">light_mode</span></button>
-            <button id="langToggle" class="text-white/70 hover:text-emerald-400 transition-all text-sm font-bold px-2 py-1 rounded-full border border-white/20">AR</button>
-            <a href="/cart" class="text-white/70 hover:text-emerald-400 transition-all relative">
-                <span class="material-symbols-outlined">shopping_cart</span>
+            <button id="themeToggle" class="text-emerald-500 hover:bg-white/5 p-2 rounded-full"><span class="material-symbols-outlined">light_mode</span></button>
+            <button id="langToggle" class="text-emerald-500 border border-emerald-500/50 px-3 py-1 rounded-full text-sm font-bold">AR</button>
+            <a href="/cart" class="relative">
+                <span class="material-symbols-outlined text-emerald-500">shopping_cart</span>
                 <span id="cartCount" class="absolute -top-2 -right-2 bg-emerald-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
             </a>
-            <a href="/profile" class="text-white/70 hover:text-emerald-400 transition-all"><span class="material-symbols-outlined">person</span></a>
+            <a href="/profile" class="material-symbols-outlined text-emerald-500">person</a>
         </div>
-    </nav>
+    </div>
+</nav>
+
+<script>
+    // دالة لتفعيل الرابط النشط في شريط التنقل
+    function setActiveNavLink() {
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        navLinks.forEach(link => {
+            // إزالة الكلاسات النشطة من جميع الروابط
+            link.classList.remove('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
+            link.classList.add('text-zinc-400');
+            
+            const linkPath = link.getAttribute('href');
+            
+            // التحقق من تطابق المسار (مع معالجة الحالة الخاصة للصفحة الرئيسية)
+            if (linkPath === '/' && (currentPath === '/' || currentPath === '')) {
+                link.classList.add('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
+                link.classList.remove('text-zinc-400');
+            } else if (linkPath !== '/' && currentPath.startsWith(linkPath)) {
+                link.classList.add('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
+                link.classList.remove('text-zinc-400');
+            }
+        });
+    }
+    
+    // تنفيذ الدالة عند تحميل الصفحة وأيضاً عند تغيير المسار (للمشاريع التي تستخدم History API)
+    document.addEventListener('DOMContentLoaded', setActiveNavLink);
+    window.addEventListener('popstate', setActiveNavLink);
+</script>
 
     <!-- Hero Carousel (Dynamic) -->
     <div id="heroContainer" class="hero-slider relative h-screen">
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1 class="font-display-lg text-display-lg text-white mb-4" id="heroTitle">Unforgettable Moments</h1>
-            <p class="font-body-lg text-body-lg text-white/90 max-w-2xl mx-auto mb-8" id="heroDesc">Curating the silent language of flowers for life's most precious milestones.</p>
-            <button id="heroExploreBtn" class="px-8 py-3 bg-primary text-on-primary font-label-caps text-label-caps uppercase tracking-widest rounded-full emerald-glow-hover transition-all">Explore Collection</button>
+            <p class="font-body-lg text-body-lg text-white/90 max-w-2xl mx-auto mb-8" id="heroDesc">Curating the silent
+                language of flowers for life's most precious milestones.</p>
+            <button id="heroExploreBtn"
+                class="px-8 py-3 bg-primary text-on-primary font-label-caps text-label-caps uppercase tracking-widest rounded-full emerald-glow-hover transition-all">Explore
+                Collection</button>
         </div>
         <div class="hero-dots" id="heroDots"></div>
     </div>
@@ -235,17 +298,24 @@
     <section class="max-w-[1200px] mx-auto px-4 md:px-8 -mt-16 relative z-20">
         <div class="glass-panel rounded-xl grid grid-cols-1 md:grid-cols-2 gap-8 p-6 md:p-8 shadow-xl">
             <div class="flex items-center gap-4">
-                <div class="w-12 h-12 flex items-center justify-center rounded-full bg-primary/10 text-primary"><span class="material-symbols-outlined text-3xl">schedule</span></div>
+                <div class="w-12 h-12 flex items-center justify-center rounded-full bg-primary/10 text-primary"><span
+                        class="material-symbols-outlined text-3xl">schedule</span></div>
                 <div>
-                    <h4 class="font-headline-sm text-sm uppercase tracking-widest mb-1 text-on-surface" id="trustTitle1">Timely Delivery</h4>
-                    <p class="text-on-surface-variant text-sm" id="trustDesc1">Pristine arrangements delivered with clockwork precision for your event.</p>
+                    <h4 class="font-headline-sm text-sm uppercase tracking-widest mb-1 text-on-surface"
+                        id="trustTitle1">Timely Delivery</h4>
+                    <p class="text-on-surface-variant text-sm" id="trustDesc1">Pristine arrangements delivered with
+                        clockwork precision for your event.</p>
                 </div>
             </div>
-            <div class="flex items-center gap-4 border-t md:border-t-0 md:border-l border-outline-variant pt-6 md:pt-0 md:pl-8">
-                <div class="w-12 h-12 flex items-center justify-center rounded-full bg-primary/10 text-primary"><span class="material-symbols-outlined text-3xl">brush</span></div>
+            <div
+                class="flex items-center gap-4 border-t md:border-t-0 md:border-l border-outline-variant pt-6 md:pt-0 md:pl-8">
+                <div class="w-12 h-12 flex items-center justify-center rounded-full bg-primary/10 text-primary"><span
+                        class="material-symbols-outlined text-3xl">brush</span></div>
                 <div>
-                    <h4 class="font-headline-sm text-sm uppercase tracking-widest mb-1 text-on-surface" id="trustTitle2">Artisan Crafted</h4>
-                    <p class="text-on-surface-variant text-sm" id="trustDesc2">Every bouquet is a unique masterpiece hand-assembled by master florists.</p>
+                    <h4 class="font-headline-sm text-sm uppercase tracking-widest mb-1 text-on-surface"
+                        id="trustTitle2">Artisan Crafted</h4>
+                    <p class="text-on-surface-variant text-sm" id="trustDesc2">Every bouquet is a unique masterpiece
+                        hand-assembled by master florists.</p>
                 </div>
             </div>
         </div>
@@ -267,20 +337,37 @@
         <div class="max-w-[1200px] mx-auto px-4 md:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <div class="order-2 md:order-1">
-                    <h2 class="font-headline-md text-headline-md mb-4 text-on-surface" id="servicesTitle">Bespoke Event Styling</h2>
-                    <p class="font-body-lg text-body-lg text-on-surface-variant mb-6" id="servicesDesc">Transforming spaces into living art. Our lead florists work directly with you to conceptualize and execute large-scale botanical installations that redefine your venue.</p>
+                    <h2 class="font-headline-md text-headline-md mb-4 text-on-surface" id="servicesTitle">Bespoke Event
+                        Styling</h2>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant mb-6" id="servicesDesc">Transforming
+                        spaces into living art. Our lead florists work directly with you to conceptualize and execute
+                        large-scale botanical installations that redefine your venue.</p>
                     <div class="space-y-3 mb-6">
-                        <div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary">check_circle</span><span class="font-body-md" id="service1">Initial Moodboard &amp; Conceptualization</span></div>
-                        <div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary">check_circle</span><span class="font-body-md" id="service2">Sourcing Rare &amp; Seasonal Blooms</span></div>
-                        <div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary">check_circle</span><span class="font-body-md" id="service3">On-site Installation &amp; Strike</span></div>
+                        <div class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-primary">check_circle</span><span
+                                class="font-body-md" id="service1">Initial Moodboard &amp; Conceptualization</span>
+                        </div>
+                        <div class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-primary">check_circle</span><span
+                                class="font-body-md" id="service2">Sourcing Rare &amp; Seasonal Blooms</span></div>
+                        <div class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-primary">check_circle</span><span
+                                class="font-body-md" id="service3">On-site Installation &amp; Strike</span></div>
                     </div>
-                    <a href="/consultation" id="consultBtn" class="inline-block px-6 py-2 border-2 border-primary text-primary font-label-caps text-label-caps rounded-full hover:bg-primary hover:text-on-primary transition-all">BOOK A CONSULTATION</a>
+                    <a href="/consultation" id="consultBtn"
+                        class="inline-block px-6 py-2 border-2 border-primary text-primary font-label-caps text-label-caps rounded-full hover:bg-primary hover:text-on-primary transition-all">BOOK
+                        A CONSULTATION</a>
                 </div>
                 <div class="order-1 md:order-2 relative">
-                    <div class="aspect-square glass-panel p-4 rounded-xl"><img class="w-full h-full object-cover rounded-lg shadow-2xl" src="../static/images/imageoccasion/bloom.png" alt="Florist working"></div>
-                    <div class="absolute -bottom-8 -left-8 glass-panel p-4 rounded-xl max-w-xs shadow-2xl hidden md:block">
-                        <h4 class="font-headline-sm text-sm mb-1 text-primary" id="subscriptionTitle">Subscription Gifts</h4>
-                        <p class="text-xs text-on-surface-variant" id="subscriptionDesc">Give the gift of ongoing beauty. Weekly or monthly botanical rotations.</p>
+                    <div class="aspect-square glass-panel p-4 rounded-xl"><img
+                            class="w-full h-full object-cover rounded-lg shadow-2xl"
+                            src="../static/images/imageoccasion/bloom.png" alt="Florist working"></div>
+                    <div
+                        class="absolute -bottom-8 -left-8 glass-panel p-4 rounded-xl max-w-xs shadow-2xl hidden md:block">
+                        <h4 class="font-headline-sm text-sm mb-1 text-primary" id="subscriptionTitle">Subscription Gifts
+                        </h4>
+                        <p class="text-xs text-on-surface-variant" id="subscriptionDesc">Give the gift of ongoing
+                            beauty. Weekly or monthly botanical rotations.</p>
                     </div>
                 </div>
             </div>
@@ -290,9 +377,24 @@
     <!-- Footer -->
     <footer class="bg-gray-950 w-full border-t border-white/5 py-12">
         <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="text-center md:text-left"><div class="text-lg font-serif italic text-white mb-2" id="footerBrand">Bloom Store</div><p class="font-serif text-xs uppercase tracking-widest text-white/40" id="footerCopyright">© 2024 Bloom Store. Botanical Elegance.</p></div>
-            <div class="flex flex-wrap justify-center gap-8"><a href="#" class="font-serif text-xs uppercase tracking-widest text-white/40 hover:text-emerald-400 transition-colors" id="footerPrivacy">Privacy Policy</a><a href="#" class="font-serif text-xs uppercase tracking-widest text-white/40 hover:text-emerald-400 transition-colors" id="footerTerms">Terms of Service</a><a href="#" class="font-serif text-xs uppercase tracking-widest text-white/40 hover:text-emerald-400 transition-colors" id="footerShipping">Shipping Info</a><a href="#" class="font-serif text-xs uppercase tracking-widest text-white/40 hover:text-emerald-400 transition-colors" id="footerContact">Contact</a></div>
-            <div class="flex gap-6"><span class="material-symbols-outlined text-white/40 cursor-pointer hover:text-emerald-300 transition-colors">nest_eco_leaf</span><span class="material-symbols-outlined text-white/40 cursor-pointer hover:text-emerald-300 transition-colors">potted_plant</span></div>
+            <div class="text-center md:text-left">
+                <div class="text-lg font-serif italic text-white mb-2" id="footerBrand">Bloom Store</div>
+                <p class="font-serif text-xs uppercase tracking-widest text-white/40" id="footerCopyright">© 2026 Bloom
+                    Store. Botanical Elegance.</p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-8"><a href="#"
+                    class="font-serif text-xs uppercase tracking-widest text-white/40 hover:text-emerald-400 transition-colors"
+                    id="footerPrivacy">Privacy Policy</a><a href="#"
+                    class="font-serif text-xs uppercase tracking-widest text-white/40 hover:text-emerald-400 transition-colors"
+                    id="footerTerms">Terms of Service</a><a href="#"
+                    class="font-serif text-xs uppercase tracking-widest text-white/40 hover:text-emerald-400 transition-colors"
+                    id="footerShipping">Shipping Info</a><a href="#"
+                    class="font-serif text-xs uppercase tracking-widest text-white/40 hover:text-emerald-400 transition-colors"
+                    id="footerContact">Contact</a></div>
+            <div class="flex gap-6"><span
+                    class="material-symbols-outlined text-white/40 cursor-pointer hover:text-emerald-300 transition-colors">nest_eco_leaf</span><span
+                    class="material-symbols-outlined text-white/40 cursor-pointer hover:text-emerald-300 transition-colors">potted_plant</span>
+            </div>
         </div>
     </footer>
 
@@ -312,10 +414,11 @@
         let currentTheme = localStorage.getItem('bloomTheme') || 'dark';
         let occasionsData = [];
 
-        // ========== TRANSLATIONS ==========
+        // ========== TRANSLATIONS (FULL) ==========
         const dict = {
             en: {
-                brandName: 'Bloom Store', navHome: 'Home', navShop: 'Shop', navCategories: 'Categories', navOccasions: 'Occasions', navContact: 'Contact',
+                brandName: 'Bloom Store', navHome: 'Home', navShop: 'Shop',navBouquets: 'Bouquets', navCategory: 'Categories', navOccasions: 'Occasions', navBouquets: 'Bouquets', navContact: 'Contact',
+                heroTitle: 'Unforgettable Moments', heroDesc: 'Curating the silent language of flowers for life\'s most precious milestones.', heroExploreBtn: 'Explore Collection',
                 trustTitle1: 'Timely Delivery', trustDesc1: 'Pristine arrangements delivered with clockwork precision for your event.',
                 trustTitle2: 'Artisan Crafted', trustDesc2: 'Every bouquet is a unique masterpiece hand-assembled by master florists.',
                 gridTitle: 'Browse by Occasion',
@@ -323,24 +426,23 @@
                 service1: 'Initial Moodboard & Conceptualization', service2: 'Sourcing Rare & Seasonal Blooms', service3: 'On-site Installation & Strike',
                 consultBtn: 'BOOK A CONSULTATION',
                 subscriptionTitle: 'Subscription Gifts', subscriptionDesc: 'Give the gift of ongoing beauty. Weekly or monthly botanical rotations.',
-                footerBrand: 'Bloom Store', footerCopyright: '© 2024 Bloom Store. Botanical Elegance.',
+                footerBrand: 'Bloom Store', footerCopyright: '© 2026 Bloom Store. Botanical Elegance.',
                 footerPrivacy: 'Privacy Policy', footerTerms: 'Terms of Service', footerShipping: 'Shipping Info', footerContact: 'Contact',
-                heroExploreBtn: 'Explore Collection', exploreBtn: 'EXPLORE COLLECTION →', viewGallery: 'VIEW GALLERY →', explore: 'EXPLORE',
-                loading: 'Loading...'
+                explore: 'EXPLORE', loading: 'Loading...'
             },
             ar: {
-                brandName: 'شغف', navHome: 'الرئيسية', navShop: 'تسوق', navCategories: 'الفئات', navOccasions: 'المناسبات', navContact: 'اتصل بنا',
+                brandName: 'شغف', navHome: 'الرئيسية', navShop: 'تسوق',navBouquets: 'باقات', navCategory: 'الفئات', navOccasions: 'المناسبات', navBouquets: 'باقات', navContact: 'اتصل بنا',
+                heroTitle: 'لحظات لا تُنسى', heroDesc: 'تنظيم لغة الزهور الصامتة لأثمن لحظات الحياة.', heroExploreBtn: 'استكشف المجموعة',
                 trustTitle1: 'تسليم في الوقت المحدد', trustDesc1: 'تنسيقات نقية يتم تسليمها بدقة متناهية لحدثك.',
                 trustTitle2: 'صناعة حرفية', trustDesc2: 'كل باقة هي تحفة فنية فريدة يتم تجميعها يدويًا بواسطة كبار خبراء الزهور.',
                 gridTitle: 'تصفح حسب المناسبة',
                 servicesTitle: 'تصميم خاص للمناسبات', servicesDesc: 'تحويل المساحات إلى فن حي. يعمل كبار خبراء الزهور لدينا مباشرة معك لوضع وتنفيذ تركيبات نباتية واسعة النطاق تعيد تعريف مكانك.',
                 service1: 'لوحة المزاج الأولية والتخطيط', service2: 'الحصول على الأزهار النادرة والموسمية', service3: 'التركيب والإزالة في الموقع',
                 consultBtn: 'احجز استشارة',
-                subscriptionTitle: 'هدايا الاشتراك', subscriptionDesc: 'اهدَ هدية الجمال المستمر. تشكيلات نباتية أسبوعية أو شهرية لمنزلهم أو مكتبهم.',
-                footerBrand: 'شغف', footerCopyright: '© 2024 شغف. أناقة نباتية.',
+                subscriptionTitle: 'هدايا الاشتراك', subscriptionDesc: 'اهدَ هدية الجمال المستمر. تشكيلات نباتية أسبوعية أو شهرية.',
+                footerBrand: 'شغف', footerCopyright: '© 2026 شغف. أناقة نباتية.',
                 footerPrivacy: 'سياسة الخصوصية', footerTerms: 'شروط الخدمة', footerShipping: 'معلومات الشحن', footerContact: 'اتصل بنا',
-                heroExploreBtn: 'استكشف المجموعة', exploreBtn: 'اكتشف المجموعة ←', viewGallery: 'استعراض المعرض ←', explore: 'استكشف',
-                loading: 'جاري التحميل...'
+                explore: 'استكشف', loading: 'جاري التحميل...'
             }
         };
 
@@ -348,13 +450,12 @@
             const t = dict[lang];
             htmlTag.setAttribute('lang', lang);
             htmlTag.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-            for (let id in t) { 
-                const el = document.getElementById(id); 
-                if (el) el.innerText = t[id]; 
+            for (let id in t) {
+                const el = document.getElementById(id);
+                if (el) el.innerText = t[id];
             }
             document.getElementById('langToggle').innerText = (lang === 'en') ? 'AR' : 'EN';
             renderOccasions();
-            // Update hero slider text if slides exist
             if (slidesData.length > 0) updateHeroSlideContent(currentSlide, lang);
         }
 
@@ -390,31 +491,21 @@
         // ========== HERO SLIDER FUNCTIONS ==========
         function renderHeroSlider() {
             if (!slidesData.length) return;
-            
-            // Clear existing slides
             const existingSlides = document.querySelectorAll('.hero-slide:not(.hero-overlay):not(.hero-content)');
             existingSlides.forEach(slide => slide.remove());
-            
             slidesData.forEach((slide, idx) => {
                 const slideDiv = document.createElement('div');
                 slideDiv.className = `hero-slide ${idx === 0 ? 'active' : ''}`;
                 slideDiv.innerHTML = `<img src="${slide.image_url}" alt="${slide.name}">`;
                 heroContainer.appendChild(slideDiv);
             });
-            
-            // Re-add overlay and content to ensure correct z-index
             const overlay = document.querySelector('.hero-overlay');
             const contentDiv = document.querySelector('.hero-content');
             const dotsDiv = document.getElementById('heroDots');
-            
             if (overlay) heroContainer.appendChild(overlay);
             if (contentDiv) heroContainer.appendChild(contentDiv);
             if (dotsDiv) heroContainer.appendChild(dotsDiv);
-            
-            // Create dots
             dotsDiv.innerHTML = slidesData.map((_, i) => `<button class="hero-dot ${i === 0 ? 'active' : ''}" data-index="${i}"></button>`).join('');
-            
-            // Attach dot click events
             document.querySelectorAll('.hero-dot').forEach(dot => {
                 dot.addEventListener('click', (e) => {
                     const idx = parseInt(dot.getAttribute('data-index'));
@@ -422,7 +513,6 @@
                     resetAutoSlide();
                 });
             });
-            
             currentSlide = 0;
             updateHeroSlideContent(0, currentLang);
             startAutoSlide();
@@ -431,8 +521,8 @@
         function updateHeroSlideContent(index, lang) {
             if (!slidesData[index]) return;
             const slide = slidesData[index];
-            const title = lang === 'en' ? slide.name : (slide.name_ar || slide.name);
-            const desc = lang === 'en' ? slide.description : (slide.description_ar || slide.description);
+            const title = (lang === 'ar' && slide.name_ar) ? slide.name_ar : slide.name;
+            const desc = (lang === 'ar' && slide.description_ar) ? slide.description_ar : (slide.description || '');
             heroTitle.innerText = title;
             heroDesc.innerText = desc;
         }
@@ -445,15 +535,8 @@
             updateHeroSlideContent(currentSlide, currentLang);
         }
 
-        function nextSlide() { 
-            if (slidesData.length) showSlide((currentSlide + 1) % slidesData.length); 
-        }
-
-        function startAutoSlide() { 
-            if (autoInterval) clearInterval(autoInterval); 
-            if (slidesData.length) autoInterval = setInterval(nextSlide, 6000); 
-        }
-
+        function nextSlide() { if (slidesData.length) showSlide((currentSlide + 1) % slidesData.length); }
+        function startAutoSlide() { if (autoInterval) clearInterval(autoInterval); if (slidesData.length) autoInterval = setInterval(nextSlide, 6000); }
         function resetAutoSlide() { startAutoSlide(); }
 
         // ========== LOAD OCCASIONS ==========
@@ -467,18 +550,16 @@
                 occasionsData = data;
                 slidesData = data.filter(o => o.is_featured === true || o.is_featured === 1 || o.badge === 'featured').slice(0, 5);
                 if (slidesData.length === 0 && occasionsData.length > 0) slidesData = occasionsData.slice(0, 5);
-                
                 renderHeroSlider();
                 renderOccasions();
                 updateCartCount();
             } catch (err) {
                 console.error(err);
-                // Fallback data
                 occasionsData = [
-                    {id: 1, name: "Wedding", slug: "wedding", description: "Ethereal white and cream arrangements for your fairytale day.", image_url: "/static/images/imageoccasion/w.jpg", is_featured: true},
-                    {id: 2, name: "Birthday", slug: "birthday", description: "Vibrant blooms to make their day unforgettable.", image_url: "/static/images/imageoccasion/h.jpeg", is_featured: false},
-                    {id: 3, name: "Graduation", slug: "graduation", description: "Celebrate achievements with bright blossoms.", image_url: "/static/images/imageoccasion/g.jpeg", is_featured: false},
-                    {id: 4, name: "Anniversary", slug: "anniversary", description: "Timeless roses to celebrate your journey.", image_url: "/static/images/imageoccasion/l.jpeg", is_featured: false}
+                    { id: 1, name: "Wedding", slug: "wedding", description: "Ethereal white and cream arrangements for your fairytale day.", image_url: "/static/images/imageoccasion/w.jpg", is_featured: true, name_ar: "زفاف", description_ar: "تنسيقات بيضاء وكريمية ليومك الخيالي." },
+                    { id: 2, name: "Birthday", slug: "birthday", description: "Vibrant blooms to make their day unforgettable.", image_url: "/static/images/imageoccasion/h.jpeg", is_featured: false, name_ar: "عيد ميلاد", description_ar: "أزهار نابضة بالحياة لتجعل يومهم لا يُنسى." },
+                    { id: 3, name: "Graduation", slug: "graduation", description: "Celebrate achievements with bright blossoms.", image_url: "/static/images/imageoccasion/g.jpeg", is_featured: false, name_ar: "تخرج", description_ar: "احتفل بالإنجازات بأزهار مشرقة." },
+                    { id: 4, name: "Anniversary", slug: "anniversary", description: "Timeless roses to celebrate your journey.", image_url: "/static/images/imageoccasion/l.jpeg", is_featured: false, name_ar: "ذكرى سنوية", description_ar: "ورود خالدة للاحتفال برحلتكما." }
                 ];
                 slidesData = occasionsData.filter(o => o.is_featured).slice(0, 3);
                 renderHeroSlider();
@@ -490,8 +571,9 @@
 
         function renderOccasions() {
             const grid = document.getElementById('occasionsGrid');
-            const t = dict[currentLang];
-            
+            const lang = currentLang;
+            const t = dict[lang];
+
             // Remove duplicates by name
             const uniqueOccasions = [];
             const namesSet = new Set();
@@ -501,31 +583,34 @@
                     uniqueOccasions.push(occ);
                 }
             }
-            
+
             if (uniqueOccasions.length === 0) {
                 grid.innerHTML = `<div class="col-span-full text-center py-12 text-zinc-500">No occasions found.</div>`;
                 return;
             }
-            
-            grid.innerHTML = uniqueOccasions.map(occasion => `
-                <div class="group relative overflow-hidden glass-panel rounded-xl h-[400px] transition-all duration-500 hover:-translate-y-2">
+
+            grid.innerHTML = uniqueOccasions.map(occasion => {
+                const displayName = (lang === 'ar' && occasion.name_ar) ? occasion.name_ar : occasion.name;
+                const displayDesc = (lang === 'ar' && occasion.description_ar) ? occasion.description_ar : occasion.description;
+                return `
+                <a href="/occasion/${occasion.slug}" class="group relative overflow-hidden glass-panel rounded-xl h-[400px] transition-all duration-500 hover:-translate-y-2 block">
                     <div class="absolute inset-0">
                         <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
                              src="${occasion.image_url}" 
                              onerror="this.src='https://placehold.co/800x800?text=Bloom'"
-                             alt="${occasion.name}">
+                             alt="${displayName}">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 p-6 w-full">
                         ${occasion.badge ? `<span class="font-label-caps text-label-caps text-primary uppercase mb-2 inline-block">${occasion.badge}</span>` : ''}
-                        <h3 class="font-headline-md text-headline-md text-white mb-2">${occasion.name}</h3>
-                        <p class="text-white/70 text-sm mb-4 line-clamp-2">${occasion.description}</p>
-                        <a href="/shop?occasion=${occasion.slug}" class="inline-flex items-center gap-2 text-primary font-bold hover:underline transition-all">
+                        <h3 class="font-headline-md text-headline-md text-white mb-2">${displayName}</h3>
+                        <p class="text-white/70 text-sm mb-4 line-clamp-2">${displayDesc}</p>
+                        <span class="inline-flex items-center gap-2 text-primary font-bold hover:underline transition-all">
                             ${t.explore} <span class="material-symbols-outlined text-sm">arrow_forward</span>
-                        </a>
+                        </span>
                     </div>
-                </div>
-            `).join('');
+                </a>`;
+            }).join('');
         }
 
         // Event Listeners
@@ -539,5 +624,567 @@
         applyLanguage(currentLang);
         loadOccasions();
     </script>
+
+
+
+  <!--
+====================================================================
+  BLOOM STORE — CHATBOT WIDGET
+  
+  HOW TO USE:
+  Paste this entire block just before </body> in any HTML page.
+  The chatbot will appear as a floating button at bottom-right.
+====================================================================
+-->
+
+<!-- ===================== CHATBOT STYLES ===================== -->
+<style>
+  /* ── Chatbot root variables ── */
+  :root {
+    --cb-bg:        #0d1410;
+    --cb-surface:   #141c17;
+    --cb-surface2:  #1c2820;
+    --cb-border:    rgba(84, 233, 138, 0.15);
+    --cb-green:     #54e98a;
+    --cb-green2:    #2ecc71;
+    --cb-text:      #e1e3e4;
+    --cb-muted:     #7a8f80;
+    --cb-user-bg:   #1e3a2a;
+    --cb-bot-bg:    #192218;
+    --cb-radius:    18px;
+    --cb-w:         370px;
+    --cb-h:         520px;
+    --cb-z:         9999;
+  }
+
+  /* ── Floating toggle button ── */
+  #cb-toggle {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: var(--cb-z);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 32px rgba(46, 204, 113, 0.35), 0 0 0 0 rgba(46, 204, 113, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: cb-pulse 2.5s infinite;
+  }
+  #cb-toggle:hover {
+    transform: scale(1.08);
+    box-shadow: 0 12px 40px rgba(46, 204, 113, 0.5), 0 0 0 0 rgba(46, 204, 113, 0.4);
+  }
+  #cb-toggle svg { width: 28px; height: 28px; fill: #fff; transition: transform 0.3s; }
+  #cb-toggle.open svg { transform: rotate(45deg); }
+
+  @keyframes cb-pulse {
+    0%, 100% { box-shadow: 0 8px 32px rgba(46,204,113,0.35), 0 0 0 0 rgba(46,204,113,0.4); }
+    50%       { box-shadow: 0 8px 32px rgba(46,204,113,0.35), 0 0 0 10px rgba(46,204,113,0); }
+  }
+
+  /* Notification dot */
+  #cb-notif {
+    position: absolute;
+    top: 4px; right: 4px;
+    width: 14px; height: 14px;
+    background: #ff4d6d;
+    border-radius: 50%;
+    border: 2px solid #0d1410;
+    animation: cb-bounce 1s infinite alternate;
+  }
+  @keyframes cb-bounce { from { transform: scale(1); } to { transform: scale(1.3); } }
+
+  /* ── Chat window ── */
+  #cb-window {
+    position: fixed;
+    bottom: 100px;
+    right: 28px;
+    z-index: var(--cb-z);
+    width: var(--cb-w);
+    max-height: var(--cb-h);
+    background: var(--cb-bg);
+    border: 1px solid var(--cb-border);
+    border-radius: var(--cb-radius);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(84,233,138,0.08);
+    transform: translateY(20px) scale(0.95);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease;
+    overflow: hidden;
+  }
+  #cb-window.open {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* ── Header ── */
+  #cb-header {
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #1a2e1f, #0f1d13);
+    border-bottom: 1px solid var(--cb-border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .cb-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    box-shadow: 0 0 16px rgba(46,204,113,0.3);
+  }
+  .cb-header-info h3 {
+    color: #fff; font-size: 15px; font-weight: 600;
+    font-family: 'Noto Serif', serif;
+    margin: 0 0 2px;
+  }
+  .cb-header-info p {
+    color: var(--cb-green); font-size: 11px; margin: 0;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .cb-online-dot {
+    width: 7px; height: 7px;
+    background: var(--cb-green); border-radius: 50%;
+    animation: cb-blink 1.5s infinite;
+  }
+  @keyframes cb-blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  #cb-close {
+    margin-left: auto;
+    background: none; border: none; cursor: pointer;
+    color: var(--cb-muted); font-size: 20px; line-height: 1;
+    padding: 4px 8px; border-radius: 8px;
+    transition: color 0.2s, background 0.2s;
+  }
+  #cb-close:hover { color: #fff; background: rgba(255,255,255,0.08); }
+
+  /* ── Messages area ── */
+  #cb-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(84,233,138,0.2) transparent;
+    min-height: 0;
+    max-height: 340px;
+  }
+  #cb-messages::-webkit-scrollbar { width: 4px; }
+  #cb-messages::-webkit-scrollbar-thumb { background: rgba(84,233,138,0.2); border-radius: 4px; }
+
+  /* ── Message bubbles ── */
+  .cb-msg {
+    display: flex;
+    gap: 8px;
+    animation: cb-fadein 0.3s ease;
+  }
+  @keyframes cb-fadein { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+
+  .cb-msg.user { flex-direction: row-reverse; }
+
+  .cb-msg-avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    flex-shrink: 0; display: flex; align-items: center;
+    justify-content: center; font-size: 14px;
+    margin-top: 2px;
+  }
+  .cb-msg.bot .cb-msg-avatar {
+    background: linear-gradient(135deg, #1a3a22, #0f2016);
+    border: 1px solid var(--cb-border);
+  }
+  .cb-msg.user .cb-msg-avatar {
+    background: rgba(46,204,113,0.15);
+    border: 1px solid rgba(46,204,113,0.2);
+  }
+
+  .cb-bubble {
+    max-width: 82%;
+    padding: 10px 14px;
+    border-radius: 16px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    font-family: 'Manrope', sans-serif;
+  }
+  .cb-msg.bot .cb-bubble {
+    background: var(--cb-bot-bg);
+    color: var(--cb-text);
+    border: 1px solid var(--cb-border);
+    border-bottom-left-radius: 4px;
+  }
+  .cb-msg.user .cb-bubble {
+    background: var(--cb-user-bg);
+    color: #c8f5d8;
+    border: 1px solid rgba(84,233,138,0.18);
+    border-bottom-right-radius: 4px;
+  }
+
+  /* Link button inside bot message */
+  .cb-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 8px;
+    padding: 6px 12px;
+    background: linear-gradient(135deg, rgba(46,204,113,0.2), rgba(46,204,113,0.08));
+    border: 1px solid rgba(84,233,138,0.3);
+    border-radius: 20px;
+    color: var(--cb-green) !important;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-decoration: none !important;
+    text-transform: uppercase;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .cb-link-btn:hover {
+    background: rgba(46,204,113,0.25);
+    border-color: rgba(84,233,138,0.5);
+  }
+  .cb-link-btn svg { width: 12px; height: 12px; }
+
+  /* Typing indicator */
+  .cb-typing {
+    display: flex; align-items: center; gap: 5px; padding: 10px 14px;
+    background: var(--cb-bot-bg); border: 1px solid var(--cb-border);
+    border-radius: 16px; border-bottom-left-radius: 4px;
+    width: fit-content;
+  }
+  .cb-typing span {
+    width: 7px; height: 7px; background: var(--cb-green);
+    border-radius: 50%; animation: cb-typing 1.2s infinite ease-in-out;
+  }
+  .cb-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .cb-typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes cb-typing {
+    0%,80%,100% { transform:scale(0.6); opacity:0.4; }
+    40%          { transform:scale(1);   opacity:1; }
+  }
+
+  /* ── Quick replies ── */
+  #cb-quick {
+    padding: 8px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    border-top: 1px solid var(--cb-border);
+    background: var(--cb-surface);
+  }
+  .cb-quick-btn {
+    padding: 5px 12px;
+    background: rgba(84,233,138,0.06);
+    border: 1px solid rgba(84,233,138,0.18);
+    border-radius: 20px;
+    color: var(--cb-green);
+    font-size: 11px;
+    font-family: 'Manrope', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+  .cb-quick-btn:hover {
+    background: rgba(84,233,138,0.15);
+    border-color: rgba(84,233,138,0.4);
+  }
+
+  /* ── Input area ── */
+  #cb-input-area {
+    padding: 12px 16px;
+    border-top: 1px solid var(--cb-border);
+    background: var(--cb-surface2);
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  #cb-input {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 9px 16px;
+    color: var(--cb-text);
+    font-size: 13px;
+    font-family: 'Manrope', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  #cb-input:focus { border-color: rgba(84,233,138,0.4); }
+  #cb-input::placeholder { color: var(--cb-muted); }
+  #cb-send {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 16px rgba(46,204,113,0.25);
+  }
+  #cb-send:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(46,204,113,0.4); }
+  #cb-send svg { width: 17px; height: 17px; fill: #fff; }
+
+  /* ── Mobile ── */
+  @media (max-width: 420px) {
+    :root { --cb-w: calc(100vw - 24px); }
+    #cb-window { right: 12px; bottom: 90px; }
+    #cb-toggle { right: 16px; bottom: 20px; }
+  }
+
+  /* Light mode overrides */
+  html.light #cb-window {
+    --cb-bg: #f8faf9;
+    --cb-surface: #f0f4f2;
+    --cb-surface2: #eaf0ec;
+    --cb-border: rgba(46, 204, 113, 0.2);
+    --cb-text: #1a1c1c;
+    --cb-muted: #6b7c6f;
+    --cb-bot-bg: #f0f5f2;
+    --cb-user-bg: #e0f5e9;
+    background: var(--cb-bg);
+  }
+  html.light #cb-header { background: linear-gradient(135deg, #e8f5ee, #ddf0e7); }
+  html.light #cb-header .cb-header-info h3 { color: #1a1c1c; }
+  html.light .cb-bubble { color: #1a1c1c; }
+  html.light .cb-msg.bot .cb-bubble { background: #f0f5f2; border-color: rgba(46,204,113,0.18); }
+  html.light .cb-msg.user .cb-bubble { background: #dcf0e5; color: #0d3320; }
+  html.light #cb-input { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.1); color: #1a1c1c; }
+  html.light #cb-input::placeholder { color: #9aada0; }
+</style>
+
+<!-- ===================== CHATBOT HTML ===================== -->
+
+<!-- Floating Toggle Button -->
+<button id="cb-toggle" aria-label="Open chat assistant" title="Chat with Bloom">
+  <span id="cb-notif"></span>
+  <!-- Flower/Chat icon -->
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 3.0 1.01 4.29L2 22l5.71-1.01C9 21.64 10.46 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.38 0-2.68-.31-3.84-.86l-.27-.13-2.82.5.5-2.82-.13-.27C4.31 15.18 4 13.88 4 12.5 4 7.81 7.81 4 12.5 4S21 7.81 21 12.5 17.19 21 12.5 21H12zm5-8h-4V8h-2v5H7v2h4v4h2v-4h4v-2z"/>
+  </svg>
+</button>
+
+<!-- Chat Window -->
+<div id="cb-window" role="dialog" aria-label="Bloom floral assistant">
+
+  <!-- Header -->
+  <div id="cb-header">
+    <div class="cb-avatar">🌸</div>
+    <div class="cb-header-info">
+      <h3>Bloom Assistant</h3>
+      <p><span class="cb-online-dot"></span> Online · Here to help</p>
+    </div>
+    <button id="cb-close" aria-label="Close chat">✕</button>
+  </div>
+
+  <!-- Messages -->
+  <div id="cb-messages"></div>
+
+  <!-- Quick Replies -->
+  <div id="cb-quick">
+    <button class="cb-quick-btn" data-msg="birthday flowers">🎂 Birthday</button>
+    <button class="cb-quick-btn" data-msg="wedding bouquet">💍 Wedding</button>
+    <button class="cb-quick-btn" data-msg="graduation flowers">🎓 Graduation</button>
+    <button class="cb-quick-btn" data-msg="valentine roses">❤️ Valentine</button>
+    <button class="cb-quick-btn" data-msg="luxury flowers">💎 Luxury</button>
+    <button class="cb-quick-btn" data-msg="delivery">🚚 Delivery</button>
+  </div>
+
+  <!-- Input -->
+  <div id="cb-input-area">
+    <input id="cb-input" type="text" placeholder="Ask about flowers, occasions..." maxlength="200" autocomplete="off">
+    <button id="cb-send" aria-label="Send message">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ===================== CHATBOT SCRIPT ===================== -->
+<script>
+(function () {
+  'use strict';
+
+  // ── DOM refs ──
+  const toggle   = document.getElementById('cb-toggle');
+  const window_  = document.getElementById('cb-window');
+  const closeBtn = document.getElementById('cb-close');
+  const messages = document.getElementById('cb-messages');
+  const input    = document.getElementById('cb-input');
+  const sendBtn  = document.getElementById('cb-send');
+  const notif    = document.getElementById('cb-notif');
+  const quickBtns = document.querySelectorAll('.cb-quick-btn');
+
+  let isOpen = false;
+  let isTyping = false;
+  let welcomed = false;
+
+  // ── Open / Close ──
+  function openChat() {
+    isOpen = true;
+    window_.classList.add('open');
+    toggle.classList.add('open');
+    notif.style.display = 'none';
+    input.focus();
+    if (!welcomed) {
+      welcomed = true;
+      setTimeout(() => showBotMessage(
+        "🌸 Welcome to <strong>Bloom Store</strong>! I'm your personal floral assistant.<br><br>Tell me about an occasion, emotion, or flower type — and I'll guide you to the perfect arrangement. What brings you here today?",
+        "/shop",
+        "Browse All Flowers"
+      ), 400);
+    }
+  }
+
+  function closeChat() {
+    isOpen = false;
+    window_.classList.remove('open');
+    toggle.classList.remove('open');
+  }
+
+  toggle.addEventListener('click', () => isOpen ? closeChat() : openChat());
+  closeBtn.addEventListener('click', closeChat);
+
+  // Close on outside click
+  document.addEventListener('click', (e) => {
+    if (isOpen && !window_.contains(e.target) && e.target !== toggle) {
+      closeChat();
+    }
+  });
+
+  // ── Append user message ──
+  function appendUserMessage(text) {
+    const div = document.createElement('div');
+    div.className = 'cb-msg user';
+    div.innerHTML = `
+      <div class="cb-msg-avatar">👤</div>
+      <div class="cb-bubble">${escapeHtml(text)}</div>
+    `;
+    messages.appendChild(div);
+    scrollToBottom();
+  }
+
+  // ── Show bot message ──
+  function showBotMessage(text, link, label) {
+    removeTyping();
+    const div = document.createElement('div');
+    div.className = 'cb-msg bot';
+    const linkHtml = link ? `
+      <br>
+      <a href="${link}" class="cb-link-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+        ${escapeHtml(label || 'View')}
+      </a>` : '';
+    div.innerHTML = `
+      <div class="cb-msg-avatar">🌸</div>
+      <div class="cb-bubble">${text}${linkHtml}</div>
+    `;
+    messages.appendChild(div);
+    scrollToBottom();
+  }
+
+  // ── Typing indicator ──
+  function showTyping() {
+    if (isTyping) return;
+    isTyping = true;
+    const div = document.createElement('div');
+    div.className = 'cb-msg bot';
+    div.id = 'cb-typing-msg';
+    div.innerHTML = `
+      <div class="cb-msg-avatar">🌸</div>
+      <div class="cb-typing"><span></span><span></span><span></span></div>
+    `;
+    messages.appendChild(div);
+    scrollToBottom();
+  }
+
+  function removeTyping() {
+    isTyping = false;
+    const el = document.getElementById('cb-typing-msg');
+    if (el) el.remove();
+  }
+
+  // ── Scroll ──
+  function scrollToBottom() {
+    requestAnimationFrame(() => {
+      messages.scrollTop = messages.scrollHeight;
+    });
+  }
+
+  // ── Escape HTML ──
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);
+  }
+
+  // ── Send message ──
+  async function sendMessage() {
+    const text = input.value.trim();
+    if (!text || isTyping) return;
+
+    input.value = '';
+    appendUserMessage(text);
+    showTyping();
+
+    try {
+      const res = await fetch('/api/chatbot/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text })
+      });
+      const data = await res.json();
+
+      // Small delay for natural feel
+      setTimeout(() => {
+        showBotMessage(data.reply, data.link, data.label);
+      }, 600);
+
+    } catch (err) {
+      setTimeout(() => {
+        showBotMessage(
+          "🌿 Sorry, I'm having trouble connecting right now. Please try again in a moment or visit our shop directly.",
+          "/shop",
+          "Browse Shop"
+        );
+      }, 600);
+    }
+  }
+
+  // ── Event listeners ──
+  sendBtn.addEventListener('click', sendMessage);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  // Quick reply buttons
+  quickBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!isOpen) openChat();
+      input.value = btn.getAttribute('data-msg');
+      setTimeout(sendMessage, 100);
+    });
+  });
+
+  // Show notification dot after 3s if chat not opened
+  setTimeout(() => {
+    if (!isOpen) notif.style.display = 'block';
+  }, 3000);
+
+})();
+</script>
 </body>
+
 </html>

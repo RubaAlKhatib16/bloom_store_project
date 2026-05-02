@@ -24,7 +24,7 @@ def get_occasions():
     rows = cursor.fetchall()
     occasions = []
     for row in rows:
-        # معالجة القيم الفارغة
+        
         name = row[1] if row[1] else "Unnamed"
         name_ar = row[2] if row[2] else name
         slug = row[3] if row[3] else name.lower().replace(' ', '-')
@@ -49,7 +49,7 @@ def get_occasions():
     cursor.close()
     conn.close()
     
-    # إذا كانت القائمة فارغة، أعد بيانات افتراضية
+   
     if not occasions:
         occasions = [
             {"id": 1, "name": "Wedding", "name_ar": "حفل زفاف", "slug": "wedding", 

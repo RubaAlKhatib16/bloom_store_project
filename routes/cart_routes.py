@@ -26,7 +26,7 @@ def add_to_cart():
         conn.close()
         return jsonify({'error': 'Product not found'}), 404
 
-    # جيب أو أنشئ سلة نشطة للمستخدم
+    
     cursor.execute("""
         SELECT CartID FROM Cart 
         WHERE UserID = ? AND IsActive = 1
@@ -43,7 +43,7 @@ def add_to_cart():
         """, (user_id,))
         cart_id = cursor.fetchone()[0]
 
-    # تحقق إذا المنتج موجود في CartItems
+   
     cursor.execute("""
         SELECT CartItemID, Quantity FROM CartItems 
         WHERE CartID = ? AND FlowerID = ?
@@ -76,7 +76,7 @@ def get_cart():
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    # جيب السلة النشطة
+  
     cursor.execute("""
         SELECT c.CartID FROM Cart c
         WHERE c.UserID = ? AND c.IsActive = 1
@@ -142,7 +142,7 @@ def update_cart_item(cart_item_id):
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    # تأكد إن العنصر يخص المستخدم
+  
     cursor.execute("""
         SELECT ci.CartItemID FROM CartItems ci
         JOIN Cart c ON ci.CartID = c.CartID

@@ -53,7 +53,7 @@ def create_order():
         shipping_address = f"{full_name}, {address}, {city}, {zip_code}, {phone}"
 
         # ── 3. إنشاء الطلب ─────────────────────────────────────────
-        # ✅ FIX: استخدام INSERT ثم SELECT @@IDENTITY بدلاً من OUTPUT INSERTED
+       
         cursor.execute("""
             INSERT INTO Orders (
                 UserID,
@@ -72,7 +72,7 @@ def create_order():
             shipping_method
         ))
 
-        # ✅ FIX: الطريقة الصحيحة لجلب الـ ID مع pyodbc + SQL Server
+       
         cursor.execute("SELECT @@IDENTITY")
         order_id = int(cursor.fetchone()[0])
 
@@ -124,7 +124,7 @@ def get_order_by_id(order_id):
     conn = get_db_connection()
     cursor = conn.cursor()
     
-    # جلب معلومات الطلب الرئيسية
+        # تأكد إن الطلب يخص المستخدم
     cursor.execute("""
         SELECT o.OrderID, o.OrderDate, o.ShippingAddress, o.TotalAmount, o.Status, u.UserName, u.Email
         FROM Orders o

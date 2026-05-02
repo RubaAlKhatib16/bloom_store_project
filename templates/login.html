@@ -237,9 +237,9 @@
         </section>
     </main>
 
-   <footer id="copyright" class="text-center text-sm py-4">
-    © 2025 Bloom Store
-</footer> 
+    <footer id="copyright" class="text-center text-sm py-4">
+        © 2026 Bloom Store
+    </footer>
 
     <script>
         // Theme & Language
@@ -255,13 +255,13 @@
             en: {
                 brand: "Bloom Store", slogan: "bloom with every visit", title: "SIGN IN", subtitle: "Welcome back to the garden",
                 divider: "OR USE EMAIL", emailPlace: "Email Address", passPlace: "Password", forgot: "Forgot password?",
-                loginBtn: "SIGN IN", footer: "New to the garden? ", signupLink: "Create account", copyright: "© 2025 Bloom Store. Botanical Elegance.",
+                loginBtn: "SIGN IN", footer: "New to the garden? ", signupLink: "Create account", copyright: "© 2026 Bloom Store. Botanical Elegance.",
                 google: "Google", facebook: "Facebook", errors: { emailReq: "Email required", emailValid: "Valid email required", passReq: "Password required" }
             },
             ar: {
                 brand: "شغف", slogan: "تزهر مع كل زيارة", title: "تسجيل الدخول", subtitle: "مرحباً بعودتك إلى الحديقة",
                 divider: "أو استخدم البريد الإلكتروني", emailPlace: "البريد الإلكتروني", passPlace: "كلمة المرور", forgot: "نسيت كلمة المرور؟",
-                loginBtn: "تسجيل الدخول", footer: "جديد في الحديقة؟ ", signupLink: "إنشاء حساب", copyright: "© 2025 شغف. أناقة نباتية",
+                loginBtn: "تسجيل الدخول", footer: "جديد في الحديقة؟ ", signupLink: "إنشاء حساب", copyright: "© 2026 شغف. أناقة نباتية",
                 google: "جوجل", facebook: "فيسبوك", errors: { emailReq: "البريد الإلكتروني مطلوب", emailValid: "بريد صالح مطلوب", passReq: "كلمة المرور مطلوبة" }
             }
         };
@@ -308,7 +308,8 @@
         applyLanguage(currentLang);
 
         // ---------- API Connection ----------
-        const API_BASE = "/api/auth";
+        // ---------- API Connection ----------
+        const API_BASE = "http://127.0.0.1:5000/api/auth";
         const emailInput = document.getElementById('email');
         const passInput = document.getElementById('password');
         const emailErrorDiv = document.getElementById('emailError');
@@ -345,7 +346,8 @@
         }
 
         async function handleLogin(e) {
-            e.preventDefault(); // منع الإرسال التقليدي
+            e.preventDefault();
+
             if (!validateForm()) return;
 
             const email = emailInput.value.trim();
@@ -354,35 +356,66 @@
             try {
                 const response = await fetch(`${API_BASE}/login`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify({ email, password })
                 });
+
                 const data = await response.json();
 
                 if (response.ok) {
+
                     localStorage.setItem('access_token', data.access_token);
                     localStorage.setItem('refresh_token', data.refresh_token);
+
+                    const tokenPayload = JSON.parse(
+                        atob(data.access_token.split('.')[1])
+                    );
+
+                    const role = tokenPayload.role;
+
                     Swal.fire({
                         icon: 'success',
                         title: 'Logged in!',
-                        text: 'Redirecting to profile...',
+                        text: 'Redirecting...',
                         timer: 1500,
                         showConfirmButton: false
                     }).then(() => {
-                        window.location.href = '/profile';
+
+                        if (role === 'admin' || role === 'Admin') {
+                            window.location.href = '/admin/dashboard';
+                        } else {
+                            window.location.href = '/profile';
+                        }
+
                     });
+
                 } else {
-                    apiErrorDiv.innerText = data.error || "Login failed";
-                    apiErrorDiv.style.display = 'block';
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Login failed',
+                        text: data.error || 'Invalid email or password'
+                    });
+
                 }
-            } catch (err) {
-                apiErrorDiv.innerText = "Network error. Please try again.";
-                apiErrorDiv.style.display = 'block';
-                console.error(err);
+
+            } catch (error) {
+
+                console.error(error);
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Network error',
+                    text: 'Please try again'
+                });
+
             }
         }
 
         const loginForm = document.getElementById('loginForm');
+
         if (loginForm) {
             loginForm.addEventListener('submit', handleLogin);
             console.log("Login event listener attached");
@@ -390,8 +423,21 @@
             console.error("Login form not found!");
         }
 
-        document.getElementById('googleBtn')?.addEventListener('click', () => Swal.fire({ icon: 'info', title: 'Coming soon', text: 'Social login will be available soon.' }));
-        document.getElementById('fbBtn')?.addEventListener('click', () => Swal.fire({ icon: 'info', title: 'Coming soon', text: 'Social login will be available soon.' }));
+        document.getElementById('googleBtn')?.addEventListener('click', () => {
+            Swal.fire({
+                icon: 'info',
+                title: 'Coming soon',
+                text: 'Social login will be available soon.'
+            });
+        });
+
+        document.getElementById('fbBtn')?.addEventListener('click', () => {
+            Swal.fire({
+                icon: 'info',
+                title: 'Coming soon',
+                text: 'Social login will be available soon.'
+            });
+        });
     </script>
 </body>
 

@@ -4,7 +4,7 @@ from db import get_db_connection
 import os
 import uuid
 
-user_bp = Blueprint('user', __name__)
+user_bp = Blueprint('user', __name__, url_prefix='/api/user')
 
 UPLOAD_FOLDER = os.path.join('static', 'uploads')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -32,7 +32,7 @@ def upload_avatar():
     filename = f"avatar_{user_id}.{ext}"
     filepath = os.path.join(current_app.root_path, UPLOAD_FOLDER, filename)
 
-    # حذف الصورة القديمة إن وجدت
+   
     if os.path.exists(filepath):
         os.remove(filepath)
 
@@ -41,7 +41,7 @@ def upload_avatar():
 
     conn = get_db_connection()
     cursor = conn.cursor()
-    # استخدام اسم العمود "avatar" وليس "avatar_path"
+  
     cursor.execute("UPDATE Users SET avatar = ? WHERE UserID = ?", (relative_path, user_id))
     conn.commit()
     cursor.close()
@@ -58,7 +58,7 @@ def get_avatar():
     user_id = get_jwt_identity()
     conn = get_db_connection()
     cursor = conn.cursor()
-    # استخدام اسم العمود "avatar"
+    
     cursor.execute("SELECT avatar FROM Users WHERE UserID = ?", (user_id,))
     row = cursor.fetchone()
     cursor.close()
@@ -70,6 +70,233 @@ def get_avatar():
             return send_file(full_path, mimetype='image/jpeg')
     return '', 404
 
+# ==================== إحصائيات المستخدم ====================
+@user_bp.route('/stats', methods=['GET'])
+@jwt_required()
+def user_stats():
+    user_id = get_jwt_identity()
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+   
+    cursor.execute("SELECT COUNT(*) FROM Orders WHERE UserID = ?", (user_id,))
+    total_orders = cursor.fetchone()[0]
+    
+    
+    cursor.execute("SELECT Points FROM Users WHERE UserID = ?", (user_id,))
+    row = cursor.fetchone()
+    points = row[0] if row and row[0] is not None else 0   
+    
+    # مستوى العضوية
+    if points >= 500:
+        member_tier = "Gold"
+    elif points >= 200:
+        member_tier = "Silver"
+    else:
+        member_tier = "Bronze"
+    
+    cursor.close()
+    conn.close()
+    
+    return jsonify({
+        'total_orders': total_orders,
+        'new_this_month': 0,
+        'active_subscriptions': 0,
+        'loyalty_points': points,
+        'member_tier': member_tier,
+        'next_delivery': None
+    })
+
+# ==================== آخر الطلبات ====================
+@user_bp.route('/recent_orders', methods=['GET'])
+@jwt_required()
+def recent_orders():
+    user_id = get_jwt_identity()
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    
+    cursor.execute("""
+        SELECT 
+            o.OrderID,
+            o.OrderDate,
+            o.TotalAmount,
+            o.Status,
+            (SELECT TOP 1 f.ImageURL 
+             FROM OrderItems oi 
+             JOIN Flower f ON oi.FlowerID = f.FlowerID 
+             WHERE oi.OrderID = o.OrderID) AS ImageURL,
+            (SELECT TOP 1 f.FlowerName 
+             FROM OrderItems oi 
+             JOIN Flower f ON oi.FlowerID = f.FlowerID 
+             WHERE oi.OrderID = o.OrderID) AS ProductName
+        FROM Orders o
+        WHERE o.UserID = ?
+        ORDER BY o.OrderDate DESC
+        OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY
+    """, (user_id,))
+    
+    rows = cursor.fetchall()
+    orders = []
+    for row in rows:
+        orders.append({
+            'id': row.OrderID,
+            'name': row.ProductName if row.ProductName else f"Order #{row.OrderID}",
+            'date': row.OrderDate.strftime('%Y-%m-%d') if row.OrderDate else '',
+            'total': float(row.TotalAmount) if row.TotalAmount else 0,
+            'status': row.Status,
+            'image': row.ImageURL if row.ImageURL else ''   
+        })
+    
+    cursor.close()
+    conn.close()
+    return jsonify(orders)
+
+
+# ==================== العناوين (مؤقت حتى إضافة الجدول) ====================
+@user_bp.route('/addresses', methods=['GET'])
+@jwt_required()
+def get_addresses():
+    
+    return jsonify([])
+
+
+# ==================== وسائل الدفع (مؤقت) ====================
+@user_bp.route('/payment', methods=['GET'])
+@jwt_required()
+def get_payment():
+   
+    return jsonify({'last4': '4458', 'expiry': '12/26', 'type': 'Demo'})
+
+
+@user_bp.route('/reminders', methods=['GET'])
+@jwt_required()
+def get_reminders():
+    user_id = get_jwt_identity()
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT ReminderID, Title, OccasionType,
+               ReminderDate, NotifyBeforeDays
+        FROM UserReminders
+        WHERE UserID = ?
+        ORDER BY ReminderDate ASC
+    """, (user_id,))
+
+    rows = cursor.fetchall()
+    reminders = []
+
+    for row in rows:
+        reminders.append({
+            'id': row.ReminderID,
+            'title': row.Title,
+            'occasion_type': row.OccasionType,
+            'reminder_date': row.ReminderDate.isoformat(),
+            'notify_before_days': row.NotifyBeforeDays
+        })
+
+    cursor.close()
+    conn.close()
+
+    return jsonify(reminders), 200
+
+@user_bp.route('/reminders', methods=['POST'])
+@jwt_required()
+def add_reminder():
+    user_id = get_jwt_identity()
+    data = request.json
+
+    title = data.get('title')
+    occasion_type = data.get('occasion_type')
+    reminder_date = data.get('reminder_date')
+    notify_before_days = data.get('notify_before_days', 3)
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        INSERT INTO UserReminders
+        (UserID, Title, OccasionType, ReminderDate, NotifyBeforeDays)
+        VALUES (?, ?, ?, ?, ?)
+    """, (
+        user_id,
+        title,
+        occasion_type,
+        reminder_date,
+        notify_before_days
+         ))
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+    return jsonify({
+        'message': 'Reminder added successfully'
+    }), 201
+@user_bp.route('/reminders/<int:reminder_id>', methods=['DELETE'])
+@jwt_required()
+def delete_reminder(reminder_id):
+    user_id = get_jwt_identity()
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        DELETE FROM UserReminders
+        WHERE ReminderID = ?
+        AND UserID = ?
+    """, (reminder_id, user_id))
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+    return jsonify({
+        'message': 'Reminder deleted successfully'
+    }), 200
+
+@user_bp.route('/notifications', methods=['GET'])
+@jwt_required()
+def get_notifications():
+    user_id = get_jwt_identity()
+
+    today = datetime.today().date()
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT Title,
+               OccasionType,
+               ReminderDate,
+               NotifyBeforeDays
+        FROM UserReminders
+        WHERE UserID = ?
+    """, (user_id,))
+
+    rows = cursor.fetchall()
+    notifications = []
+
+    for row in rows:
+        reminder_date = row.ReminderDate
+        notify_date = reminder_date - timedelta(days=row.NotifyBeforeDays)
+
+        if notify_date == today:
+            notifications.append({
+                'title': row.Title,
+                'occasion': row.OccasionType,
+                'date': reminder_date.isoformat(),
+                'message': f"🌸 Reminder: {row.Title} is coming soon!"
+            })
+
+    cursor.close()
+    conn.close()
+
+    return jsonify(notifications), 200
 
 @user_bp.route('/update', methods=['PUT'])
 @jwt_required()
@@ -89,7 +316,7 @@ def update_user():
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
-        # التحقق من عدم وجود بريد إلكتروني مكرر
+        
         cursor.execute("SELECT UserID FROM Users WHERE Email = ? AND UserID != ?", (new_email, user_id))
         if cursor.fetchone():
             return jsonify({'error': 'Email already in use'}), 409
@@ -104,3 +331,5 @@ def update_user():
     finally:
         cursor.close()
         conn.close()
+
+        

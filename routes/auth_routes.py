@@ -14,7 +14,7 @@ import re
 import logging
 from routes.utils import EMAIL_PATTERN, validate_password, is_valid_email
 
-auth_bp = Blueprint("auth", __name__)
+auth_bp = Blueprint("auth", __name__, url_prefix="/api/auth")
 
 # REGISTER 
 @auth_bp.route("/users", methods=["POST"])
@@ -41,7 +41,7 @@ def register_user():
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
-        # Duplicate email check
+        
         cursor.execute("SELECT UserID FROM Users WHERE Email = ?", (data["email"],))
         if cursor.fetchone():
             return jsonify({"error": "Email already registered"}), 409
@@ -89,19 +89,18 @@ def login():
             SELECT UserID, Role, Password
             FROM Users
             WHERE Email = ?
-        """, (data["email"],))          # fetch by email only verify hash in Python
+        """, (data["email"],))
         user = cursor.fetchone()
 
-        # Use a generic message to avoid user enumeration
         if not user or not check_password_hash(user[2], data["password"]):
             return jsonify({"error": "Invalid credentials"}), 401
 
         user_id, role = user[0], user[1]
 
-        access_token  = create_access_token(
+        access_token = create_access_token(
             identity=str(user_id),
             additional_claims={"role": role},
-            expires_delta= datetime.timedelta(minutes=120)
+            expires_delta=datetime.timedelta(minutes=120)
         )
         refresh_token = create_refresh_token(identity=str(user_id))
 
@@ -112,7 +111,9 @@ def login():
         }), 200
 
     except Exception as e:
-        return jsonify({"error": "Login failed"}), 500  
+        import traceback
+        traceback.print_exc()  
+        return jsonify({"error": str(e)}), 500
     finally:
         cursor.close()
         conn.close()
@@ -151,10 +152,9 @@ def refresh():
 def logout():
     from app import blocklist
 
-    # Blocklist the access token
+  
     blocklist.add(get_jwt()["jti"])
 
-    # Blocklist the refresh token if provided in body
     data = request.get_json(silent=True) or {}
     refresh_jti = data.get("refresh_jti")
     if refresh_jti:
@@ -166,14 +166,13 @@ def logout():
 @auth_bp.route("/me", methods=["GET"])
 @jwt_required()
 def get_current_user():
-    from flask import jsonify
-    from db import get_db_connection
-    from flask_jwt_extended import get_jwt_identity
-    
     user_id = int(get_jwt_identity())
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT UserName, Email, Role FROM Users WHERE UserID = ?", (user_id,))
+    cursor.execute("""
+        SELECT UserName, Email, Role, Points 
+        FROM Users WHERE UserID = ?
+    """, (user_id,))
     row = cursor.fetchone()
     cursor.close()
     conn.close()
@@ -182,5 +181,6 @@ def get_current_user():
     return jsonify({
         "username": row[0],
         "email": row[1],
-        "role": row[2]
+        "role": row[2],
+        "points": row[3] if row[3] is not None else 0
     })

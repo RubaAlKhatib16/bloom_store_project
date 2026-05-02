@@ -1,62 +1,101 @@
 <!DOCTYPE html>
 <html class="dark" lang="en" id="html-tag" dir="ltr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us | Bloom Store</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
         }
+
         .glass-panel {
             backdrop-filter: blur(12px);
             transition: transform 0.2s;
         }
+
         .glass-panel:hover {
             transform: translateY(-2px);
         }
-        /* Dark mode */
+
+        /* Dark mode (default) */
         html.dark body {
             background-color: #111415;
             color: #e1e3e4;
         }
+
         html.dark .glass-panel {
             background: rgba(17, 20, 21, 0.65);
             border: 1px solid rgba(134, 148, 134, 0.12);
         }
+
         html.dark .bg-black {
             background-color: #0c0f10 !important;
         }
+
         html.dark .text-zinc-600 {
             color: #869486 !important;
         }
+
         html.dark .border-zinc-900 {
             border-color: #1a1e24 !important;
         }
-        /* Light mode */
+
+        /* Light mode - enhanced for readability */
         html.light body {
-            background-color: #f4f7f5;
-            color: #1a1c1c;
+            background: #f8fafc;
+            color: #1e293b;
         }
+
         html.light .glass-panel {
-            background: rgba(255, 255, 255, 0.80);
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
         }
+
         html.light .bg-black {
-            background-color: #f0f4f2 !important;
+            background-color: #ffffff !important;
+            border-top: 1px solid #e2e8f0;
         }
+
         html.light .text-zinc-600 {
             color: #4a5568 !important;
         }
+
         html.light .border-zinc-900 {
             border-color: #e2e8f0 !important;
         }
-        /* Form elements */
-        input, textarea {
+
+        html.light .text-zinc-500 {
+            color: #5a6e76 !important;
+        }
+
+        /* Form elements light */
+        html.light input,
+        html.light textarea {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #1e293b;
+        }
+
+        html.light input:focus,
+        html.light textarea:focus {
+            border-color: #2ecc71;
+            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
+        }
+
+        /* Dark form elements */
+        input,
+        textarea {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(134, 148, 134, 0.3);
             border-radius: 0.75rem;
@@ -65,15 +104,14 @@
             transition: all 0.2s;
             color: inherit;
         }
-        input:focus, textarea:focus {
+
+        input:focus,
+        textarea:focus {
             border-color: #2ecc71;
             outline: none;
             box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.2);
         }
-        html.light input, html.light textarea {
-            background: #ffffff;
-            border-color: #cbd5e0;
-        }
+
         /* WhatsApp float */
         .whatsapp-float {
             position: fixed;
@@ -87,13 +125,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             transition: transform 0.2s;
             z-index: 100;
         }
+
         .whatsapp-float:hover {
             transform: scale(1.1);
         }
+
         [dir="rtl"] .whatsapp-float {
             right: auto;
             left: 30px;
@@ -102,39 +142,74 @@
     <script>
         tailwind.config = {
             darkMode: "class",
-            theme: { extend: {
-                fontFamily: { "body-md": ["Manrope"], "headline-md": ["Noto Serif"] }
-            } }
+            theme: {
+                extend: {
+                    fontFamily: { "body-md": ["Manrope"], "headline-md": ["Noto Serif"] }
+                }
+            }
         }
     </script>
 </head>
+
 <body class="font-body-md bg-background text-on-background">
 
     <!-- Top Navigation Bar -->
-    <header class="fixed top-0 w-full z-50 border-b border-emerald-500/20 bg-black/80 backdrop-blur-xl shadow-[0_0_30px_rgba(46,204,113,0.1)] flex justify-between items-center px-8 h-20">
-        <div class="text-2xl font-serif italic tracking-tight text-emerald-500" id="brandName">Bloom Store</div>
-        <nav class="hidden md:flex space-x-8">
-            <a href="/" class="font-serif text-zinc-400 hover:text-emerald-200 transition-colors" id="navHome">Home</a>
-            <a href="/shop" class="font-serif text-zinc-400 hover:text-emerald-200 transition-colors" id="navShop">Shop</a>
-            <a href="/categories" class="font-serif text-zinc-400 hover:text-emerald-200 transition-colors" id="navCategories">Categories</a>
-            <a href="/occasions" class="font-serif text-zinc-400 hover:text-emerald-200 transition-colors" id="navOccasions">Occasions</a>
-            <a href="/contact" class="font-serif text-emerald-400 border-b-2 border-emerald-400 pb-1" id="navContact">Contact</a>
-        </nav>
-        <div class="flex items-center gap-6">
-            <button id="themeToggle" class="material-symbols-outlined cursor-pointer hover:text-emerald-500 transition-all">dark_mode</button>
-            <button id="langToggle" class="text-sm font-bold px-2 py-1 rounded-full border border-emerald-500/50 hover:bg-emerald-500/10 transition">AR</button>
-            <a href="/cart" class="relative">
-                <span class="material-symbols-outlined cursor-pointer hover:text-emerald-500 transition-all">shopping_bag</span>
-                <span id="cartCount" class="absolute -top-2 -right-2 bg-emerald-500 text-white text-xs rounded-full w-5 h-5 hidden">0</span>
-            </a>
-            <a href="/profile" class="material-symbols-outlined cursor-pointer hover:text-emerald-500 transition-all">person</a>
+   <nav class="fixed top-0 w-full z-50 border-b border-white/10 bg-zinc-950/70 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+    <div class="flex justify-between items-center px-8 py-4 w-full max-w-7xl mx-auto">
+        <div class="text-2xl font-serif font-light tracking-[0.2em] text-emerald-500" id="brandName">BLOOM</div>
+        <div class="hidden md:flex items-center gap-8">
+            <a href="/" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navHome">Home</a>
+            <a href="/shop" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navShop">Shop</a>
+            <a href="/categories" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navCategory">Categories</a>
+            <a href="/occasions" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navOccasions">Occasions</a>
+            <a href="/bouquets" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navBouquets">Bouquets</a>
+            <a href="/contact" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navContact">Contact</a>
         </div>
-    </header>
+        <div class="flex items-center gap-6">
+            <button id="themeToggle" class="text-emerald-500 hover:bg-white/5 p-2 rounded-full"><span class="material-symbols-outlined">light_mode</span></button>
+            <button id="langToggle" class="text-emerald-500 border border-emerald-500/50 px-3 py-1 rounded-full text-sm font-bold">AR</button>
+            <a href="/cart" class="relative">
+                <span class="material-symbols-outlined text-emerald-500">shopping_cart</span>
+                <span id="cartCount" class="absolute -top-2 -right-2 bg-emerald-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+            </a>
+            <a href="/profile" class="material-symbols-outlined text-emerald-500">person</a>
+        </div>
+    </div>
+</nav>
+
+<script>
+    
+    function setActiveNavLink() {
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        navLinks.forEach(link => {
+            
+            link.classList.remove('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
+            link.classList.add('text-zinc-400');
+            
+            const linkPath = link.getAttribute('href');
+         
+            if (linkPath === '/' && (currentPath === '/' || currentPath === '')) {
+                link.classList.add('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
+                link.classList.remove('text-zinc-400');
+            } else if (linkPath !== '/' && currentPath.startsWith(linkPath)) {
+                link.classList.add('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
+                link.classList.remove('text-zinc-400');
+            }
+        });
+    }
+    
+    // تنفيذ الدالة عند تحميل الصفحة وأيضاً عند تغيير المسار (للمشاريع التي تستخدم History API)
+    document.addEventListener('DOMContentLoaded', setActiveNavLink);
+    window.addEventListener('popstate', setActiveNavLink);
+</script>
 
     <main class="max-w-7xl mx-auto px-4 pt-32 pb-20">
         <div class="text-center mb-12">
             <h1 class="font-display-lg text-display-lg text-primary" id="pageTitle">Get in Touch</h1>
-            <p class="text-on-surface-variant mt-2 max-w-2xl mx-auto" id="pageSub">We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+            <p class="text-on-surface-variant mt-2 max-w-2xl mx-auto" id="pageSub">We'd love to hear from you. Send us a
+                message and we'll respond as soon as possible.</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -143,7 +218,8 @@
                 <div class="glass-panel rounded-xl p-6 text-center">
                     <span class="material-symbols-outlined text-4xl text-primary">location_on</span>
                     <h3 class="font-headline-sm text-headline-sm mt-2" id="addressTitle">Visit Us</h3>
-                    <p class="text-on-surface-variant mt-1" id="addressText">123 Bloom Street, Botanical Garden District<br>New York, NY 10001</p>
+                    <p class="text-on-surface-variant mt-1" id="addressText">123 Bloom Street, Botanical Garden
+                        District<br>New York, NY 10001</p>
                 </div>
                 <div class="glass-panel rounded-xl p-6 text-center">
                     <span class="material-symbols-outlined text-4xl text-primary">call</span>
@@ -154,16 +230,21 @@
                 <div class="glass-panel rounded-xl p-6 text-center">
                     <span class="material-symbols-outlined text-4xl text-primary">schedule</span>
                     <h3 class="font-headline-sm text-headline-sm mt-2" id="hoursTitle">Opening Hours</h3>
-                    <p class="text-on-surface-variant mt-1" id="hoursText">Mon - Fri: 9:00 AM - 8:00 PM<br>Sat - Sun: 10:00 AM - 6:00 PM</p>
+                    <p class="text-on-surface-variant mt-1" id="hoursText">Mon - Fri: 9:00 AM - 8:00 PM<br>Sat - Sun:
+                        10:00 AM - 6:00 PM</p>
                 </div>
                 <!-- Social Media Links -->
                 <div class="glass-panel rounded-xl p-6 text-center">
                     <h3 class="font-headline-sm text-headline-sm mb-3" id="socialTitle">Follow Us</h3>
                     <div class="flex justify-center gap-4">
-                        <a href="#" class="text-2xl text-zinc-500 hover:text-primary transition"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-2xl text-zinc-500 hover:text-primary transition"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-2xl text-zinc-500 hover:text-primary transition"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-2xl text-zinc-500 hover:text-primary transition"><i class="fab fa-pinterest"></i></a>
+                        <a href="#" class="text-2xl text-zinc-500 hover:text-primary transition"><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-2xl text-zinc-500 hover:text-primary transition"><i
+                                class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-2xl text-zinc-500 hover:text-primary transition"><i
+                                class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-2xl text-zinc-500 hover:text-primary transition"><i
+                                class="fab fa-pinterest"></i></a>
                     </div>
                 </div>
             </div>
@@ -189,17 +270,19 @@
                             <label class="block text-sm font-medium mb-1" id="messageLabel">Message *</label>
                             <textarea id="contactMessage" rows="5" required placeholder="Tell us more..."></textarea>
                         </div>
-                        <button type="submit" class="w-full bg-primary text-white py-3 rounded-full font-bold hover:bg-opacity-90 transition" id="submitBtn">Send Message</button>
+                        <button type="submit"
+                            class="w-full bg-primary text-white py-3 rounded-full font-bold hover:bg-opacity-90 transition"
+                            id="submitBtn">Send Message</button>
                     </form>
                 </div>
             </div>
         </div>
 
-        <!-- Google Maps Embed (static map image with link) -->
+        <!-- Google Maps Embed -->
         <div class="mt-12 glass-panel rounded-xl overflow-hidden">
             <div class="aspect-video w-full">
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.217723859674!2d-74.00601568459439!3d40.71277617933152!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a316c6c8b0d%3A0x8b9c7b2d2b2b2b2b!2sNew%20York%2C%20NY!5e0!3m2!1sen!2sus!4v1644240000000!5m2!1sen!2sus" 
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.217723859674!2d-74.00601568459439!3d40.71277617933152!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a316c6c8b0d%3A0x8b9c7b2d2b2b2b2b!2sNew%20York%2C%20NY!5e0!3m2!1sen!2sus!4v1644240000000!5m2!1sen!2sus"
                     width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
@@ -212,14 +295,14 @@
 
     <!-- Footer -->
     <footer class="w-full py-12 px-8 border-t border-zinc-900 bg-black flex flex-col items-center gap-6 mt-10">
-        <div class="text-emerald-500 font-serif italic mb-2">Bloom Store</div>
+        <div class="text-emerald-500 font-serif italic mb-2" id="footerBrand">Bloom Store</div>
         <div class="flex flex-wrap justify-center gap-8">
-            <a href="#" class="font-serif text-sm text-zinc-600 hover:text-emerald-400 transition">Privacy Policy</a>
-            <a href="#" class="font-serif text-sm text-zinc-600 hover:text-emerald-400 transition">Terms of Service</a>
-            <a href="#" class="font-serif text-sm text-zinc-600 hover:text-emerald-400 transition">Shipping Info</a>
-            <a href="/contact" class="font-serif text-sm text-zinc-600 hover:text-emerald-400 transition">Contact</a>
+            <a href="#" class="font-serif text-sm text-zinc-600 hover:text-emerald-400 transition" id="footerPrivacy">Privacy Policy</a>
+            <a href="#" class="font-serif text-sm text-zinc-600 hover:text-emerald-400 transition" id="footerTerms">Terms of Service</a>
+            <a href="#" class="font-serif text-sm text-zinc-600 hover:text-emerald-400 transition" id="footerShipping">Shipping Info</a>
+            <a href="/contact" class="font-serif text-sm text-zinc-600 hover:text-emerald-400 transition" id="footerContactLink">Contact</a>
         </div>
-        <p class="font-serif text-sm text-zinc-500">© 2024 Bloom Store. Botanical Elegance.</p>
+        <p class="font-serif text-sm text-zinc-500" id="copyright">© 2026 Bloom Store. Botanical Elegance.</p>
     </footer>
 
     <script>
@@ -227,10 +310,12 @@
         const htmlTag = document.documentElement;
         let currentLang = localStorage.getItem('bloomLang') || 'en';
         let currentTheme = localStorage.getItem('bloomTheme') || 'dark';
+        let token = localStorage.getItem('access_token');
 
-        // ========== TRANSLATIONS ==========
+        // ========== FULL TRANSLATIONS (including nav, footer) ==========
         const dict = {
             en: {
+                brandName: 'BLOOM', navHome: 'Home', navShop: 'Shop', navCategory: 'Categories', navOccasions: 'Occasions', navBouquets: 'Bouquets', navContact: 'Contact',
                 pageTitle: 'Get in Touch',
                 pageSub: "We'd love to hear from you. Send us a message and we'll respond as soon as possible.",
                 addressTitle: 'Visit Us',
@@ -248,9 +333,16 @@
                 successTitle: 'Message Sent!',
                 successMsg: 'Thank you for contacting us. We will get back to you soon.',
                 errorTitle: 'Error',
-                errorMsg: 'Please fill all fields correctly.'
+                errorMsg: 'Please fill all fields correctly.',
+                footerBrand: 'Bloom Store',
+                footerPrivacy: 'Privacy Policy',
+                footerTerms: 'Terms of Service',
+                footerShipping: 'Shipping Info',
+                footerContactLink: 'Contact',
+                copyright: '© 2026 Bloom Store. Botanical Elegance.'
             },
             ar: {
+                brandName: 'شغف', navHome: 'الرئيسية', navShop: 'تسوق', navCategory: 'الفئات', navOccasions: 'المناسبات', navBouquets: 'باقات', navContact: 'اتصل بنا',
                 pageTitle: 'تواصل معنا',
                 pageSub: 'نحن نحب أن نسمع منك. أرسل لنا رسالة وسنرد عليك في أقرب وقت ممكن.',
                 addressTitle: 'زرنا',
@@ -268,7 +360,13 @@
                 successTitle: 'تم الإرسال!',
                 successMsg: 'شكراً لتواصلك معنا. سنعاود الاتصال بك قريباً.',
                 errorTitle: 'خطأ',
-                errorMsg: 'يرجى ملء جميع الحقول بشكل صحيح.'
+                errorMsg: 'يرجى ملء جميع الحقول بشكل صحيح.',
+                footerBrand: 'شغف',
+                footerPrivacy: 'سياسة الخصوصية',
+                footerTerms: 'شروط الخدمة',
+                footerShipping: 'معلومات الشحن',
+                footerContactLink: 'اتصل بنا',
+                copyright: '© 2026 شغف. أناقة نباتية.'
             }
         };
 
@@ -278,7 +376,10 @@
             htmlTag.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
             for (let id in t) {
                 const el = document.getElementById(id);
-                if (el) el.innerHTML = t[id];
+                if (el) {
+                    if (el.tagName === 'P' && id === 'addressText') el.innerHTML = t[id];
+                    else el.innerText = t[id];
+                }
             }
             document.getElementById('langToggle').innerText = (lang === 'en') ? 'AR' : 'EN';
         }
@@ -288,15 +389,32 @@
                 htmlTag.classList.remove('dark');
                 htmlTag.classList.add('light');
                 localStorage.setItem('bloomTheme', 'light');
-                document.querySelector('#themeToggle').innerText = 'light_mode';
+                document.querySelector('#themeToggle span').innerText = 'dark_mode';
             } else {
                 htmlTag.classList.remove('light');
                 htmlTag.classList.add('dark');
                 localStorage.setItem('bloomTheme', 'dark');
-                document.querySelector('#themeToggle').innerText = 'dark_mode';
+                document.querySelector('#themeToggle span').innerText = 'light_mode';
             }
         }
 
+        // Update cart count (optional, if needed)
+        async function updateCartCount() {
+            if (!token) return;
+            try {
+                const res = await fetch('/api/cart/', { headers: { 'Authorization': `Bearer ${token}` } });
+                const data = await res.json();
+                const countEl = document.getElementById('cartCount');
+                if (countEl && data.item_count > 0) {
+                    countEl.innerText = data.item_count;
+                    countEl.classList.remove('hidden');
+                } else if (countEl) {
+                    countEl.classList.add('hidden');
+                }
+            } catch(e) {}
+        }
+
+        // Theme and language buttons
         document.getElementById('themeToggle').addEventListener('click', () => {
             currentTheme = currentTheme === 'light' ? 'dark' : 'light';
             setTheme(currentTheme);
@@ -307,7 +425,7 @@
             applyLanguage(currentLang);
         });
 
-        // ========== FORM SUBMISSION ==========
+        // Form submission
         const form = document.getElementById('contactForm');
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -315,7 +433,7 @@
             const email = document.getElementById('contactEmail').value.trim();
             const subject = document.getElementById('contactSubject').value.trim();
             const message = document.getElementById('contactMessage').value.trim();
-            
+
             if (!name || !email || !subject || !message) {
                 Swal.fire({ icon: 'error', title: dict[currentLang].errorTitle, text: dict[currentLang].errorMsg });
                 return;
@@ -338,8 +456,570 @@
             }
         });
 
+        // Initialize
         setTheme(currentTheme);
         applyLanguage(currentLang);
+        updateCartCount();
     </script>
+
+      <!--
+====================================================================
+  BLOOM STORE — CHATBOT WIDGET
+  
+  HOW TO USE:
+  Paste this entire block just before </body> in any HTML page.
+  The chatbot will appear as a floating button at bottom-right.
+====================================================================
+-->
+
+<!-- ===================== CHATBOT STYLES ===================== -->
+<style>
+  /* ── Chatbot root variables ── */
+  :root {
+    --cb-bg:        #0d1410;
+    --cb-surface:   #141c17;
+    --cb-surface2:  #1c2820;
+    --cb-border:    rgba(84, 233, 138, 0.15);
+    --cb-green:     #54e98a;
+    --cb-green2:    #2ecc71;
+    --cb-text:      #e1e3e4;
+    --cb-muted:     #7a8f80;
+    --cb-user-bg:   #1e3a2a;
+    --cb-bot-bg:    #192218;
+    --cb-radius:    18px;
+    --cb-w:         370px;
+    --cb-h:         520px;
+    --cb-z:         9999;
+  }
+
+  /* ── Floating toggle button ── */
+  #cb-toggle {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: var(--cb-z);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 32px rgba(46, 204, 113, 0.35), 0 0 0 0 rgba(46, 204, 113, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: cb-pulse 2.5s infinite;
+  }
+  #cb-toggle:hover {
+    transform: scale(1.08);
+    box-shadow: 0 12px 40px rgba(46, 204, 113, 0.5), 0 0 0 0 rgba(46, 204, 113, 0.4);
+  }
+  #cb-toggle svg { width: 28px; height: 28px; fill: #fff; transition: transform 0.3s; }
+  #cb-toggle.open svg { transform: rotate(45deg); }
+
+  @keyframes cb-pulse {
+    0%, 100% { box-shadow: 0 8px 32px rgba(46,204,113,0.35), 0 0 0 0 rgba(46,204,113,0.4); }
+    50%       { box-shadow: 0 8px 32px rgba(46,204,113,0.35), 0 0 0 10px rgba(46,204,113,0); }
+  }
+
+  /* Notification dot */
+  #cb-notif {
+    position: absolute;
+    top: 4px; right: 4px;
+    width: 14px; height: 14px;
+    background: #ff4d6d;
+    border-radius: 50%;
+    border: 2px solid #0d1410;
+    animation: cb-bounce 1s infinite alternate;
+  }
+  @keyframes cb-bounce { from { transform: scale(1); } to { transform: scale(1.3); } }
+
+  /* ── Chat window ── */
+  #cb-window {
+    position: fixed;
+    bottom: 100px;
+    right: 28px;
+    z-index: var(--cb-z);
+    width: var(--cb-w);
+    max-height: var(--cb-h);
+    background: var(--cb-bg);
+    border: 1px solid var(--cb-border);
+    border-radius: var(--cb-radius);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(84,233,138,0.08);
+    transform: translateY(20px) scale(0.95);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease;
+    overflow: hidden;
+  }
+  #cb-window.open {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* ── Header ── */
+  #cb-header {
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #1a2e1f, #0f1d13);
+    border-bottom: 1px solid var(--cb-border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .cb-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    box-shadow: 0 0 16px rgba(46,204,113,0.3);
+  }
+  .cb-header-info h3 {
+    color: #fff; font-size: 15px; font-weight: 600;
+    font-family: 'Noto Serif', serif;
+    margin: 0 0 2px;
+  }
+  .cb-header-info p {
+    color: var(--cb-green); font-size: 11px; margin: 0;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .cb-online-dot {
+    width: 7px; height: 7px;
+    background: var(--cb-green); border-radius: 50%;
+    animation: cb-blink 1.5s infinite;
+  }
+  @keyframes cb-blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  #cb-close {
+    margin-left: auto;
+    background: none; border: none; cursor: pointer;
+    color: var(--cb-muted); font-size: 20px; line-height: 1;
+    padding: 4px 8px; border-radius: 8px;
+    transition: color 0.2s, background 0.2s;
+  }
+  #cb-close:hover { color: #fff; background: rgba(255,255,255,0.08); }
+
+  /* ── Messages area ── */
+  #cb-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(84,233,138,0.2) transparent;
+    min-height: 0;
+    max-height: 340px;
+  }
+  #cb-messages::-webkit-scrollbar { width: 4px; }
+  #cb-messages::-webkit-scrollbar-thumb { background: rgba(84,233,138,0.2); border-radius: 4px; }
+
+  /* ── Message bubbles ── */
+  .cb-msg {
+    display: flex;
+    gap: 8px;
+    animation: cb-fadein 0.3s ease;
+  }
+  @keyframes cb-fadein { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+
+  .cb-msg.user { flex-direction: row-reverse; }
+
+  .cb-msg-avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    flex-shrink: 0; display: flex; align-items: center;
+    justify-content: center; font-size: 14px;
+    margin-top: 2px;
+  }
+  .cb-msg.bot .cb-msg-avatar {
+    background: linear-gradient(135deg, #1a3a22, #0f2016);
+    border: 1px solid var(--cb-border);
+  }
+  .cb-msg.user .cb-msg-avatar {
+    background: rgba(46,204,113,0.15);
+    border: 1px solid rgba(46,204,113,0.2);
+  }
+
+  .cb-bubble {
+    max-width: 82%;
+    padding: 10px 14px;
+    border-radius: 16px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    font-family: 'Manrope', sans-serif;
+  }
+  .cb-msg.bot .cb-bubble {
+    background: var(--cb-bot-bg);
+    color: var(--cb-text);
+    border: 1px solid var(--cb-border);
+    border-bottom-left-radius: 4px;
+  }
+  .cb-msg.user .cb-bubble {
+    background: var(--cb-user-bg);
+    color: #c8f5d8;
+    border: 1px solid rgba(84,233,138,0.18);
+    border-bottom-right-radius: 4px;
+  }
+
+  /* Link button inside bot message */
+  .cb-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 8px;
+    padding: 6px 12px;
+    background: linear-gradient(135deg, rgba(46,204,113,0.2), rgba(46,204,113,0.08));
+    border: 1px solid rgba(84,233,138,0.3);
+    border-radius: 20px;
+    color: var(--cb-green) !important;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-decoration: none !important;
+    text-transform: uppercase;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .cb-link-btn:hover {
+    background: rgba(46,204,113,0.25);
+    border-color: rgba(84,233,138,0.5);
+  }
+  .cb-link-btn svg { width: 12px; height: 12px; }
+
+  /* Typing indicator */
+  .cb-typing {
+    display: flex; align-items: center; gap: 5px; padding: 10px 14px;
+    background: var(--cb-bot-bg); border: 1px solid var(--cb-border);
+    border-radius: 16px; border-bottom-left-radius: 4px;
+    width: fit-content;
+  }
+  .cb-typing span {
+    width: 7px; height: 7px; background: var(--cb-green);
+    border-radius: 50%; animation: cb-typing 1.2s infinite ease-in-out;
+  }
+  .cb-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .cb-typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes cb-typing {
+    0%,80%,100% { transform:scale(0.6); opacity:0.4; }
+    40%          { transform:scale(1);   opacity:1; }
+  }
+
+  /* ── Quick replies ── */
+  #cb-quick {
+    padding: 8px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    border-top: 1px solid var(--cb-border);
+    background: var(--cb-surface);
+  }
+  .cb-quick-btn {
+    padding: 5px 12px;
+    background: rgba(84,233,138,0.06);
+    border: 1px solid rgba(84,233,138,0.18);
+    border-radius: 20px;
+    color: var(--cb-green);
+    font-size: 11px;
+    font-family: 'Manrope', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+  .cb-quick-btn:hover {
+    background: rgba(84,233,138,0.15);
+    border-color: rgba(84,233,138,0.4);
+  }
+
+  /* ── Input area ── */
+  #cb-input-area {
+    padding: 12px 16px;
+    border-top: 1px solid var(--cb-border);
+    background: var(--cb-surface2);
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  #cb-input {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 9px 16px;
+    color: var(--cb-text);
+    font-size: 13px;
+    font-family: 'Manrope', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  #cb-input:focus { border-color: rgba(84,233,138,0.4); }
+  #cb-input::placeholder { color: var(--cb-muted); }
+  #cb-send {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 16px rgba(46,204,113,0.25);
+  }
+  #cb-send:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(46,204,113,0.4); }
+  #cb-send svg { width: 17px; height: 17px; fill: #fff; }
+
+  /* ── Mobile ── */
+  @media (max-width: 420px) {
+    :root { --cb-w: calc(100vw - 24px); }
+    #cb-window { right: 12px; bottom: 90px; }
+    #cb-toggle { right: 16px; bottom: 20px; }
+  }
+
+  /* Light mode overrides */
+  html.light #cb-window {
+    --cb-bg: #f8faf9;
+    --cb-surface: #f0f4f2;
+    --cb-surface2: #eaf0ec;
+    --cb-border: rgba(46, 204, 113, 0.2);
+    --cb-text: #1a1c1c;
+    --cb-muted: #6b7c6f;
+    --cb-bot-bg: #f0f5f2;
+    --cb-user-bg: #e0f5e9;
+    background: var(--cb-bg);
+  }
+  html.light #cb-header { background: linear-gradient(135deg, #e8f5ee, #ddf0e7); }
+  html.light #cb-header .cb-header-info h3 { color: #1a1c1c; }
+  html.light .cb-bubble { color: #1a1c1c; }
+  html.light .cb-msg.bot .cb-bubble { background: #f0f5f2; border-color: rgba(46,204,113,0.18); }
+  html.light .cb-msg.user .cb-bubble { background: #dcf0e5; color: #0d3320; }
+  html.light #cb-input { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.1); color: #1a1c1c; }
+  html.light #cb-input::placeholder { color: #9aada0; }
+</style>
+
+<!-- ===================== CHATBOT HTML ===================== -->
+
+<!-- Floating Toggle Button -->
+<button id="cb-toggle" aria-label="Open chat assistant" title="Chat with Bloom">
+  <span id="cb-notif"></span>
+  <!-- Flower/Chat icon -->
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 3.0 1.01 4.29L2 22l5.71-1.01C9 21.64 10.46 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.38 0-2.68-.31-3.84-.86l-.27-.13-2.82.5.5-2.82-.13-.27C4.31 15.18 4 13.88 4 12.5 4 7.81 7.81 4 12.5 4S21 7.81 21 12.5 17.19 21 12.5 21H12zm5-8h-4V8h-2v5H7v2h4v4h2v-4h4v-2z"/>
+  </svg>
+</button>
+
+<!-- Chat Window -->
+<div id="cb-window" role="dialog" aria-label="Bloom floral assistant">
+
+  <!-- Header -->
+  <div id="cb-header">
+    <div class="cb-avatar">🌸</div>
+    <div class="cb-header-info">
+      <h3>Bloom Assistant</h3>
+      <p><span class="cb-online-dot"></span> Online · Here to help</p>
+    </div>
+    <button id="cb-close" aria-label="Close chat">✕</button>
+  </div>
+
+  <!-- Messages -->
+  <div id="cb-messages"></div>
+
+  <!-- Quick Replies -->
+  <div id="cb-quick">
+    <button class="cb-quick-btn" data-msg="birthday flowers">🎂 Birthday</button>
+    <button class="cb-quick-btn" data-msg="wedding bouquet">💍 Wedding</button>
+    <button class="cb-quick-btn" data-msg="graduation flowers">🎓 Graduation</button>
+    <button class="cb-quick-btn" data-msg="valentine roses">❤️ Valentine</button>
+    <button class="cb-quick-btn" data-msg="luxury flowers">💎 Luxury</button>
+    <button class="cb-quick-btn" data-msg="delivery">🚚 Delivery</button>
+  </div>
+
+  <!-- Input -->
+  <div id="cb-input-area">
+    <input id="cb-input" type="text" placeholder="Ask about flowers, occasions..." maxlength="200" autocomplete="off">
+    <button id="cb-send" aria-label="Send message">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ===================== CHATBOT SCRIPT ===================== -->
+<script>
+(function () {
+  'use strict';
+
+  // ── DOM refs ──
+  const toggle   = document.getElementById('cb-toggle');
+  const window_  = document.getElementById('cb-window');
+  const closeBtn = document.getElementById('cb-close');
+  const messages = document.getElementById('cb-messages');
+  const input    = document.getElementById('cb-input');
+  const sendBtn  = document.getElementById('cb-send');
+  const notif    = document.getElementById('cb-notif');
+  const quickBtns = document.querySelectorAll('.cb-quick-btn');
+
+  let isOpen = false;
+  let isTyping = false;
+  let welcomed = false;
+
+  // ── Open / Close ──
+  function openChat() {
+    isOpen = true;
+    window_.classList.add('open');
+    toggle.classList.add('open');
+    notif.style.display = 'none';
+    input.focus();
+    if (!welcomed) {
+      welcomed = true;
+      setTimeout(() => showBotMessage(
+        "🌸 Welcome to <strong>Bloom Store</strong>! I'm your personal floral assistant.<br><br>Tell me about an occasion, emotion, or flower type — and I'll guide you to the perfect arrangement. What brings you here today?",
+        "/shop",
+        "Browse All Flowers"
+      ), 400);
+    }
+  }
+
+  function closeChat() {
+    isOpen = false;
+    window_.classList.remove('open');
+    toggle.classList.remove('open');
+  }
+
+  toggle.addEventListener('click', () => isOpen ? closeChat() : openChat());
+  closeBtn.addEventListener('click', closeChat);
+
+  // Close on outside click
+  document.addEventListener('click', (e) => {
+    if (isOpen && !window_.contains(e.target) && e.target !== toggle) {
+      closeChat();
+    }
+  });
+
+  // ── Append user message ──
+  function appendUserMessage(text) {
+    const div = document.createElement('div');
+    div.className = 'cb-msg user';
+    div.innerHTML = `
+      <div class="cb-msg-avatar">👤</div>
+      <div class="cb-bubble">${escapeHtml(text)}</div>
+    `;
+    messages.appendChild(div);
+    scrollToBottom();
+  }
+
+  // ── Show bot message ──
+  function showBotMessage(text, link, label) {
+    removeTyping();
+    const div = document.createElement('div');
+    div.className = 'cb-msg bot';
+    const linkHtml = link ? `
+      <br>
+      <a href="${link}" class="cb-link-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+        ${escapeHtml(label || 'View')}
+      </a>` : '';
+    div.innerHTML = `
+      <div class="cb-msg-avatar">🌸</div>
+      <div class="cb-bubble">${text}${linkHtml}</div>
+    `;
+    messages.appendChild(div);
+    scrollToBottom();
+  }
+
+  // ── Typing indicator ──
+  function showTyping() {
+    if (isTyping) return;
+    isTyping = true;
+    const div = document.createElement('div');
+    div.className = 'cb-msg bot';
+    div.id = 'cb-typing-msg';
+    div.innerHTML = `
+      <div class="cb-msg-avatar">🌸</div>
+      <div class="cb-typing"><span></span><span></span><span></span></div>
+    `;
+    messages.appendChild(div);
+    scrollToBottom();
+  }
+
+  function removeTyping() {
+    isTyping = false;
+    const el = document.getElementById('cb-typing-msg');
+    if (el) el.remove();
+  }
+
+  // ── Scroll ──
+  function scrollToBottom() {
+    requestAnimationFrame(() => {
+      messages.scrollTop = messages.scrollHeight;
+    });
+  }
+
+  // ── Escape HTML ──
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);
+  }
+
+  // ── Send message ──
+  async function sendMessage() {
+    const text = input.value.trim();
+    if (!text || isTyping) return;
+
+    input.value = '';
+    appendUserMessage(text);
+    showTyping();
+
+    try {
+      const res = await fetch('/api/chatbot/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text })
+      });
+      const data = await res.json();
+
+      // Small delay for natural feel
+      setTimeout(() => {
+        showBotMessage(data.reply, data.link, data.label);
+      }, 600);
+
+    } catch (err) {
+      setTimeout(() => {
+        showBotMessage(
+          "🌿 Sorry, I'm having trouble connecting right now. Please try again in a moment or visit our shop directly.",
+          "/shop",
+          "Browse Shop"
+        );
+      }, 600);
+    }
+  }
+
+  // ── Event listeners ──
+  sendBtn.addEventListener('click', sendMessage);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  // Quick reply buttons
+  quickBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!isOpen) openChat();
+      input.value = btn.getAttribute('data-msg');
+      setTimeout(sendMessage, 100);
+    });
+  });
+
+  // Show notification dot after 3s if chat not opened
+  setTimeout(() => {
+    if (!isOpen) notif.style.display = 'block';
+  }, 3000);
+
+})();
+</script>
 </body>
+
 </html>
