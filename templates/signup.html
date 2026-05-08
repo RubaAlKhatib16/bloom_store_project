@@ -16,20 +16,28 @@
         :root {
             --bg-body: #f8f9fa;
             --text-primary: #1a1c1c;
+            --text-secondary: #404940;
             --surface-card: rgba(255, 255, 255, 0.8);
             --border-color: rgba(112, 121, 112, 0.2);
+            --input-bg: #ffffff;
+            --input-border: #c0ccc0;
             --primary: #2ecc71;
             --primary-dark: #27ae60;
             --error: #ba1a1a;
             --overlay: linear-gradient(to right, rgba(248, 249, 250, 0.1), rgba(248, 249, 250, 0.8));
+            --social-btn-bg: rgba(0, 0, 0, 0.04);
         }
 
         html.dark {
             --bg-body: #111415;
             --text-primary: #e1e3e4;
+            --text-secondary: #bbcbbb;
             --surface-card: rgba(29, 32, 33, 0.6);
             --border-color: rgba(134, 148, 134, 0.2);
+            --input-bg: #191c1d;
+            --input-border: #3d4a3e;
             --overlay: linear-gradient(to right, rgba(17, 20, 21, 0.4), rgba(17, 20, 21, 0.9));
+            --social-btn-bg: rgba(255, 255, 255, 0.08);
         }
 
         * {
@@ -42,14 +50,15 @@
             background-color: var(--bg-body);
             color: var(--text-primary);
             font-family: 'Manrope', sans-serif;
+            transition: background-color 0.3s;
         }
 
         .glass-card {
             background: var(--surface-card);
             backdrop-filter: blur(20px);
             border: 1px solid var(--border-color);
-            border-radius: 1.5rem;
             transition: transform 0.3s ease;
+            border-radius: 1rem;
         }
 
         .glass-card:hover {
@@ -59,8 +68,8 @@
         .btn-primary {
             background-color: var(--primary);
             color: white;
-            border-radius: 0.75rem;
             transition: all 0.2s;
+            border-radius: 0.5rem;
         }
 
         .btn-primary:hover {
@@ -69,51 +78,163 @@
         }
 
         .social-btn {
-            background-color: rgba(0, 0, 0, 0.04);
+            background-color: var(--social-btn-bg);
             border: 1px solid var(--border-color);
-            border-radius: 0.75rem;
             transition: all 0.2s;
+            border-radius: 0.5rem;
         }
 
         .social-btn:hover {
             transform: scale(0.97);
         }
 
+        /* input padding */
         input {
-            background: transparent;
-            border-bottom: 1px solid var(--border-color);
+            padding-left: 3rem;
+            padding-right: 3rem;
+        }
+
+        input {
+            background-color: var(--input-bg);
+            border: none;
+            border-bottom: 1px solid var(--input-border);
+            color: var(--text-primary);
+            transition: all 0.2s;
             width: 100%;
-            padding: 0.75rem 0.75rem 0.75rem 2.5rem;
-            border-radius: 0.75rem 0.75rem 0 0;
+
+            padding: 0.75rem 3.2rem 0.75rem 0;
+
+            border-radius: 0;
+            font-size: 15px;
+        }
+
+        input::placeholder {
+            padding-right: 0.3rem;
         }
 
         input:focus {
             outline: none;
-            border-bottom-color: var(--primary);
+            border-bottom: 1px solid var(--primary);
+            box-shadow: none;
+        }
+
+        /* icons */
+        /* ENGLISH (LTR) */
+        .input-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+            font-size: 20px;
+            pointer-events: none;
+        }
+
+        /* eye icon */
+
+        /* eye icon */
+        .toggle-pwd,
+        .toggle-confirm {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: #6b7280;
+        }
+
+
+
+
+        .has-eye input {
+            padding-right: 5.5rem;
+        }
+
+
+
+        /* RTL (Arabic) */
+        [dir="rtl"] .input-icon {
+            left: auto;
+            right: 12px;
+        }
+
+        [dir="rtl"] .toggle-pwd,
+        [dir="rtl"] .toggle-confirm {
+            right: auto;
+            left: 12px;
+        }
+
+        [dir="rtl"] input {
+            padding-left: 3rem;
+            padding-right: 3rem;
         }
 
         .error-message {
             font-size: 0.7rem;
             color: var(--error);
+            margin-top: 4px;
+            margin-left: 8px;
             display: none;
-            margin-top: 0.25rem;
-            margin-left: 0.5rem;
         }
 
+        .flash-message {
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            background-color: #f8d7da;
+            color: #842029;
+            display: none;
+        }
+
+        html.dark .flash-message {
+            background-color: #842029;
+            color: #f8d7da;
+        }
+
+        /* RTL adjustments */
         [dir="rtl"] .absolute.left-3 {
             left: auto;
             right: 0.75rem;
+        }
+
+        [dir="rtl"] .absolute.right-3 {
+            right: auto;
+            left: 0.75rem;
         }
 
         [dir="rtl"] .pl-10 {
             padding-left: 0;
             padding-right: 2.5rem;
         }
+
+        /* checkbox custom */
+        .checkbox-custom {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .checkbox-custom input {
+            width: 1rem;
+            height: 1rem;
+            padding: 0;
+            accent-color: var(--primary);
+        }
+
+        .checkbox-custom label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
     </style>
 </head>
 
 <body class="min-h-screen flex flex-col">
     <main class="flex-1 flex flex-col md:flex-row">
+        <!-- Left Side (same as signin) -->
         <section class="relative w-full md:w-1/2 min-h-[300px] md:min-h-screen overflow-hidden">
             <div class="absolute inset-0 z-0">
                 <img alt="Botanical" class="w-full h-full object-cover"
@@ -122,114 +243,302 @@
             </div>
             <div class="relative z-10 h-full flex flex-col justify-center px-8 md:px-16">
                 <h2 class="text-4xl md:text-5xl font-serif font-bold text-primary mb-2" id="brandName">Bloom Store</h2>
-                <p class="text-2xl md:text-3xl font-serif italic" id="leftSlogan">start your journey</p>
+                <p class="text-2xl md:text-3xl font-serif italic max-w-md" id="leftSlogan">start your journey</p>
                 <div class="mt-6 w-12 h-1 bg-primary rounded-full"></div>
             </div>
         </section>
 
+        <!-- Right Side: Sign Up Form -->
         <section class="w-full md:w-1/2 flex items-center justify-center p-4 md:p-6">
-            <div class="w-full max-w-md glass-card rounded-xl p-6 md:p-8">
+            <div class="w-full max-w-md glass-card rounded-xl p-6 md:p-8 shadow-xl">
                 <div class="flex justify-end gap-3 mb-4">
-                    <button id="lightModeBtn" class="text-sm px-2 py-1 rounded-full border">☀️</button>
-                    <button id="darkModeBtn" class="text-sm px-2 py-1 rounded-full border">🌙</button>
-                    <button id="langToggleBtn" class="text-sm px-3 py-1 rounded-full border font-mono">AR</button>
+                    <button id="lightModeBtn"
+                        class="text-sm px-2 py-1 rounded-full border border-gray-300 hover:text-primary transition">☀️</button>
+                    <button id="darkModeBtn"
+                        class="text-sm px-2 py-1 rounded-full border border-gray-300 hover:text-primary transition">🌙</button>
+                    <button id="langToggleBtn"
+                        class="text-sm px-3 py-1 rounded-full border border-gray-300 hover:text-primary transition font-mono">AR</button>
                 </div>
-                <h1 class="text-3xl font-serif font-semibold text-center mb-2" id="signupTitle">CREATE ACCOUNT</h1>
-                <p class="text-center text-base mb-6" id="signupSubtitle">Join our botanical community</p>
 
-                <div class="grid grid-cols-2 gap-3 mb-4">
-                    <button id="googleBtn" class="social-btn flex justify-center gap-2 p-3"><i
-                            class="fab fa-google text-2xl text-[#DB4437]"></i><span
-                            id="googleText">Google</span></button>
-                    <button id="fbBtn" class="social-btn flex justify-center gap-2 p-3"><i
-                            class="fab fa-facebook-f text-2xl text-[#1877F2]"></i><span
-                            id="fbText">Facebook</span></button>
+                <header class="text-center mb-6">
+                    <h1 class="text-3xl font-serif font-semibold mb-2" id="signupTitle">CREATE ACCOUNT</h1>
+                    <p class="text-base" id="signupSubtitle">Join our botanical community</p>
+                </header>
+
+                <div id="apiError" class="flash-message"></div>
+
+                <!-- Social Buttons -->
+                <div class="grid grid-cols-2 gap-3">
+                    <button id="googleBtn"
+                        class="social-btn flex items-center justify-center gap-2 p-3 rounded-lg transition-all">
+                        <i class="fab fa-google text-2xl text-[#DB4437]"></i>
+                        <span class="font-medium text-sm" id="googleText">Google</span>
+                    </button>
+                    <button id="fbBtn"
+                        class="social-btn flex items-center justify-center gap-2 p-3 rounded-lg transition-all">
+                        <i class="fab fa-facebook-f text-2xl text-[#1877F2]"></i>
+                        <span class="font-medium text-sm" id="fbText">Facebook</span>
+                    </button>
                 </div>
 
                 <div class="flex items-center gap-3 my-4">
-                    <div class="h-px flex-1 bg-gray-400"></div><span class="text-xs" id="dividerText">OR SIGN UP WITH
-                        EMAIL</span>
+                    <div class="h-px flex-1 bg-gray-400"></div>
+                    <span class="text-xs tracking-wider text-gray-500" id="dividerText">OR SIGN UP WITH EMAIL</span>
                     <div class="h-px flex-1 bg-gray-400"></div>
                 </div>
 
-                <form id="signupForm">
-                    <div class="relative mb-4"><span
-                            class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-gray-500">person</span><input
-                            type="text" id="username" placeholder="Username">
+                <form id="signupForm" class="space-y-4">
+                    <!-- Username -->
+                    <div class="relative group">
+                        <span class="input-icon material-symbols-outlined">person</span>
+                        <input type="text" id="username" name="username"
+                            class="w-full pl-10 pr-3 py-2 border-b focus:border-primary rounded-t-lg"
+                            placeholder="Username" required>
                         <div class="error-message" id="usernameError"></div>
                     </div>
-                    <div class="relative mb-4"><span
-                            class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-gray-500">mail</span><input
-                            type="email" id="email" placeholder="Email">
+                    <!-- Email -->
+                    <div class="relative group">
+                        <span class="input-icon material-symbols-outlined">mail</span>
+                        <input type="email" id="email" name="email"
+                            class="w-full pl-10 pr-3 py-2 border-b focus:border-primary rounded-t-lg"
+                            placeholder="Email Address" required>
                         <div class="error-message" id="emailError"></div>
                     </div>
-                    <div class="relative mb-4"><span
-                            class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-gray-500">lock</span><input
-                            type="password" id="password" placeholder="Password"><button type="button"
-                            class="toggle-pwd absolute right-3 top-1/2 -translate-y-1/2"><span
-                                class="material-symbols-outlined">visibility</span></button>
+                    <!-- Password -->
+                    <div class="relative group">
+                        <span class="input-icon material-symbols-outlined">lock</span>
+                        <input type="password" id="password" name="password"
+                            class="w-full pl-10 pr-10 py-2 border-b focus:border-primary rounded-t-lg"
+                            placeholder="Password" required>
+                        <button type="button"
+                            class="toggle-pwd absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-primary">
+                            <span class="material-symbols-outlined">visibility</span>
+                        </button>
                         <div class="error-message" id="passError"></div>
                     </div>
-                    <div class="relative mb-4"><span
-                            class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-gray-500">lock_reset</span><input
-                            type="password" id="confirmPassword" placeholder="Confirm Password"><button type="button"
-                            class="toggle-confirm absolute right-3 top-1/2 -translate-y-1/2"><span
-                                class="material-symbols-outlined">visibility</span></button>
+                    <!-- Confirm Password -->
+                    <div class="relative group">
+                        <span class="input-icon material-symbols-outlined">lock</span>
+                        <input type="password" id="confirmPassword" name="confirmPassword"
+                            class="w-full pl-10 pr-10 py-2 border-b focus:border-primary rounded-t-lg"
+                            placeholder="Confirm Password" required>
+                        <button type="button"
+                            class="toggle-confirm absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-primary">
+                            <span class="material-symbols-outlined">visibility</span>
+                        </button>
                         <div class="error-message" id="confirmError"></div>
                     </div>
-                    <div class="relative mb-4"><span
-                            class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-gray-500">home</span><input
-                            type="text" id="address" placeholder="Address">
+                    <!-- Address -->
+                    <div class="relative group">
+                        <span class="input-icon material-symbols-outlined">home</span>
+                        <input type="text" id="address" name="address"
+                            class="w-full pl-10 pr-3 py-2 border-b focus:border-primary rounded-t-lg"
+                            placeholder="Address" required>
                         <div class="error-message" id="addressError"></div>
                     </div>
-                    <div class="flex items-start gap-2 my-3"><input type="checkbox" id="termsCheckbox"><label
-                            id="termsLabel" class="text-xs">I agree to the <a href="#" class="text-primary">Terms</a>
-                            and <a href="#" class="text-primary">Privacy</a></label></div>
-                    <button type="submit" class="btn-primary w-full py-3 rounded-lg flex justify-center gap-2"><span
-                            id="registerBtnTxt">CREATE ACCOUNT</span><span
-                            class="material-symbols-outlined">arrow_forward</span></button>
+                    <!-- Terms Checkbox -->
+                    <div class="checkbox-custom">
+                        <input type="checkbox" id="termsCheckbox">
+                        <label id="termsLabel" class="text-xs">I agree to the <a href="#" class="text-primary">Terms</a>
+                            and <a href="#" class="text-primary">Privacy</a></label>
+                    </div>
+                    <button type="submit"
+                        class="btn-primary w-full py-3 rounded-lg flex items-center justify-center gap-2 transition-all active:scale-95 text-sm font-bold tracking-wider">
+                        <span id="registerBtnTxt">CREATE ACCOUNT</span>
+                        <span class="material-symbols-outlined">arrow_forward</span>
+                    </button>
                 </form>
-                <p class="text-center text-sm mt-6" id="footerText">Already have an account? <a href="/login"
-                        class="text-primary font-bold underline">Sign In</a></p>
+
+                <p class="text-center text-sm mt-6" id="footerText">
+                    Already have an account? <a href="/login"
+                        class="text-primary font-bold underline underline-offset-4" id="signinLink">Sign In</a>
+                </p>
             </div>
         </section>
     </main>
-    <footer class="w-full py-8 border-t bg-gray-50 dark:bg-surface">
-        <div class="flex justify-between items-center px-12 text-xs">
-            <div>Bloom Store</div>
-            <div id="copyright">© 2026 Bloom Store</div>
-            <div class="flex gap-4"><a href="#">Privacy</a><a href="#">Terms</a></div>
-        </div>
+
+    <footer id="copyright" class="text-center text-sm py-4">
+        © 2026 Bloom Store
     </footer>
 
     <script>
-        // Theme & Language (مختصر لكن يعمل)
+        // ---------- Theme & Language (perfectly separated) ----------
         const htmlTag = document.documentElement;
         const lightBtn = document.getElementById('lightModeBtn');
         const darkBtn = document.getElementById('darkModeBtn');
         const langBtn = document.getElementById('langToggleBtn');
+
         let currentLang = localStorage.getItem('bloomLang') || 'en';
         let currentTheme = localStorage.getItem('bloomTheme') || 'light';
+
         const dict = {
-            en: { brand: "Bloom Store", slogan: "start your journey", title: "CREATE ACCOUNT", subtitle: "Join our botanical community", divider: "OR SIGN UP WITH EMAIL", usernamePlace: "Username", emailPlace: "Email", passPlace: "Password", confirmPlace: "Confirm Password", addressPlace: "Address", registerBtn: "CREATE ACCOUNT", footer: "Already have an account? ", signinLink: "Sign In", copyright: "© 2026 Bloom Store", errors: { usernameReq: "Username required", emailReq: "Email required", emailValid: "Valid email", passReq: "Password required", passLen: "Min 6 chars", confirmMatch: "Passwords mismatch", addressReq: "Address required" }, sweetSuccessTitle: "Welcome!", sweetSuccessMsg: "Account created. Please log in." },
-            ar: { brand: "شغف", slogan: "ابدأ رحلتك", title: "إنشاء حساب", subtitle: "انضم إلينا", divider: "أو سجل بالإيميل", usernamePlace: "اسم المستخدم", emailPlace: "البريد", passPlace: "كلمة المرور", confirmPlace: "تأكيد", addressPlace: "العنوان", registerBtn: "تسجيل", footer: "لديك حساب؟ ", signinLink: "تسجيل الدخول", copyright: "© 2026 شغف", errors: { usernameReq: "اسم المستخدم مطلوب", emailReq: "البريد مطلوب", emailValid: "بريد صالح", passReq: "كلمة المرور مطلوبة", passLen: "6 أحرف على الأقل", confirmMatch: "غير متطابقتين", addressReq: "العنوان مطلوب" }, sweetSuccessTitle: "مرحباً!", sweetSuccessMsg: "تم إنشاء الحساب. سجل دخولك" }
+            en: {
+                brand: "Bloom Store", slogan: "start your journey", title: "CREATE ACCOUNT", subtitle: "Join our botanical community",
+                divider: "OR SIGN UP WITH EMAIL", usernamePlace: "Username", emailPlace: "Email Address", passPlace: "Password",
+                confirmPlace: "Confirm Password", addressPlace: "Address", registerBtn: "CREATE ACCOUNT",
+                footer: "Already have an account? ", signinLink: "Sign In", copyright: "© 2026 Bloom Store. Botanical Elegance.",
+                google: "Google", facebook: "Facebook", terms: 'I agree to the <a href="#" class="text-primary">Terms</a> and <a href="#" class="text-primary">Privacy</a>',
+                errors: {
+                    usernameReq: "Username required", emailReq: "Email required", emailValid: "Valid email required",
+                    passReq: "Password required", passLen: "Min 6 characters", confirmMatch: "Passwords mismatch",
+                    addressReq: "Address required", termsReq: "You must agree to the terms"
+                },
+                sweetSuccessTitle: "Welcome!", sweetSuccessMsg: "Account created successfully. Please log in."
+            },
+            ar: {
+                brand: "شغف", slogan: "ابدأ رحلتك", title: "إنشاء حساب", subtitle: "انضم إلى مجتمعنا النباتي",
+                divider: "أو سجل بالإيميل", usernamePlace: "اسم المستخدم", emailPlace: "البريد الإلكتروني",
+                passPlace: "كلمة المرور", confirmPlace: "تأكيد كلمة المرور", addressPlace: "العنوان",
+                registerBtn: "إنشاء حساب", footer: "لديك حساب بالفعل؟ ", signinLink: "تسجيل الدخول",
+                copyright: "© 2026 شغف. أناقة نباتية", google: "جوجل", facebook: "فيسبوك",
+                terms: 'أوافق على <a href="#" class="text-primary">الشروط</a> و <a href="#" class="text-primary">الخصوصية</a>',
+                errors: {
+                    usernameReq: "اسم المستخدم مطلوب", emailReq: "البريد الإلكتروني مطلوب", emailValid: "بريد صالح مطلوب",
+                    passReq: "كلمة المرور مطلوبة", passLen: "على الأقل 6 أحرف", confirmMatch: "كلمتا المرور غير متطابقتين",
+                    addressReq: "العنوان مطلوب", termsReq: "يجب الموافقة على الشروط"
+                },
+                sweetSuccessTitle: "مرحباً!", sweetSuccessMsg: "تم إنشاء الحساب بنجاح. يرجى تسجيل الدخول."
+            }
         };
-        function applyLanguage(lang) { const t = dict[lang]; htmlTag.setAttribute('lang', lang); htmlTag.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr'); document.getElementById('brandName').innerText = t.brand; document.getElementById('leftSlogan').innerText = t.slogan; document.getElementById('signupTitle').innerText = t.title; document.getElementById('signupSubtitle').innerText = t.subtitle; document.getElementById('dividerText').innerText = t.divider; document.getElementById('username').placeholder = t.usernamePlace; document.getElementById('email').placeholder = t.emailPlace; document.getElementById('password').placeholder = t.passPlace; document.getElementById('confirmPassword').placeholder = t.confirmPlace; document.getElementById('address').placeholder = t.addressPlace; document.getElementById('registerBtnTxt').innerText = t.registerBtn; document.getElementById('footerText').innerHTML = `${t.footer}<a href="/login" class="text-primary font-bold underline">${t.signinLink}</a>`; document.getElementById('copyright').innerText = t.copyright; langBtn.innerText = (lang === 'en') ? 'AR' : 'EN'; }
-        function setTheme(theme) { if (theme === 'dark') { htmlTag.classList.add('dark'); localStorage.setItem('bloomTheme', 'dark'); } else { htmlTag.classList.remove('dark'); localStorage.setItem('bloomTheme', 'light'); } }
-        lightBtn.onclick = () => setTheme('light'); darkBtn.onclick = () => setTheme('dark'); langBtn.onclick = () => { currentLang = currentLang === 'en' ? 'ar' : 'en'; localStorage.setItem('bloomLang', currentLang); applyLanguage(currentLang); };
-        setTheme(currentTheme); applyLanguage(currentLang);
-        // Password toggle
-        document.querySelectorAll('.toggle-pwd, .toggle-confirm').forEach(btn => btn.addEventListener('click', function () { const input = this.parentElement.querySelector('input'); const icon = this.querySelector('span'); input.type = input.type === 'password' ? 'text' : 'password'; icon.innerText = input.type === 'password' ? 'visibility' : 'visibility_off'; }));
-        // API
-        const API_BASE = "/api/auth";
-        const username = document.getElementById('username'), email = document.getElementById('email'), password = document.getElementById('password'), confirm = document.getElementById('confirmPassword'), address = document.getElementById('address'), terms = document.getElementById('termsCheckbox');
-        const nameErr = document.getElementById('usernameError'), emailErr = document.getElementById('emailError'), passErr = document.getElementById('passError'), confirmErr = document.getElementById('confirmError'), addrErr = document.getElementById('addressError');
-        function hideErrors() { [nameErr, emailErr, passErr, confirmErr, addrErr].forEach(e => e.style.display = 'none'); }
-        function showError(el, msg) { el.innerText = msg; el.style.display = 'block'; }
-        function validate() { let ok = true; const e = dict[currentLang].errors; hideErrors(); if (!username.value.trim()) { showError(nameErr, e.usernameReq); ok = false; } if (!email.value.trim()) { showError(emailErr, e.emailReq); ok = false; } else if (!/^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/.test(email.value.trim())) { showError(emailErr, e.emailValid); ok = false; } if (!password.value) { showError(passErr, e.passReq); ok = false; } else if (password.value.length < 6) { showError(passErr, e.passLen); ok = false; } if (password.value !== confirm.value) { showError(confirmErr, e.confirmMatch); ok = false; } if (!address.value.trim()) { showError(addrErr, e.addressReq); ok = false; } if (!terms.checked) { Swal.fire({ icon: 'warning', title: 'Terms', text: 'Accept terms', confirmButtonColor: '#2ecc71' }); ok = false; } return ok; }
-        document.getElementById('signupForm').addEventListener('submit', async (e) => { e.preventDefault(); if (!validate()) return; try { const res = await fetch(`${API_BASE}/users`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: username.value.trim(), email: email.value.trim(), password: password.value, address: address.value.trim() }) }); const data = await res.json(); if (res.ok) { Swal.fire({ icon: 'success', title: dict[currentLang].sweetSuccessTitle, text: dict[currentLang].sweetSuccessMsg, confirmButtonColor: '#2ecc71' }).then(() => window.location.href = '/login'); } else { Swal.fire({ icon: 'error', title: 'Failed', text: data.error || 'Registration failed', confirmButtonColor: '#2ecc71' }); } } catch (err) { Swal.fire({ icon: 'error', title: 'Network Error', text: 'Check connection', confirmButtonColor: '#2ecc71' }); } });
-        document.getElementById('googleBtn')?.addEventListener('click', () => Swal.fire({ icon: 'info', title: 'Coming soon' }));
-        document.getElementById('fbBtn')?.addEventListener('click', () => Swal.fire({ icon: 'info', title: 'Coming soon' }));
+
+        function applyLanguage(lang) {
+            const t = dict[lang];
+            htmlTag.setAttribute('lang', lang);
+            htmlTag.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            document.getElementById('brandName').innerText = t.brand;
+            document.getElementById('leftSlogan').innerText = t.slogan;
+            document.getElementById('signupTitle').innerText = t.title;
+            document.getElementById('signupSubtitle').innerText = t.subtitle;
+            document.getElementById('dividerText').innerText = t.divider;
+            document.getElementById('username').placeholder = t.usernamePlace;
+            document.getElementById('email').placeholder = t.emailPlace;
+            document.getElementById('password').placeholder = t.passPlace;
+            document.getElementById('confirmPassword').placeholder = t.confirmPlace;
+            document.getElementById('address').placeholder = t.addressPlace;
+            document.getElementById('registerBtnTxt').innerText = t.registerBtn;
+            document.getElementById('footerText').innerHTML = `${t.footer}<a href="/login" class="text-primary font-bold underline underline-offset-4">${t.signinLink}</a>`;
+            document.getElementById('copyright').innerHTML = t.copyright;
+            document.getElementById('googleText').innerText = t.google;
+            document.getElementById('fbText').innerText = t.facebook;
+            document.getElementById('termsLabel').innerHTML = t.terms;
+            langBtn.innerText = (lang === 'en') ? 'AR' : 'EN';
+        }
+
+        function setTheme(theme) {
+            if (theme === 'dark') { htmlTag.classList.add('dark'); localStorage.setItem('bloomTheme', 'dark'); }
+            else { htmlTag.classList.remove('dark'); localStorage.setItem('bloomTheme', 'light'); }
+        }
+
+        lightBtn.onclick = () => setTheme('light');
+        darkBtn.onclick = () => setTheme('dark');
+        langBtn.onclick = () => { currentLang = currentLang === 'en' ? 'ar' : 'en'; localStorage.setItem('bloomLang', currentLang); applyLanguage(currentLang); };
+
+        // Password toggles (both fields)
+        document.querySelectorAll('.toggle-pwd, .toggle-confirm').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const input = this.parentElement.querySelector('input');
+                const icon = this.querySelector('span');
+                input.type = input.type === 'password' ? 'text' : 'password';
+                icon.innerText = input.type === 'password' ? 'visibility' : 'visibility_off';
+            });
+        });
+
+        setTheme(currentTheme);
+        applyLanguage(currentLang);
+
+        // ---------- API Registration ----------
+        const API_BASE = "http://127.0.0.1:5000/api/auth";
+        const usernameInp = document.getElementById('username');
+        const emailInp = document.getElementById('email');
+        const passInp = document.getElementById('password');
+        const confirmInp = document.getElementById('confirmPassword');
+        const addressInp = document.getElementById('address');
+        const termsCheck = document.getElementById('termsCheckbox');
+        const usernameErr = document.getElementById('usernameError');
+        const emailErr = document.getElementById('emailError');
+        const passErr = document.getElementById('passError');
+        const confirmErr = document.getElementById('confirmError');
+        const addressErr = document.getElementById('addressError');
+        const apiErrorDiv = document.getElementById('apiError');
+
+        function hideErrors() {
+            const errs = [usernameErr, emailErr, passErr, confirmErr, addressErr, apiErrorDiv];
+            errs.forEach(e => { if (e) e.style.display = 'none'; });
+        }
+        function showError(el, msg) {
+            if (el) { el.innerText = msg; el.style.display = 'block'; }
+        }
+
+        function validateForm() {
+            let ok = true;
+            const err = dict[currentLang].errors;
+            hideErrors();
+            if (!usernameInp.value.trim()) { showError(usernameErr, err.usernameReq); ok = false; }
+            if (!emailInp.value.trim()) { showError(emailErr, err.emailReq); ok = false; }
+            else if (!/^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/i.test(emailInp.value.trim())) { showError(emailErr, err.emailValid); ok = false; }
+            if (!passInp.value) { showError(passErr, err.passReq); ok = false; }
+            else if (passInp.value.length < 6) { showError(passErr, err.passLen); ok = false; }
+            if (passInp.value !== confirmInp.value) { showError(confirmErr, err.confirmMatch); ok = false; }
+            if (!addressInp.value.trim()) { showError(addressErr, err.addressReq); ok = false; }
+            if (!termsCheck.checked) { showError(apiErrorDiv, err.termsReq); ok = false; }
+            return ok;
+        }
+
+        async function handleSignup(e) {
+            e.preventDefault();
+            if (!validateForm()) return;
+
+            const payload = {
+                username: usernameInp.value.trim(),
+                email: emailInp.value.trim(),
+                password: passInp.value,
+                address: addressInp.value.trim()
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/users`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: dict[currentLang].sweetSuccessTitle,
+                        text: dict[currentLang].sweetSuccessMsg,
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = '/login';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Registration failed',
+                        text: data.error || (currentLang === 'ar' ? 'فشل إنشاء الحساب' : 'Could not create account')
+                    });
+                }
+            } catch (err) {
+                Swal.fire({
+                    icon: 'error',
+                    title: currentLang === 'ar' ? 'خطأ في الشبكة' : 'Network error',
+                    text: currentLang === 'ar' ? 'يرجى التحقق من الاتصال' : 'Please check your connection'
+                });
+            }
+        }
+
+        const signupForm = document.getElementById('signupForm');
+        if (signupForm) signupForm.addEventListener('submit', handleSignup);
+
+        // Social buttons placeholder
+        document.getElementById('googleBtn')?.addEventListener('click', () => {
+            Swal.fire({ icon: 'info', title: 'Coming soon', text: 'Google sign-up will be available soon.' });
+        });
+        document.getElementById('fbBtn')?.addEventListener('click', () => {
+            Swal.fire({ icon: 'info', title: 'Coming soon', text: 'Facebook sign-up will be available soon.' });
+        });
     </script>
 </body>
 

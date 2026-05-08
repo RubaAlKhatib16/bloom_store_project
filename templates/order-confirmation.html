@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        /* ========== GLOBAL STYLES (مطابقة لبقية الموقع) ========== */
+        /* ========== GLOBAL STYLES  ========== */
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
         }
@@ -84,6 +84,33 @@
         html.dark .border-primary\/50 {
             border-color: rgba(84, 233, 138, 0.5);
         }
+        /* Status badges */
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .status-completed, .status-delivered {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+        }
+        .status-processing, .status-pending {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+        .status-shipped {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+        .status-cancelled {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        hr {
+            border-color: rgba(134, 148, 134, 0.2);
+        }
     </style>
     <script>
         tailwind.config = {
@@ -97,66 +124,61 @@
 <body class="font-body-md bg-background text-on-background">
 
     <!-- Top Navigation Bar (مطابق لبقية الصفحات) -->
-<nav class="fixed top-0 w-full z-50 border-b border-white/10 bg-zinc-950/70 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
-    <div class="flex justify-between items-center px-8 py-4 w-full max-w-7xl mx-auto">
-        <div class="text-2xl font-serif font-light tracking-[0.2em] text-emerald-500" id="brandName">BLOOM</div>
-        <div class="hidden md:flex items-center gap-8">
-            <a href="/" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navHome">Home</a>
-            <a href="/shop" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navShop">Shop</a>
-            <a href="/categories" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navCategory">Categories</a>
-            <a href="/occasions" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navOccasions">Occasions</a>
-            <a href="/bouquets" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navBouquets">Bouquets</a>
-            <a href="/contact" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navContact">Contact</a>
+    <nav class="fixed top-0 w-full z-50 border-b border-white/10 bg-zinc-950/70 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+        <div class="flex justify-between items-center px-8 py-4 w-full max-w-7xl mx-auto">
+            <div class="text-2xl font-serif font-light tracking-[0.2em] text-emerald-500" id="brandName">BLOOM</div>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="/" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navHome">Home</a>
+                <a href="/shop" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navShop">Shop</a>
+                <a href="/categories" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navCategory">Categories</a>
+                <a href="/occasions" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navOccasions">Occasions</a>
+                <a href="/bouquets" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navBouquets">Bouquets</a>
+                <a href="/contact" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navContact">Contact</a>
+            </div>
+            <div class="flex items-center gap-6">
+                <button id="themeToggle" class="text-emerald-500 hover:bg-white/5 p-2 rounded-full"><span class="material-symbols-outlined">light_mode</span></button>
+                <button id="langToggle" class="text-emerald-500 border border-emerald-500/50 px-3 py-1 rounded-full text-sm font-bold">AR</button>
+                <a href="/cart" class="relative">
+                    <span class="material-symbols-outlined text-emerald-500">shopping_cart</span>
+                    <span id="cartCount" class="absolute -top-2 -right-2 bg-emerald-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                </a>
+                <a href="/profile" class="material-symbols-outlined text-emerald-500">person</a>
+            </div>
         </div>
-        <div class="flex items-center gap-6">
-            <button id="themeToggle" class="text-emerald-500 hover:bg-white/5 p-2 rounded-full"><span class="material-symbols-outlined">light_mode</span></button>
-            <button id="langToggle" class="text-emerald-500 border border-emerald-500/50 px-3 py-1 rounded-full text-sm font-bold">AR</button>
-            <a href="/cart" class="relative">
-                <span class="material-symbols-outlined text-emerald-500">shopping_cart</span>
-                <span id="cartCount" class="absolute -top-2 -right-2 bg-emerald-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
-            </a>
-            <a href="/profile" class="material-symbols-outlined text-emerald-500">person</a>
-        </div>
-    </div>
-</nav>
+    </nav>
 
-<script>
-    // دالة لتفعيل الرابط النشط في شريط التنقل
-    function setActiveNavLink() {
-        const currentPath = window.location.pathname;
-        const navLinks = document.querySelectorAll('.nav-link');
-        
-        navLinks.forEach(link => {
-            // إزالة الكلاسات النشطة من جميع الروابط
-            link.classList.remove('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
-            link.classList.add('text-zinc-400');
-            
-            const linkPath = link.getAttribute('href');
-            
-            // التحقق من تطابق المسار (مع معالجة الحالة الخاصة للصفحة الرئيسية)
-            if (linkPath === '/' && (currentPath === '/' || currentPath === '')) {
-                link.classList.add('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
-                link.classList.remove('text-zinc-400');
-            } else if (linkPath !== '/' && currentPath.startsWith(linkPath)) {
-                link.classList.add('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
-                link.classList.remove('text-zinc-400');
-            }
-        });
-    }
-    
-    // تنفيذ الدالة عند تحميل الصفحة وأيضاً عند تغيير المسار (للمشاريع التي تستخدم History API)
-    document.addEventListener('DOMContentLoaded', setActiveNavLink);
-    window.addEventListener('popstate', setActiveNavLink);
-</script>
+    <script>
+        function setActiveNavLink() {
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
+                link.classList.add('text-zinc-400');
+                const linkPath = link.getAttribute('href');
+                if (linkPath === '/' && (currentPath === '/' || currentPath === '')) {
+                    link.classList.add('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
+                    link.classList.remove('text-zinc-400');
+                } else if (linkPath !== '/' && currentPath.startsWith(linkPath)) {
+                    link.classList.add('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
+                    link.classList.remove('text-zinc-400');
+                }
+            });
+        }
+        document.addEventListener('DOMContentLoaded', setActiveNavLink);
+        window.addEventListener('popstate', setActiveNavLink);
+    </script>
 
     <main class="max-w-4xl mx-auto px-4 pt-32 pb-20">
         <div id="confirmationContainer" class="glass-panel rounded-xl p-6 md:p-8">
-            <div class="text-center py-12 text-primary animate-pulse">Loading order details...</div>
+            <div class="text-center py-12 text-primary animate-pulse">
+                <span class="material-symbols-outlined text-5xl">hourglass_empty</span>
+                <p class="mt-4">Loading order details...</p>
+            </div>
         </div>
         <div class="text-center mt-8">
             <a href="/shop" class="inline-flex items-center gap-2 text-primary hover:underline">
                 <span class="material-symbols-outlined">arrow_back</span>
-                Continue Shopping
+                <span id="continueShoppingText">Continue Shopping</span>
             </a>
         </div>
     </main>
@@ -177,23 +199,51 @@
         const htmlTag = document.documentElement;
         let currentLang = localStorage.getItem('bloomLang') || 'en';
         let currentTheme = localStorage.getItem('bloomTheme') || 'dark';
-        const orderId = { order_id };
+        
+        // ========== GET ORDER ID FROM URL ==========
+        function getOrderIdFromUrl() {
+            const path = window.location.pathname;
+            const pathMatch = path.match(/\/order-confirmation\/(\d+)/);
+            if (pathMatch) return pathMatch[1];
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id') || urlParams.get('orderId');
+        }
+        
+        const orderId = getOrderIdFromUrl();
 
-        // ========== Helper: fix image URL ==========
+        // ========== Helper Functions ==========
         function fixImageUrl(url) {
             if (!url) return 'https://placehold.co/80x80?text=Bloom';
             if (url.startsWith('http')) return url;
             if (url.startsWith('/static/')) return url;
             return '/static/' + url;
         }
+        
+        function getStatusClass(status) {
+            const s = (status || '').toLowerCase();
+            if (s === 'completed' || s === 'delivered') return 'status-completed';
+            if (s === 'processing' || s === 'pending') return 'status-processing';
+            if (s === 'shipped') return 'status-shipped';
+            if (s === 'cancelled') return 'status-cancelled';
+            return 'status-processing';
+        }
+        
+        function getStatusText(status, lang) {
+            const s = (status || '').toLowerCase();
+            const texts = {
+                en: { completed: 'Completed', delivered: 'Delivered', processing: 'Processing', pending: 'Processing', shipped: 'Shipped', cancelled: 'Cancelled' },
+                ar: { completed: 'مكتمل', delivered: 'تم التسليم', processing: 'قيد المعالجة', pending: 'قيد المعالجة', shipped: 'تم الشحن', cancelled: 'ملغي' }
+            };
+            const t = texts[lang] || texts.en;
+            return t[s] || status || 'Processing';
+        }
 
         // ========== TRANSLATIONS ==========
         const dict = {
             en: {
-                title: 'Order Confirmation',
                 thankYou: 'Thank you for your purchase!',
                 orderNumber: 'Order #',
-                date: 'Date',
+                date: 'Order Date',
                 status: 'Status',
                 shippingAddress: 'Shipping Address',
                 items: 'Order Items',
@@ -201,15 +251,15 @@
                 quantity: 'Qty',
                 price: 'Price',
                 subtotal: 'Subtotal',
-                total: 'Total',
-                backToShop: 'Continue Shopping',
-                orderNotFound: 'Order not found. Please contact support.'
+                total: 'Total Amount',
+                continueShopping: 'Continue Shopping',
+                orderNotFound: 'Order not found. Please contact support.',
+                pointsEarned: 'You earned 10 loyalty points from this order!'
             },
             ar: {
-                title: 'تأكيد الطلب',
                 thankYou: 'شكراً لك على شرائك!',
                 orderNumber: 'الطلب رقم',
-                date: 'التاريخ',
+                date: 'تاريخ الطلب',
                 status: 'الحالة',
                 shippingAddress: 'عنوان الشحن',
                 items: 'عناصر الطلب',
@@ -218,8 +268,9 @@
                 price: 'السعر',
                 subtotal: 'المجموع الفرعي',
                 total: 'المجموع الكلي',
-                backToShop: 'متابعة التسوق',
-                orderNotFound: 'الطلب غير موجود. يرجى الاتصال بالدعم.'
+                continueShopping: 'متابعة التسوق',
+                orderNotFound: 'الطلب غير موجود. يرجى الاتصال بالدعم.',
+                pointsEarned: 'لقد ربحت 10 نقاط ولاء من هذا الطلب!'
             }
         };
 
@@ -228,6 +279,7 @@
             htmlTag.setAttribute('lang', lang);
             htmlTag.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
             document.getElementById('langToggle').innerText = (lang === 'en') ? 'AR' : 'EN';
+            document.getElementById('continueShoppingText').innerText = t.continueShopping;
             if (window.orderData) renderOrder(window.orderData);
         }
 
@@ -236,12 +288,14 @@
                 htmlTag.classList.remove('dark');
                 htmlTag.classList.add('light');
                 localStorage.setItem('bloomTheme', 'light');
-                document.querySelector('#themeToggle').innerText = 'light_mode';
+                const themeIcon = document.querySelector('#themeToggle span');
+                if (themeIcon) themeIcon.innerText = 'light_mode';
             } else {
                 htmlTag.classList.remove('light');
                 htmlTag.classList.add('dark');
                 localStorage.setItem('bloomTheme', 'dark');
-                document.querySelector('#themeToggle').innerText = 'dark_mode';
+                const themeIcon = document.querySelector('#themeToggle span');
+                if (themeIcon) themeIcon.innerText = 'dark_mode';
             }
         }
 
@@ -249,89 +303,195 @@
             currentTheme = currentTheme === 'light' ? 'dark' : 'light';
             setTheme(currentTheme);
         });
+        
         document.getElementById('langToggle').addEventListener('click', () => {
             currentLang = currentLang === 'en' ? 'ar' : 'en';
             localStorage.setItem('bloomLang', currentLang);
             applyLanguage(currentLang);
         });
 
+        // ========== LOAD ORDER ==========
         async function loadOrder() {
             const container = document.getElementById('confirmationContainer');
             const token = localStorage.getItem('access_token');
-            if (!token) {
-                container.innerHTML = `<div class="text-center py-12 text-error">Please <a href="/login" class="text-primary underline">login</a> to view your order.</div>`;
+            
+            if (!orderId) {
+                container.innerHTML = `<div class="text-center py-12 text-red-400">Invalid order ID. Please check your order link.</div>`;
                 return;
             }
+            
+            if (!token) {
+                container.innerHTML = `<div class="text-center py-12 text-red-400">Please <a href="/login" class="text-primary underline">login</a> to view your order.</div>`;
+                return;
+            }
+            
             try {
-                const res = await fetch(`/api/orders/${orderId}`, {
+                let order = null;
+                let found = false;
+                
+                // Try /api/orders/{id}
+                const res1 = await fetch(`/api/orders/${orderId}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
-                if (!res.ok) throw new Error('Order not found');
-                const order = await res.json();
+                if (res1.ok) {
+                    order = await res1.json();
+                    found = true;
+                }
+                
+                // Try /api/user/orders/{id}
+                if (!found) {
+                    const res2 = await fetch(`/api/user/orders/${orderId}`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    if (res2.ok) {
+                        order = await res2.json();
+                        found = true;
+                    }
+                }
+                
+                if (!found) throw new Error('Order not found');
+                
                 window.orderData = order;
                 renderOrder(order);
+                
             } catch (err) {
-                container.innerHTML = `<div class="text-center py-12 text-error">${dict[currentLang].orderNotFound}</div>`;
+                console.error('Error loading order:', err);
+                container.innerHTML = `<div class="text-center py-12 text-red-400">${dict[currentLang].orderNotFound}</div>`;
             }
         }
 
+        // ========== RENDER ORDER ==========
         function renderOrder(order) {
             const t = dict[currentLang];
             const container = document.getElementById('confirmationContainer');
-            const statusColor = 
-                order.status === 'Delivered' ? 'text-green-400' :
-                order.status === 'Shipped' ? 'text-blue-400' :
-                order.status === 'Processing' ? 'text-yellow-400' : 'text-gray-400';
-            htmlTag.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            
+            // Normalize data
+            const orderIdNum = order.id || order.OrderID || orderId;
+            const orderDate = order.date || order.OrderDate || order.created_at;
+            const orderStatus = order.status || order.Status || 'Processing';
+            const shippingAddress = order.shipping_address || order.Address || order.address || 'Not provided';
+            const items = order.items || order.order_items || order.OrderItems || [];
+            const total = parseFloat(order.total || order.total_amount || order.TotalAmount || 0);
+            
+            const statusClass = getStatusClass(orderStatus);
+            const statusText = getStatusText(orderStatus, currentLang);
+            
+            let itemsHtml = '';
+            let subtotal = 0;
+            
+            items.forEach(item => {
+                const itemName = item.name || item.product_name || item.FlowerName || 'Product';
+                const itemPrice = parseFloat(item.price || item.Price || 0);
+                const itemQty = parseInt(item.quantity || item.Quantity || 1);
+                const itemImage = item.image || item.image_url || item.ImageURL || '';
+                const itemSubtotal = itemPrice * itemQty;
+                subtotal += itemSubtotal;
+                
+                itemsHtml += `
+                    <tr class="border-b border-zinc-800">
+                        <td class="py-4">
+                            <div class="flex items-center gap-3">
+                                <img src="${fixImageUrl(itemImage)}" class="w-14 h-14 object-cover rounded-lg" alt="${escapeHtml(itemName)}" onerror="this.src='https://placehold.co/80x80?text=Bloom'">
+                                <span class="font-medium">${escapeHtml(itemName)}</span>
+                            </div>
+                        </td>
+                        <td class="text-center py-4">${itemQty}</td>
+                        <td class="text-right py-4">$${itemPrice.toFixed(2)}</td>
+                        <td class="text-right py-4 font-medium">$${itemSubtotal.toFixed(2)}</td>
+                    </tr>
+                `;
+            });
+            
+            const shipping = 0; // أو يمكن جلبها من order
+            const discount = parseFloat(order.discount || order.DiscountApplied || 0);
+            const finalTotal = subtotal + shipping - discount;
+            
             container.innerHTML = `
-                <div class="text-center mb-6">
-                    <span class="material-symbols-outlined text-6xl text-primary">check_circle</span>
-                    <h1 class="font-headline-md text-headline-md mt-2">${t.thankYou}</h1>
-                    <p class="text-on-surface-variant">${t.orderNumber}${order.id}</p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                    <div class="glass-panel p-4 rounded-xl">
-                        <h3 class="font-headline-sm text-headline-sm mb-2">${t.date}</h3>
-                        <p>${new Date(order.date).toLocaleDateString()}</p>
-                        <h3 class="font-headline-sm text-headline-sm mt-4 mb-2">${t.status}</h3>
-                        <p class="${statusColor} capitalize">${order.status}</p>
+                <div class="text-center mb-8">
+                    <div class="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="material-symbols-outlined text-5xl text-primary">check_circle</span>
                     </div>
-                    <div class="glass-panel p-4 rounded-xl">
-                        <h3 class="font-headline-sm text-headline-sm mb-2">${t.shippingAddress}</h3>
-                        <p>${order.shipping_address}</p>
+                    <h1 class="text-3xl font-serif font-bold mb-2">${t.thankYou}</h1>
+                    <div class="inline-flex items-center gap-2 mt-2">
+                        <span class="text-zinc-500">${t.orderNumber}</span>
+                        <span class="font-mono text-lg font-semibold">${orderIdNum}</span>
                     </div>
                 </div>
-                <div class="glass-panel p-4 rounded-xl mb-6">
-                    <h3 class="font-headline-sm text-headline-sm mb-4">${t.items}</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+                    <div class="glass-panel p-5 rounded-xl">
+                        <div class="flex items-center gap-2 text-primary mb-3">
+                            <span class="material-symbols-outlined">calendar_today</span>
+                            <h3 class="font-semibold">${t.date}</h3>
+                        </div>
+                        <p class="pl-7">${orderDate ? new Date(orderDate).toLocaleDateString(currentLang === 'ar' ? 'ar-EG' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'N/A'}</p>
+                        
+                        <div class="flex items-center gap-2 text-primary mt-4 mb-3">
+                            <span class="material-symbols-outlined">info</span>
+                            <h3 class="font-semibold">${t.status}</h3>
+                        </div>
+                        <div class="pl-7">
+                            <span class="status-badge ${statusClass}">${statusText}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-panel p-5 rounded-xl">
+                        <div class="flex items-center gap-2 text-primary mb-3">
+                            <span class="material-symbols-outlined">location_on</span>
+                            <h3 class="font-semibold">${t.shippingAddress}</h3>
+                        </div>
+                        <p class="pl-7 leading-relaxed">${escapeHtml(shippingAddress)}</p>
+                    </div>
+                </div>
+                
+                <div class="glass-panel rounded-xl overflow-hidden mb-6">
+                    <div class="p-5 border-b border-zinc-800">
+                        <div class="flex items-center gap-2 text-primary">
+                            <span class="material-symbols-outlined">shopping_bag</span>
+                            <h3 class="font-semibold text-lg">${t.items}</h3>
+                        </div>
+                    </div>
                     <div class="overflow-x-auto">
                         <table class="w-full">
-                            <thead class="border-b border-outline-variant">
-                                <tr>
-                                    <th class="text-left py-2">${t.product}</th>
-                                    <th class="text-center py-2">${t.quantity}</th>
-                                    <th class="text-right py-2">${t.price}</th>
-                                    <th class="text-right py-2">${t.subtotal}</th>
+                            <thead class="bg-black/30">
+                                <tr class="text-zinc-400 text-sm">
+                                    <th class="text-left py-3 px-5">${t.product}</th>
+                                    <th class="text-center py-3 px-2">${t.quantity}</th>
+                                    <th class="text-right py-3 px-2">${t.price}</th>
+                                    <th class="text-right py-3 px-5">${t.subtotal}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                ${order.items.map(item => `
-                                    <tr class="border-b border-outline-variant">
-                                        <td class="py-3 flex items-center gap-3">
-                                            <img src="${fixImageUrl(item.image_url)}" class="w-12 h-12 object-cover rounded" alt="${escapeHtml(item.name)}">
-                                            <span>${escapeHtml(item.name)}</span>
-                                         </td>
-                                        <td class="text-center py-3">${item.quantity}</td>
-                                        <td class="text-right py-3">$${item.price.toFixed(2)}</td>
-                                        <td class="text-right py-3">$${(item.price * item.quantity).toFixed(2)}</td>
-                                    </tr>
-                                `).join('')}
+                                ${itemsHtml}
                             </tbody>
                         </table>
                     </div>
-                    <div class="flex justify-end mt-4 pt-4 border-t border-outline-variant">
-                        <div class="text-right">
-                            <p class="text-lg font-bold">${t.total}: <span class="text-primary">$${order.total.toFixed(2)}</span></p>
+                    <div class="p-5 border-t border-zinc-800 bg-black/20">
+                        <div class="flex justify-end">
+                            <div class="w-64">
+                                <div class="flex justify-between py-2">
+                                    <span class="text-zinc-400">${t.subtotal}</span>
+                                    <span>$${subtotal.toFixed(2)}</span>
+                                </div>
+                                ${discount > 0 ? `
+                                <div class="flex justify-between py-2 text-primary">
+                                    <span>Discount</span>
+                                    <span> -$${discount.toFixed(2)}</span>
+                                </div>
+                                ` : ''}
+                                <div class="flex justify-between py-2 pt-3 border-t border-zinc-800 mt-2">
+                                    <span class="font-bold text-lg">${t.total}</span>
+                                    <span class="font-bold text-xl text-primary">$${finalTotal.toFixed(2)}</span>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                </div>
+                
+                <div class="glass-panel p-5 rounded-xl text-center bg-primary/5 border border-primary/20">
+                    <div class="flex items-center justify-center gap-3">
+                        <span class="material-symbols-outlined text-primary text-3xl">stars</span>
+                        <span class="font-medium"> ${t.pointsEarned} </span>
                     </div>
                 </div>
             `;
@@ -342,569 +502,162 @@
             return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
         }
 
+        // Initialize
         setTheme(currentTheme);
         applyLanguage(currentLang);
         loadOrder();
+        
+        // Update cart count
+        async function updateCartCount() {
+            const token = localStorage.getItem('access_token');
+            if (!token) return;
+            try {
+                const res = await fetch('/api/cart', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    const count = data.items?.length || data.total_items || 0;
+                    const cartSpan = document.getElementById('cartCount');
+                    if (cartSpan) {
+                        if (count > 0) {
+                            cartSpan.innerText = count;
+                            cartSpan.classList.remove('hidden');
+                        } else {
+                            cartSpan.classList.add('hidden');
+                        }
+                    }
+                }
+            } catch(e) {}
+        }
+        updateCartCount();
     </script>
 
 
-  <!--
-====================================================================
-  BLOOM STORE — CHATBOT WIDGET
-  
-  HOW TO USE:
-  Paste this entire block just before </body> in any HTML page.
-  The chatbot will appear as a floating button at bottom-right.
-====================================================================
--->
+    <style>
+        /* Chatbot styles (نفس الكود الأصلي) */
+        :root {
+            --cb-bg:        #0d1410;
+            --cb-surface:   #141c17;
+            --cb-surface2:  #1c2820;
+            --cb-border:    rgba(84, 233, 138, 0.15);
+            --cb-green:     #54e98a;
+            --cb-green2:    #2ecc71;
+            --cb-text:      #e1e3e4;
+            --cb-muted:     #7a8f80;
+            --cb-user-bg:   #1e3a2a;
+            --cb-bot-bg:    #192218;
+            --cb-radius:    18px;
+            --cb-w:         370px;
+            --cb-h:         520px;
+            --cb-z:         9999;
+        }
+        #cb-toggle {
+            position: fixed; bottom: 28px; right: 28px; z-index: var(--cb-z);
+            width: 60px; height: 60px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
+            border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.35);
+            transition: transform 0.3s ease;
+        }
+        #cb-toggle:hover { transform: scale(1.08); }
+        #cb-toggle svg { width: 28px; height: 28px; fill: #fff; }
+        #cb-window {
+            position: fixed; bottom: 100px; right: 28px; z-index: var(--cb-z);
+            width: var(--cb-w); max-height: var(--cb-h);
+            background: var(--cb-bg); border: 1px solid var(--cb-border);
+            border-radius: var(--cb-radius); display: flex; flex-direction: column;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+            transform: translateY(20px) scale(0.95); opacity: 0;
+            pointer-events: none; transition: transform 0.35s, opacity 0.3s;
+            overflow: hidden;
+        }
+        #cb-window.open { transform: translateY(0) scale(1); opacity: 1; pointer-events: all; }
+        #cb-header {
+            padding: 16px 20px; background: linear-gradient(135deg, #1a2e1f, #0f1d13);
+            border-bottom: 1px solid var(--cb-border); display: flex; align-items: center; gap: 12px;
+        }
+        .cb-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--cb-green2), #1a7a45); display: flex; align-items: center; justify-content: center; }
+        .cb-header-info h3 { color: #fff; font-size: 15px; font-weight: 600; font-family: 'Noto Serif', serif; margin: 0; }
+        .cb-header-info p { color: var(--cb-green); font-size: 11px; margin: 0; display: flex; align-items: center; gap: 5px; }
+        #cb-close { margin-left: auto; background: none; border: none; cursor: pointer; color: var(--cb-muted); font-size: 20px; }
+        #cb-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; max-height: 340px; }
+        .cb-msg { display: flex; gap: 8px; }
+        .cb-msg.user { flex-direction: row-reverse; }
+        .cb-bubble { max-width: 82%; padding: 10px 14px; border-radius: 16px; font-size: 13.5px; line-height: 1.55; font-family: 'Manrope', sans-serif; }
+        .cb-msg.bot .cb-bubble { background: var(--cb-bot-bg); color: var(--cb-text); border: 1px solid var(--cb-border); border-bottom-left-radius: 4px; }
+        .cb-msg.user .cb-bubble { background: var(--cb-user-bg); color: #c8f5d8; border-bottom-right-radius: 4px; }
+        #cb-quick { padding: 8px 16px; display: flex; flex-wrap: wrap; gap: 6px; border-top: 1px solid var(--cb-border); background: var(--cb-surface); }
+        .cb-quick-btn { padding: 5px 12px; background: rgba(84,233,138,0.06); border: 1px solid rgba(84,233,138,0.18); border-radius: 20px; color: var(--cb-green); font-size: 11px; cursor: pointer; }
+        #cb-input-area { padding: 12px 16px; border-top: 1px solid var(--cb-border); background: var(--cb-surface2); display: flex; gap: 8px; }
+        #cb-input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; padding: 9px 16px; color: var(--cb-text); font-size: 13px; outline: none; }
+        #cb-send { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--cb-green2), #1a7a45); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        #cb-send svg { width: 17px; height: 17px; fill: #fff; }
+        html.light #cb-window { --cb-bg: #f8faf9; --cb-surface: #f0f4f2; --cb-surface2: #eaf0ec; --cb-text: #1a1c1c; --cb-bot-bg: #f0f5f2; --cb-user-bg: #e0f5e9; }
+        @media (max-width: 420px) { :root { --cb-w: calc(100vw - 24px); } #cb-window { right: 12px; bottom: 90px; } #cb-toggle { right: 16px; bottom: 20px; } }
+    </style>
 
-<!-- ===================== CHATBOT STYLES ===================== -->
-<style>
-  /* ── Chatbot root variables ── */
-  :root {
-    --cb-bg:        #0d1410;
-    --cb-surface:   #141c17;
-    --cb-surface2:  #1c2820;
-    --cb-border:    rgba(84, 233, 138, 0.15);
-    --cb-green:     #54e98a;
-    --cb-green2:    #2ecc71;
-    --cb-text:      #e1e3e4;
-    --cb-muted:     #7a8f80;
-    --cb-user-bg:   #1e3a2a;
-    --cb-bot-bg:    #192218;
-    --cb-radius:    18px;
-    --cb-w:         370px;
-    --cb-h:         520px;
-    --cb-z:         9999;
-  }
-
-  /* ── Floating toggle button ── */
-  #cb-toggle {
-    position: fixed;
-    bottom: 28px;
-    right: 28px;
-    z-index: var(--cb-z);
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 8px 32px rgba(46, 204, 113, 0.35), 0 0 0 0 rgba(46, 204, 113, 0.4);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    animation: cb-pulse 2.5s infinite;
-  }
-  #cb-toggle:hover {
-    transform: scale(1.08);
-    box-shadow: 0 12px 40px rgba(46, 204, 113, 0.5), 0 0 0 0 rgba(46, 204, 113, 0.4);
-  }
-  #cb-toggle svg { width: 28px; height: 28px; fill: #fff; transition: transform 0.3s; }
-  #cb-toggle.open svg { transform: rotate(45deg); }
-
-  @keyframes cb-pulse {
-    0%, 100% { box-shadow: 0 8px 32px rgba(46,204,113,0.35), 0 0 0 0 rgba(46,204,113,0.4); }
-    50%       { box-shadow: 0 8px 32px rgba(46,204,113,0.35), 0 0 0 10px rgba(46,204,113,0); }
-  }
-
-  /* Notification dot */
-  #cb-notif {
-    position: absolute;
-    top: 4px; right: 4px;
-    width: 14px; height: 14px;
-    background: #ff4d6d;
-    border-radius: 50%;
-    border: 2px solid #0d1410;
-    animation: cb-bounce 1s infinite alternate;
-  }
-  @keyframes cb-bounce { from { transform: scale(1); } to { transform: scale(1.3); } }
-
-  /* ── Chat window ── */
-  #cb-window {
-    position: fixed;
-    bottom: 100px;
-    right: 28px;
-    z-index: var(--cb-z);
-    width: var(--cb-w);
-    max-height: var(--cb-h);
-    background: var(--cb-bg);
-    border: 1px solid var(--cb-border);
-    border-radius: var(--cb-radius);
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(84,233,138,0.08);
-    transform: translateY(20px) scale(0.95);
-    opacity: 0;
-    pointer-events: none;
-    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease;
-    overflow: hidden;
-  }
-  #cb-window.open {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  /* ── Header ── */
-  #cb-header {
-    padding: 16px 20px;
-    background: linear-gradient(135deg, #1a2e1f, #0f1d13);
-    border-bottom: 1px solid var(--cb-border);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .cb-avatar {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-    flex-shrink: 0;
-    box-shadow: 0 0 16px rgba(46,204,113,0.3);
-  }
-  .cb-header-info h3 {
-    color: #fff; font-size: 15px; font-weight: 600;
-    font-family: 'Noto Serif', serif;
-    margin: 0 0 2px;
-  }
-  .cb-header-info p {
-    color: var(--cb-green); font-size: 11px; margin: 0;
-    display: flex; align-items: center; gap: 5px;
-  }
-  .cb-online-dot {
-    width: 7px; height: 7px;
-    background: var(--cb-green); border-radius: 50%;
-    animation: cb-blink 1.5s infinite;
-  }
-  @keyframes cb-blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
-
-  #cb-close {
-    margin-left: auto;
-    background: none; border: none; cursor: pointer;
-    color: var(--cb-muted); font-size: 20px; line-height: 1;
-    padding: 4px 8px; border-radius: 8px;
-    transition: color 0.2s, background 0.2s;
-  }
-  #cb-close:hover { color: #fff; background: rgba(255,255,255,0.08); }
-
-  /* ── Messages area ── */
-  #cb-messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(84,233,138,0.2) transparent;
-    min-height: 0;
-    max-height: 340px;
-  }
-  #cb-messages::-webkit-scrollbar { width: 4px; }
-  #cb-messages::-webkit-scrollbar-thumb { background: rgba(84,233,138,0.2); border-radius: 4px; }
-
-  /* ── Message bubbles ── */
-  .cb-msg {
-    display: flex;
-    gap: 8px;
-    animation: cb-fadein 0.3s ease;
-  }
-  @keyframes cb-fadein { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
-
-  .cb-msg.user { flex-direction: row-reverse; }
-
-  .cb-msg-avatar {
-    width: 30px; height: 30px; border-radius: 50%;
-    flex-shrink: 0; display: flex; align-items: center;
-    justify-content: center; font-size: 14px;
-    margin-top: 2px;
-  }
-  .cb-msg.bot .cb-msg-avatar {
-    background: linear-gradient(135deg, #1a3a22, #0f2016);
-    border: 1px solid var(--cb-border);
-  }
-  .cb-msg.user .cb-msg-avatar {
-    background: rgba(46,204,113,0.15);
-    border: 1px solid rgba(46,204,113,0.2);
-  }
-
-  .cb-bubble {
-    max-width: 82%;
-    padding: 10px 14px;
-    border-radius: 16px;
-    font-size: 13.5px;
-    line-height: 1.55;
-    font-family: 'Manrope', sans-serif;
-  }
-  .cb-msg.bot .cb-bubble {
-    background: var(--cb-bot-bg);
-    color: var(--cb-text);
-    border: 1px solid var(--cb-border);
-    border-bottom-left-radius: 4px;
-  }
-  .cb-msg.user .cb-bubble {
-    background: var(--cb-user-bg);
-    color: #c8f5d8;
-    border: 1px solid rgba(84,233,138,0.18);
-    border-bottom-right-radius: 4px;
-  }
-
-  /* Link button inside bot message */
-  .cb-link-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    margin-top: 8px;
-    padding: 6px 12px;
-    background: linear-gradient(135deg, rgba(46,204,113,0.2), rgba(46,204,113,0.08));
-    border: 1px solid rgba(84,233,138,0.3);
-    border-radius: 20px;
-    color: var(--cb-green) !important;
-    font-size: 11.5px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-decoration: none !important;
-    text-transform: uppercase;
-    transition: background 0.2s, border-color 0.2s;
-  }
-  .cb-link-btn:hover {
-    background: rgba(46,204,113,0.25);
-    border-color: rgba(84,233,138,0.5);
-  }
-  .cb-link-btn svg { width: 12px; height: 12px; }
-
-  /* Typing indicator */
-  .cb-typing {
-    display: flex; align-items: center; gap: 5px; padding: 10px 14px;
-    background: var(--cb-bot-bg); border: 1px solid var(--cb-border);
-    border-radius: 16px; border-bottom-left-radius: 4px;
-    width: fit-content;
-  }
-  .cb-typing span {
-    width: 7px; height: 7px; background: var(--cb-green);
-    border-radius: 50%; animation: cb-typing 1.2s infinite ease-in-out;
-  }
-  .cb-typing span:nth-child(2) { animation-delay: 0.2s; }
-  .cb-typing span:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes cb-typing {
-    0%,80%,100% { transform:scale(0.6); opacity:0.4; }
-    40%          { transform:scale(1);   opacity:1; }
-  }
-
-  /* ── Quick replies ── */
-  #cb-quick {
-    padding: 8px 16px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    border-top: 1px solid var(--cb-border);
-    background: var(--cb-surface);
-  }
-  .cb-quick-btn {
-    padding: 5px 12px;
-    background: rgba(84,233,138,0.06);
-    border: 1px solid rgba(84,233,138,0.18);
-    border-radius: 20px;
-    color: var(--cb-green);
-    font-size: 11px;
-    font-family: 'Manrope', sans-serif;
-    cursor: pointer;
-    transition: background 0.2s, border-color 0.2s;
-    white-space: nowrap;
-  }
-  .cb-quick-btn:hover {
-    background: rgba(84,233,138,0.15);
-    border-color: rgba(84,233,138,0.4);
-  }
-
-  /* ── Input area ── */
-  #cb-input-area {
-    padding: 12px 16px;
-    border-top: 1px solid var(--cb-border);
-    background: var(--cb-surface2);
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-  #cb-input {
-    flex: 1;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 24px;
-    padding: 9px 16px;
-    color: var(--cb-text);
-    font-size: 13px;
-    font-family: 'Manrope', sans-serif;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  #cb-input:focus { border-color: rgba(84,233,138,0.4); }
-  #cb-input::placeholder { color: var(--cb-muted); }
-  #cb-send {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
-    border: none;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 16px rgba(46,204,113,0.25);
-  }
-  #cb-send:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(46,204,113,0.4); }
-  #cb-send svg { width: 17px; height: 17px; fill: #fff; }
-
-  /* ── Mobile ── */
-  @media (max-width: 420px) {
-    :root { --cb-w: calc(100vw - 24px); }
-    #cb-window { right: 12px; bottom: 90px; }
-    #cb-toggle { right: 16px; bottom: 20px; }
-  }
-
-  /* Light mode overrides */
-  html.light #cb-window {
-    --cb-bg: #f8faf9;
-    --cb-surface: #f0f4f2;
-    --cb-surface2: #eaf0ec;
-    --cb-border: rgba(46, 204, 113, 0.2);
-    --cb-text: #1a1c1c;
-    --cb-muted: #6b7c6f;
-    --cb-bot-bg: #f0f5f2;
-    --cb-user-bg: #e0f5e9;
-    background: var(--cb-bg);
-  }
-  html.light #cb-header { background: linear-gradient(135deg, #e8f5ee, #ddf0e7); }
-  html.light #cb-header .cb-header-info h3 { color: #1a1c1c; }
-  html.light .cb-bubble { color: #1a1c1c; }
-  html.light .cb-msg.bot .cb-bubble { background: #f0f5f2; border-color: rgba(46,204,113,0.18); }
-  html.light .cb-msg.user .cb-bubble { background: #dcf0e5; color: #0d3320; }
-  html.light #cb-input { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.1); color: #1a1c1c; }
-  html.light #cb-input::placeholder { color: #9aada0; }
-</style>
-
-<!-- ===================== CHATBOT HTML ===================== -->
-
-<!-- Floating Toggle Button -->
-<button id="cb-toggle" aria-label="Open chat assistant" title="Chat with Bloom">
-  <span id="cb-notif"></span>
-  <!-- Flower/Chat icon -->
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 3.0 1.01 4.29L2 22l5.71-1.01C9 21.64 10.46 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.38 0-2.68-.31-3.84-.86l-.27-.13-2.82.5.5-2.82-.13-.27C4.31 15.18 4 13.88 4 12.5 4 7.81 7.81 4 12.5 4S21 7.81 21 12.5 17.19 21 12.5 21H12zm5-8h-4V8h-2v5H7v2h4v4h2v-4h4v-2z"/>
-  </svg>
-</button>
-
-<!-- Chat Window -->
-<div id="cb-window" role="dialog" aria-label="Bloom floral assistant">
-
-  <!-- Header -->
-  <div id="cb-header">
-    <div class="cb-avatar">🌸</div>
-    <div class="cb-header-info">
-      <h3>Bloom Assistant</h3>
-      <p><span class="cb-online-dot"></span> Online · Here to help</p>
-    </div>
-    <button id="cb-close" aria-label="Close chat">✕</button>
-  </div>
-
-  <!-- Messages -->
-  <div id="cb-messages"></div>
-
-  <!-- Quick Replies -->
-  <div id="cb-quick">
-    <button class="cb-quick-btn" data-msg="birthday flowers">🎂 Birthday</button>
-    <button class="cb-quick-btn" data-msg="wedding bouquet">💍 Wedding</button>
-    <button class="cb-quick-btn" data-msg="graduation flowers">🎓 Graduation</button>
-    <button class="cb-quick-btn" data-msg="valentine roses">❤️ Valentine</button>
-    <button class="cb-quick-btn" data-msg="luxury flowers">💎 Luxury</button>
-    <button class="cb-quick-btn" data-msg="delivery">🚚 Delivery</button>
-  </div>
-
-  <!-- Input -->
-  <div id="cb-input-area">
-    <input id="cb-input" type="text" placeholder="Ask about flowers, occasions..." maxlength="200" autocomplete="off">
-    <button id="cb-send" aria-label="Send message">
-      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    <button id="cb-toggle" aria-label="Open chat assistant">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 3.0 1.01 4.29L2 22l5.71-1.01C9 21.64 10.46 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
     </button>
-  </div>
-</div>
 
-<!-- ===================== CHATBOT SCRIPT ===================== -->
-<script>
-(function () {
-  'use strict';
+    <div id="cb-window">
+        <div id="cb-header">
+            <div class="cb-avatar">🌸</div>
+            <div class="cb-header-info"><h3>Bloom Assistant</h3><p><span class="cb-online-dot" style="width:7px;height:7px;background:#54e98a;border-radius:50%;display:inline-block;"></span>Online</p></div>
+            <button id="cb-close">✕</button>
+        </div>
+        <div id="cb-messages"></div>
+        <div id="cb-quick">
+            <button class="cb-quick-btn" data-msg="birthday flowers">🎂 Birthday</button>
+            <button class="cb-quick-btn" data-msg="wedding bouquet">💍 Wedding</button>
+            <button class="cb-quick-btn" data-msg="graduation flowers">🎓 Graduation</button>
+            <button class="cb-quick-btn" data-msg="valentine roses">❤️ Valentine</button>
+        </div>
+        <div id="cb-input-area">
+            <input id="cb-input" type="text" placeholder="Ask about flowers...">
+            <button id="cb-send"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+        </div>
+    </div>
 
-  // ── DOM refs ──
-  const toggle   = document.getElementById('cb-toggle');
-  const window_  = document.getElementById('cb-window');
-  const closeBtn = document.getElementById('cb-close');
-  const messages = document.getElementById('cb-messages');
-  const input    = document.getElementById('cb-input');
-  const sendBtn  = document.getElementById('cb-send');
-  const notif    = document.getElementById('cb-notif');
-  const quickBtns = document.querySelectorAll('.cb-quick-btn');
-
-  let isOpen = false;
-  let isTyping = false;
-  let welcomed = false;
-
-  // ── Open / Close ──
-  function openChat() {
-    isOpen = true;
-    window_.classList.add('open');
-    toggle.classList.add('open');
-    notif.style.display = 'none';
-    input.focus();
-    if (!welcomed) {
-      welcomed = true;
-      setTimeout(() => showBotMessage(
-        "🌸 Welcome to <strong>Bloom Store</strong>! I'm your personal floral assistant.<br><br>Tell me about an occasion, emotion, or flower type — and I'll guide you to the perfect arrangement. What brings you here today?",
-        "/shop",
-        "Browse All Flowers"
-      ), 400);
-    }
-  }
-
-  function closeChat() {
-    isOpen = false;
-    window_.classList.remove('open');
-    toggle.classList.remove('open');
-  }
-
-  toggle.addEventListener('click', () => isOpen ? closeChat() : openChat());
-  closeBtn.addEventListener('click', closeChat);
-
-  // Close on outside click
-  document.addEventListener('click', (e) => {
-    if (isOpen && !window_.contains(e.target) && e.target !== toggle) {
-      closeChat();
-    }
-  });
-
-  // ── Append user message ──
-  function appendUserMessage(text) {
-    const div = document.createElement('div');
-    div.className = 'cb-msg user';
-    div.innerHTML = `
-      <div class="cb-msg-avatar">👤</div>
-      <div class="cb-bubble">${escapeHtml(text)}</div>
-    `;
-    messages.appendChild(div);
-    scrollToBottom();
-  }
-
-  // ── Show bot message ──
-  function showBotMessage(text, link, label) {
-    removeTyping();
-    const div = document.createElement('div');
-    div.className = 'cb-msg bot';
-    const linkHtml = link ? `
-      <br>
-      <a href="${link}" class="cb-link-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
-        ${escapeHtml(label || 'View')}
-      </a>` : '';
-    div.innerHTML = `
-      <div class="cb-msg-avatar">🌸</div>
-      <div class="cb-bubble">${text}${linkHtml}</div>
-    `;
-    messages.appendChild(div);
-    scrollToBottom();
-  }
-
-  // ── Typing indicator ──
-  function showTyping() {
-    if (isTyping) return;
-    isTyping = true;
-    const div = document.createElement('div');
-    div.className = 'cb-msg bot';
-    div.id = 'cb-typing-msg';
-    div.innerHTML = `
-      <div class="cb-msg-avatar">🌸</div>
-      <div class="cb-typing"><span></span><span></span><span></span></div>
-    `;
-    messages.appendChild(div);
-    scrollToBottom();
-  }
-
-  function removeTyping() {
-    isTyping = false;
-    const el = document.getElementById('cb-typing-msg');
-    if (el) el.remove();
-  }
-
-  // ── Scroll ──
-  function scrollToBottom() {
-    requestAnimationFrame(() => {
-      messages.scrollTop = messages.scrollHeight;
-    });
-  }
-
-  // ── Escape HTML ──
-  function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);
-  }
-
-  // ── Send message ──
-  async function sendMessage() {
-    const text = input.value.trim();
-    if (!text || isTyping) return;
-
-    input.value = '';
-    appendUserMessage(text);
-    showTyping();
-
-    try {
-      const res = await fetch('/api/chatbot/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text })
-      });
-      const data = await res.json();
-
-      // Small delay for natural feel
-      setTimeout(() => {
-        showBotMessage(data.reply, data.link, data.label);
-      }, 600);
-
-    } catch (err) {
-      setTimeout(() => {
-        showBotMessage(
-          "🌿 Sorry, I'm having trouble connecting right now. Please try again in a moment or visit our shop directly.",
-          "/shop",
-          "Browse Shop"
-        );
-      }, 600);
-    }
-  }
-
-  // ── Event listeners ──
-  sendBtn.addEventListener('click', sendMessage);
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
-  });
-
-  // Quick reply buttons
-  quickBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (!isOpen) openChat();
-      input.value = btn.getAttribute('data-msg');
-      setTimeout(sendMessage, 100);
-    });
-  });
-
-  // Show notification dot after 3s if chat not opened
-  setTimeout(() => {
-    if (!isOpen) notif.style.display = 'block';
-  }, 3000);
-
-})();
-</script>
+    <script>
+        (function() {
+            const toggle = document.getElementById('cb-toggle');
+            const window_ = document.getElementById('cb-window');
+            const closeBtn = document.getElementById('cb-close');
+            const messages = document.getElementById('cb-messages');
+            const input = document.getElementById('cb-input');
+            const sendBtn = document.getElementById('cb-send');
+            let isOpen = false;
+            function openChat() { isOpen = true; window_.classList.add('open'); input.focus(); }
+            function closeChat() { isOpen = false; window_.classList.remove('open'); }
+            toggle.addEventListener('click', () => isOpen ? closeChat() : openChat());
+            closeBtn.addEventListener('click', closeChat);
+            function appendUserMessage(text) {
+                const div = document.createElement('div'); div.className = 'cb-msg user';
+                div.innerHTML = `<div class="cb-bubble">${escapeHtml(text)}</div>`;
+                messages.appendChild(div); scrollToBottom();
+            }
+            function showBotMessage(text) {
+                const div = document.createElement('div'); div.className = 'cb-msg bot';
+                div.innerHTML = `<div class="cb-bubble">${text}</div>`;
+                messages.appendChild(div); scrollToBottom();
+            }
+            function scrollToBottom() { requestAnimationFrame(() => messages.scrollTop = messages.scrollHeight); }
+            function escapeHtml(str) { return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'})[m]); }
+            async function sendMessage() {
+                const text = input.value.trim();
+                if (!text) return;
+                input.value = '';
+                appendUserMessage(text);
+                showBotMessage("🌸 Thank you for your message! Our team will get back to you shortly. In the meantime, feel free to browse our <a href='/shop' style='color:#54e98a'>flower collection</a>.");
+            }
+            sendBtn.addEventListener('click', sendMessage);
+            input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); sendMessage(); } });
+            document.querySelectorAll('.cb-quick-btn').forEach(btn => {
+                btn.addEventListener('click', () => { input.value = btn.getAttribute('data-msg'); sendMessage(); });
+            });
+        })();
+    </script>
 </body>
 </html>

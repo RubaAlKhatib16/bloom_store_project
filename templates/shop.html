@@ -1,451 +1,594 @@
 <!DOCTYPE html>
 <html class="dark" lang="en" id="html-tag" dir="ltr">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bloom Store | Shop</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bloom Store | Shop</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
 
-        /* Light mode base improvements */
-        html.light body {
-            background: #f4f8fa;
-            color: #1a2a2e;
-        }
-        html.light .glass, html.light .glass-panel {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            box-shadow: 0 2px 12px rgba(0,0,0,0.02);
-        }
-        html.light .bg-zinc-950\/50,
-        html.light aside.bg-zinc-950\/50 {
-            background: rgba(255, 255, 255, 0.90) !important;
-            border-right-color: rgba(0, 0, 0, 0.08);
-        }
-        html.light .border-zinc-900 {
-            border-color: #e2e8f0;
-        }
-        html.light .text-zinc-500, 
-        html.light .text-zinc-400,
-        html.light .text-zinc-300,
-        html.light .text-zinc-200,
-        html.light .text-zinc-100 {
-            color: #2d3e44 !important;
-        }
-        html.light .text-on-surface {
-            color: #1e2a2e;
-        }
-        html.light .bg-zinc-900\/50 {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-        }
-        html.light .border-zinc-800 {
-            border-color: #cbd5e1;
-        }
-        html.light .bg-zinc-800 {
-            background-color: #f1f5f9 !important;
-        }
-        html.light .bg-zinc-800\/50 {
-            background-color: #eef2f6;
-        }
-        html.light .cat-link {
-            color: #2d3e44;
-        }
-        html.light .cat-link.active {
-            color: #0f6e3a;
-            background: rgba(46,204,113,0.08);
-            border-right-color: #2ecc71;
-        }
-        html.light .product-card {
-            background: #ffffff !important;
-            border: 1px solid #e2e8f0;
-        }
-        html.light .product-card .text-white {
-            color: #1e2a2e !important;
-        }
-        html.light .product-card .text-zinc-500 {
-            color: #4a5b62 !important;
-        }
-        html.light .product-card .badge.bg-zinc-800 {
-            background: #eef2f6;
-            color: #2d3e44;
-        }
-        html.light button.add-to-cart {
-            background-color: #2ecc71;
-            color: white;
-        }
-        html.light button.quick-view {
-            background: rgba(0,0,0,0.05);
-            color: #1e2a2e;
-        }
-        html.light .glass .text-primary, 
-        html.light .text-emerald-400, 
-        html.light .text-emerald-500 {
-            color: #0f6e3a;
-        }
-        html.light .bg-emerald-500\/10 {
-            background: rgba(46,204,113,0.1);
-        }
-        html.light .bg-primary {
-            background-color: #2ecc71;
-        }
-        html.light footer.bg-zinc-950 {
-            background: #ffffff !important;
-            border-top: 1px solid #e2e8f0;
-        }
-        html.light footer .text-zinc-500,
-        html.light footer .text-zinc-600 {
-            color: #5a6e76 !important;
-        }
-        /* Quick view modal light mode */
-        html.light .bg-black\/70 {
-            background: rgba(0,0,0,0.2);
-            backdrop-filter: blur(8px);
-        }
-        html.light #quickViewModal .glass {
-            background: #ffffff;
-            border-color: #e2e8f0;
-            color: #1e2a2e;
-        }
-        html.light #quickViewModal .text-on-surface-variant {
-            color: #3b5c68;
-        }
-        html.light #quickViewModal .text-primary {
-            color: #0f6e3a;
-        }
+    /* Light mode base improvements */
+    html.light body {
+      background: #f4f8fa;
+      color: #1a2a2e;
+    }
 
-        /* Dark mode stays clean */
-        html.dark body {
-            background-color: #111415;
-            color: #e1e3e4;
-        }
-        html.dark .glass,.glass-panel {
-            background: rgba(17,20,21,0.65);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(134,148,134,0.12);
-        }
-        .product-card { transition: all 0.3s; }
-        .product-card:hover { transform: translateY(-5px); }
-        [dir="rtl"] .flex-row { flex-direction: row-reverse; }
-    </style>
-    <script>
-        tailwind.config = { darkMode: "class", theme: { extend: { /* ... */ } } };
-    </script>
+    html.light .glass,
+    html.light .glass-panel {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02);
+    }
+
+    html.light .bg-zinc-950\/50,
+    html.light aside.bg-zinc-950\/50 {
+      background: rgba(255, 255, 255, 0.90) !important;
+      border-right-color: rgba(0, 0, 0, 0.08);
+    }
+
+    html.light .border-zinc-900 {
+      border-color: #e2e8f0;
+    }
+
+    html.light .text-zinc-500,
+    html.light .text-zinc-400,
+    html.light .text-zinc-300,
+    html.light .text-zinc-200,
+    html.light .text-zinc-100 {
+      color: #2d3e44 !important;
+    }
+
+    html.light .text-on-surface {
+      color: #1e2a2e;
+    }
+
+    html.light .bg-zinc-900\/50 {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+    }
+
+    html.light .border-zinc-800 {
+      border-color: #cbd5e1;
+    }
+
+    html.light .bg-zinc-800 {
+      background-color: #f1f5f9 !important;
+    }
+
+    html.light .bg-zinc-800\/50 {
+      background-color: #eef2f6;
+    }
+
+    html.light .cat-link {
+      color: #2d3e44;
+    }
+
+    html.light .cat-link.active {
+      color: #0f6e3a;
+      background: rgba(46, 204, 113, 0.08);
+      border-right-color: #2ecc71;
+    }
+
+    html.light .product-card {
+      background: #ffffff !important;
+      border: 1px solid #e2e8f0;
+    }
+
+    html.light .product-card .text-white {
+      color: #1e2a2e !important;
+    }
+
+    html.light .product-card .text-zinc-500 {
+      color: #4a5b62 !important;
+    }
+
+    html.light .product-card .badge.bg-zinc-800 {
+      background: #eef2f6;
+      color: #2d3e44;
+    }
+
+    html.light button.add-to-cart {
+      background-color: #2ecc71;
+      color: white;
+    }
+
+    html.light button.quick-view {
+      background: rgba(0, 0, 0, 0.05);
+      color: #1e2a2e;
+    }
+
+    html.light .glass .text-primary,
+    html.light .text-emerald-400,
+    html.light .text-emerald-500 {
+      color: #0f6e3a;
+    }
+
+    html.light .bg-emerald-500\/10 {
+      background: rgba(46, 204, 113, 0.1);
+    }
+
+    html.light .bg-primary {
+      background-color: #2ecc71;
+    }
+
+    html.light footer.bg-zinc-950 {
+      background: #ffffff !important;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    html.light footer .text-zinc-500,
+    html.light footer .text-zinc-600 {
+      color: #5a6e76 !important;
+    }
+
+    /* Quick view modal light mode */
+    html.light .bg-black\/70 {
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(8px);
+    }
+
+    html.light #quickViewModal .glass {
+      background: #ffffff;
+      border-color: #e2e8f0;
+      color: #1e2a2e;
+    }
+
+    html.light #quickViewModal .text-on-surface-variant {
+      color: #3b5c68;
+    }
+
+    html.light #quickViewModal .text-primary {
+      color: #0f6e3a;
+    }
+
+    /* Dark mode stays clean */
+    html.dark body {
+      background-color: #111415;
+      color: #e1e3e4;
+    }
+
+    html.dark .glass,
+    .glass-panel {
+      background: rgba(17, 20, 21, 0.65);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(134, 148, 134, 0.12);
+    }
+
+    .product-card {
+      transition: all 0.3s;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+
+    [dir="rtl"] .flex-row {
+      flex-direction: row-reverse;
+    }
+  </style>
+  <script>
+    tailwind.config = { darkMode: "class", theme: { extend: { /* ... */ } } };
+  </script>
 </head>
+
 <body class="font-body-md text-on-background">
 
-    <!-- Top Navigation Bar -->
-    <nav class="fixed top-0 w-full z-50 border-b border-white/10 bg-zinc-950/70 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+  <!-- Top Navigation Bar -->
+  <nav
+    class="fixed top-0 w-full z-50 border-b border-white/10 bg-zinc-950/70 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.0)]">
     <div class="flex justify-between items-center px-8 py-4 w-full max-w-7xl mx-auto">
-        <div class="text-2xl font-serif font-light tracking-[0.2em] text-emerald-500" id="brandName">BLOOM</div>
-        <div class="hidden md:flex items-center gap-8">
-            <a href="/" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navHome">Home</a>
-            <a href="/shop" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navShop">Shop</a>
-            <a href="/categories" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navCategory">Categories</a>
-            <a href="/occasions" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navOccasions">Occasions</a>
-            <a href="/bouquets" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navBouquets">Bouquets</a>
-            <a href="/contact" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navContact">Contact</a>
-        </div>
-        <div class="flex items-center gap-6">
-            <button id="themeToggle" class="text-emerald-500 hover:bg-white/5 p-2 rounded-full"><span class="material-symbols-outlined">light_mode</span></button>
-            <button id="langToggle" class="text-emerald-500 border border-emerald-500/50 px-3 py-1 rounded-full text-sm font-bold">AR</button>
-            <a href="/cart" class="relative">
-                <span class="material-symbols-outlined text-emerald-500">shopping_cart</span>
-                <span id="cartCount" class="absolute -top-2 -right-2 bg-emerald-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
-            </a>
-            <a href="/profile" class="material-symbols-outlined text-emerald-500">person</a>
-        </div>
+      <div class="text-2xl font-serif font-light tracking-[0.2em] text-emerald-500" id="brandName">BLOOM</div>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="/" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all"
+          id="navHome">Home</a>
+        <a href="/shop" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all"
+          id="navShop">Shop</a>
+        <a href="/categories"
+          class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all"
+          id="navCategory">Categories</a>
+        <a href="/occasions"
+          class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all"
+          id="navOccasions">Occasions</a>
+        <a href="/bouquets"
+          class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all"
+          id="navBouquets">Bouquets</a>
+        <a href="/contact"
+          class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all"
+          id="navContact">Contact</a>
+      </div>
+      <div class="flex items-center gap-6">
+        <button id="themeToggle" class="text-emerald-500 hover:bg-white/5 p-2 rounded-full"><span
+            class="material-symbols-outlined">light_mode</span></button>
+        <button id="langToggle"
+          class="text-emerald-500 border border-emerald-500/50 px-3 py-1 rounded-full text-sm font-bold">AR</button>
+        <a href="/cart" class="relative">
+          <span class="material-symbols-outlined text-emerald-500">shopping_cart</span>
+          <span id="cartCount"
+            class="absolute -top-2 -right-2 bg-emerald-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+        </a>
+        <a href="/profile" class="material-symbols-outlined text-emerald-500">person</a>
+      </div>
     </div>
-</nav>
+  </nav>
 
-<script>
+  <script>
     // دالة لتفعيل الرابط النشط في شريط التنقل
     function setActiveNavLink() {
-        const currentPath = window.location.pathname;
-        const navLinks = document.querySelectorAll('.nav-link');
-        
-        navLinks.forEach(link => {
-            // إزالة الكلاسات النشطة من جميع الروابط
-            link.classList.remove('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
-            link.classList.add('text-zinc-400');
-            
-            const linkPath = link.getAttribute('href');
-            
-            // التحقق من تطابق المسار (مع معالجة الحالة الخاصة للصفحة الرئيسية)
-            if (linkPath === '/' && (currentPath === '/' || currentPath === '')) {
-                link.classList.add('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
-                link.classList.remove('text-zinc-400');
-            } else if (linkPath !== '/' && currentPath.startsWith(linkPath)) {
-                link.classList.add('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
-                link.classList.remove('text-zinc-400');
-            }
-        });
+      const currentPath = window.location.pathname;
+      const navLinks = document.querySelectorAll('.nav-link');
+
+      navLinks.forEach(link => {
+        link.classList.remove('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
+        link.classList.add('text-zinc-400');
+
+        const linkPath = link.getAttribute('href');
+
+        if (linkPath === '/' && (currentPath === '/' || currentPath === '')) {
+          link.classList.add('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
+          link.classList.remove('text-zinc-400');
+        } else if (linkPath !== '/' && currentPath.startsWith(linkPath)) {
+          link.classList.add('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
+          link.classList.remove('text-zinc-400');
+        }
+      });
     }
-    
-    // تنفيذ الدالة عند تحميل الصفحة وأيضاً عند تغيير المسار (للمشاريع التي تستخدم History API)
+
     document.addEventListener('DOMContentLoaded', setActiveNavLink);
     window.addEventListener('popstate', setActiveNavLink);
-</script>
+  </script>
 
-    <div class="flex pt-20">
-        <!-- Sidebar -->
-        <aside class="hidden lg:flex flex-col pt-12 h-[calc(100vh-80px)] w-64 bg-zinc-950/50 backdrop-blur-lg border-r border-white/5 sticky top-20 overflow-y-auto">
-            <div class="px-6 mb-6">
-                <h2 class="text-emerald-500 font-bold font-headline-sm text-headline-sm" id="collectionsTitle">Collections</h2>
-                <p class="text-zinc-500 text-xs font-body-md" id="filterSub">Filter by Type</p>
-            </div>
-            <nav id="categoryNav" class="flex-1 space-y-1"><a href="#" class="cat-link active flex items-center gap-3 px-6 py-3 transition-all font-serif text-sm border-r-4 border-emerald-500" data-type="all"><span class="material-symbols-outlined text-lg">eco</span><span>All Flora</span></a></nav>
-            <div class="p-6 border-t border-zinc-900">
-                <h3 class="text-zinc-300 font-label-caps text-label-caps mb-4 uppercase" id="priceRangeTitle">Price Range</h3>
-                <div class="space-y-3"><input id="priceSlider" type="range" min="0" max="1000" step="1" value="1000" class="w-full h-1 bg-zinc-800 rounded-lg"><div class="flex justify-between text-xs text-zinc-500"><span>$0</span><span id="priceCurrentLabel" class="text-emerald-500">Max: $1000</span><span>$1000+</span></div></div>
-                <h3 class="text-zinc-300 font-label-caps text-label-caps mt-6 mb-3 uppercase" id="sortTitle">Sort By</h3>
-                <div class="space-y-1">
-                    <label class="flex items-center gap-2 text-sm text-zinc-500 cursor-pointer hover:text-emerald-400">
-                        <input type="radio" name="sort" value="default" checked class="accent-emerald-500">
-                        <span id="sortDefault">Default</span>
-                    </label>
-                    <label class="flex items-center gap-2 text-sm text-zinc-500 cursor-pointer hover:text-emerald-400">
-                        <input type="radio" name="sort" value="price_asc" class="accent-emerald-500">
-                        <span id="sortPriceAsc">Price: Low to High</span>
-                    </label>
-                    <label class="flex items-center gap-2 text-sm text-zinc-500 cursor-pointer hover:text-emerald-400">
-                        <input type="radio" name="sort" value="price_desc" class="accent-emerald-500">
-                        <span id="sortPriceDesc">Price: High to Low</span>
-                    </label>
-                    <label class="flex items-center gap-2 text-sm text-zinc-500 cursor-pointer hover:text-emerald-400">
-                        <input type="radio" name="sort" value="name_asc" class="accent-emerald-500">
-                        <span id="sortName">Name A to Z</span>
-                    </label>
-                </div>
-            </div>
-        </aside>
-
-        <main class="flex-1 p-8 lg:p-12 overflow-x-hidden">
-            <!-- Banner -->
-            <section class="mb-xl relative h-[360px] rounded-xl overflow-hidden glass group emerald-glow transition-all duration-500">
-                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCq0UbJp8J5zXwv5q-nK7JXTExpoasvJ7_gk7BxlXokGu3QiLopckca1alFUUUupxUpbV04v_xO2yM-hGoifa9ucHQKhtOjHMrw93HVytu_rXJ25ZfQ6CyT0jQVcDwW25Wv60vHkjvycTbyR9D5rAwfrvE2mSTsl7PIX0mj2UeHzlCg-4bxdsgiX4saim2UC8VkeUZld2IHtnfTUZUbiVhXxPqjsAMb_rl-hyqNiVS67s5kPNBauHBofiXk3EEJc4gq-sdjw3ZjWlU')"></div>
-                <div class="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/40 to-transparent flex flex-col justify-center px-12">
-                    <span class="inline-block px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-full font-label-caps text-[10px] uppercase mb-4" id="bannerTag">Limited Release</span>
-                    <h2 class="font-display-lg text-display-lg text-white mb-4" id="bannerTitle">Seasonal Collections: The Noir Solstice</h2>
-                    <button id="bannerBtn" class="self-start bg-primary-container text-on-primary-fixed-variant px-8 py-3 font-label-caps text-label-caps rounded-lg emerald-glow">Explore Curator's Choice</button>
-                </div>
-            </section>
-
-            <!-- Products Header -->
-            <div class="flex justify-between items-end mb-lg">
-                <div>
-                    <h3 class="font-headline-md text-headline-md text-on-surface" id="boutiqueTitle">The Boutique</h3>
-                    <p class="text-zinc-500 font-body-md" id="productCountText">Loading products...</p>
-                </div>
-                <button id="mobileFilterBtn" class="lg:hidden glass px-4 py-2 flex items-center gap-2 text-zinc-400 font-label-caps text-[11px] rounded-lg border border-zinc-800">Filter</button>
-            </div>
-            <div id="mobileFilters" class="hidden lg:hidden mb-8 glass rounded-xl p-4 border border-zinc-800">
-                <div class="mb-4">
-                    <p class="text-zinc-500 text-xs font-label-caps uppercase mb-2" id="mobileFilterTypeLabel">Filter by Type</p>
-                    <div id="mobileCategoryBtns" class="flex flex-wrap gap-2"></div>
-                </div>
-                <div>
-                    <p class="text-zinc-500 text-xs font-label-caps uppercase mb-2" id="mobileMaxPriceLabel">Max Price: <span id="mobilePriceLabel" class="text-emerald-500">$1000</span></p>
-                    <input id="mobilePriceSlider" type="range" min="0" max="1000" step="1" value="1000" class="w-full h-1 bg-zinc-800 rounded-lg">
-                </div>
-            </div>
-
-            <!-- Products Grid -->
-            <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-lg">
-                <div class="col-span-full text-center py-12 text-primary animate-pulse">Loading botanical masterpieces...</div>
-            </div>
-
-            <!-- Pagination -->
-            <div id="paginationContainer" class="mt-xl flex justify-center items-center gap-4 hidden"><button id="prevPage" class="w-10 h-10 glass rounded-lg flex items-center justify-center text-zinc-500 hover:text-emerald-400">‹</button><div id="pageButtons" class="flex gap-2"></div><button id="nextPage" class="w-10 h-10 glass rounded-lg flex items-center justify-center text-zinc-500 hover:text-emerald-400">›</button></div>
-        </main>
-    </div>
-
-    <!-- Footer -->
-    <footer class="bg-zinc-950 w-full py-12 border-t border-zinc-900">
-        <div class="flex flex-col items-center gap-6 w-full max-w-7xl mx-auto px-8">
-            <div class="text-xl font-serif italic text-emerald-500">BLOOM</div>
-            <div class="flex flex-wrap justify-center gap-8 md:gap-12">
-                <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300" id="footerPrivacy">Privacy Policy</a>
-                <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300" id="footerTerms">Terms of Service</a>
-                <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300" id="footerShipping">Shipping Info</a>
-                <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300" id="footerWholesale">Wholesale</a>
-            </div>
-            <p class="font-serif text-sm text-zinc-600 mt-8 text-center opacity-80" id="copyright">© 2026 Bloom Store. Cultivated with Botanical Mystery.</p>
+  <div class="flex pt-20">
+    <!-- Sidebar -->
+    <aside
+      class="hidden lg:flex flex-col pt-12 h-[calc(100vh-80px)] w-64 bg-zinc-950/50 backdrop-blur-lg border-r border-white/5 sticky top-20 overflow-y-auto">
+      <div class="px-6 mb-6">
+        <h2 class="text-emerald-500 font-bold font-headline-sm text-headline-sm" id="collectionsTitle">Collections</h2>
+        <p class="text-zinc-500 text-xs font-body-md" id="filterSub">Filter by Type</p>
+      </div>
+      <nav id="categoryNav" class="flex-1 space-y-1"><a href="#"
+          class="cat-link active flex items-center gap-3 px-6 py-3 transition-all font-serif text-sm border-r-4 border-emerald-500"
+          data-type="all"><span class="material-symbols-outlined text-lg">eco</span><span>All Flora</span></a></nav>
+      <div class="p-6 border-t border-zinc-900">
+        <h3 class="text-zinc-300 font-label-caps text-label-caps mb-4 uppercase" id="priceRangeTitle">Price Range</h3>
+        <div class="space-y-3"><input id="priceSlider" type="range" min="0" max="1000" step="1" value="1000"
+            class="w-full h-1 bg-zinc-800 rounded-lg">
+          <div class="flex justify-between text-xs text-zinc-500"><span>$0</span><span id="priceCurrentLabel"
+              class="text-emerald-500">Max: $1000</span><span>$1000+</span></div>
         </div>
-    </footer>
+        <h3 class="text-zinc-300 font-label-caps text-label-caps mt-6 mb-3 uppercase" id="sortTitle">Sort By</h3>
+        <div class="space-y-1">
+          <label class="flex items-center gap-2 text-sm text-zinc-500 cursor-pointer hover:text-emerald-400">
+            <input type="radio" name="sort" value="default" checked class="accent-emerald-500">
+            <span id="sortDefault">Default</span>
+          </label>
+          <label class="flex items-center gap-2 text-sm text-zinc-500 cursor-pointer hover:text-emerald-400">
+            <input type="radio" name="sort" value="price_asc" class="accent-emerald-500">
+            <span id="sortPriceAsc">Price: Low to High</span>
+          </label>
+          <label class="flex items-center gap-2 text-sm text-zinc-500 cursor-pointer hover:text-emerald-400">
+            <input type="radio" name="sort" value="price_desc" class="accent-emerald-500">
+            <span id="sortPriceDesc">Price: High to Low</span>
+          </label>
+          <label class="flex items-center gap-2 text-sm text-zinc-500 cursor-pointer hover:text-emerald-400">
+            <input type="radio" name="sort" value="name_asc" class="accent-emerald-500">
+            <span id="sortName">Name A to Z</span>
+          </label>
+        </div>
+      </div>
+    </aside>
 
-    <!-- Quick View Modal -->
-    <div id="quickViewModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm">
-        <div class="glass rounded-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto relative animate-fadeInUp"><button id="closeModalBtn" class="absolute top-4 right-4 text-white/70 hover:text-white"><span class="material-symbols-outlined">close</span></button><div id="quickViewContent" class="p-6 md:p-8"><div class="text-center py-12 text-primary animate-pulse">Loading...</div></div></div>
+    <main class="flex-1 p-8 lg:p-12 overflow-x-hidden">
+      <!-- Banner -->
+      <section
+        class="mb-xl relative h-[360px] rounded-xl overflow-hidden glass group emerald-glow transition-all duration-500">
+        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+          style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCq0UbJp8J5zXwv5q-nK7JXTExpoasvJ7_gk7BxlXokGu3QiLopckca1alFUUUupxUpbV04v_xO2yM-hGoifa9ucHQKhtOjHMrw93HVytu_rXJ25ZfQ6CyT0jQVcDwW25Wv60vHkjvycTbyR9D5rAwfrvE2mSTsl7PIX0mj2UeHzlCg-4bxdsgiX4saim2UC8VkeUZld2IHtnfTUZUbiVhXxPqjsAMb_rl-hyqNiVS67s5kPNBauHBofiXk3EEJc4gq-sdjw3ZjWlU')">
+        </div>
+        <div
+          class="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/40 to-transparent flex flex-col justify-center px-12">
+          <span
+            class="inline-block px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-full font-label-caps text-[10px] uppercase mb-4"
+            id="bannerTag">Limited Release</span>
+          <h2 class="font-display-lg text-display-lg text-white mb-4" id="bannerTitle">Seasonal Collections: The Noir
+            Solstice</h2>
+          <button id="bannerBtn"
+            class="self-start bg-primary-container text-on-primary-fixed-variant px-8 py-3 font-label-caps text-label-caps rounded-lg emerald-glow">Explore
+            Curator's Choice</button>
+        </div>
+      </section>
+
+      <!-- Products Header -->
+      <div class="flex justify-between items-end mb-lg">
+        <div>
+          <h3 class="font-headline-md text-headline-md text-on-surface" id="boutiqueTitle">The Boutique</h3>
+          <p class="text-zinc-500 font-body-md" id="productCountText">Loading products...</p>
+        </div>
+        <button id="mobileFilterBtn"
+          class="lg:hidden glass px-4 py-2 flex items-center gap-2 text-zinc-400 font-label-caps text-[11px] rounded-lg border border-zinc-800">Filter</button>
+      </div>
+      <div id="mobileFilters" class="hidden lg:hidden mb-8 glass rounded-xl p-4 border border-zinc-800">
+        <div class="mb-4">
+          <p class="text-zinc-500 text-xs font-label-caps uppercase mb-2" id="mobileFilterTypeLabel">Filter by Type</p>
+          <div id="mobileCategoryBtns" class="flex flex-wrap gap-2"></div>
+        </div>
+        <div>
+          <p class="text-zinc-500 text-xs font-label-caps uppercase mb-2" id="mobileMaxPriceLabel">Max Price: <span
+              id="mobilePriceLabel" class="text-emerald-500">$1000</span></p>
+          <input id="mobilePriceSlider" type="range" min="0" max="1000" step="1" value="1000"
+            class="w-full h-1 bg-zinc-800 rounded-lg">
+        </div>
+      </div>
+
+      <!-- Products Grid -->
+      <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-lg">
+        <div class="col-span-full text-center py-12 text-primary animate-pulse">Loading botanical masterpieces...</div>
+      </div>
+
+      <!-- Pagination -->
+      <div id="paginationContainer" class="mt-xl flex justify-center items-center gap-4 hidden"><button id="prevPage"
+          class="w-10 h-10 glass rounded-lg flex items-center justify-center text-zinc-500 hover:text-emerald-400">‹</button>
+        <div id="pageButtons" class="flex gap-2"></div><button id="nextPage"
+          class="w-10 h-10 glass rounded-lg flex items-center justify-center text-zinc-500 hover:text-emerald-400">›</button>
+      </div>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-zinc-950 w-full py-12 border-t border-zinc-900">
+    <div class="flex flex-col items-center gap-6 w-full max-w-7xl mx-auto px-8">
+      <div class="text-xl font-serif italic text-emerald-500">BLOOM</div>
+      <div class="flex flex-wrap justify-center gap-8 md:gap-12">
+        <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300" id="footerPrivacy">Privacy
+          Policy</a>
+        <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300" id="footerTerms">Terms of
+          Service</a>
+        <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300" id="footerShipping">Shipping
+          Info</a>
+        <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-300" id="footerWholesale">Wholesale</a>
+      </div>
+      <p class="font-serif text-sm text-zinc-600 mt-8 text-center opacity-80" id="copyright">© 2026 Bloom Store.
+        Cultivated with Botanical Mystery.</p>
     </div>
-    <style>@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}.animate-fadeInUp{animation:fadeInUp 0.3s ease-out;}</style>
+  </footer>
 
-    <script>
-        // ========== GLOBALS ==========
-        const htmlTag = document.documentElement;
-        let currentLang = localStorage.getItem('bloomLang') || 'en';
-        let currentTheme = localStorage.getItem('bloomTheme') || 'dark';
-        let allProducts = [];
-        let currentType = 'all';
-        let maxPrice = 1000;
-        let sortMode = 'default';
-        let currentPage = 1;
-        const PER_PAGE = 9;
-        let searchQuery = '';
+  <!-- Quick View Modal -->
+  <div id="quickViewModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm">
+    <div class="glass rounded-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto relative animate-fadeInUp"><button
+        id="closeModalBtn" class="absolute top-4 right-4 text-white/70 hover:text-white"><span
+          class="material-symbols-outlined">close</span></button>
+      <div id="quickViewContent" class="p-6 md:p-8">
+        <div class="text-center py-12 text-primary animate-pulse">Loading...</div>
+      </div>
+    </div>
+  </div>
+  <style>
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px)
+      }
 
-        const urlParams = new URLSearchParams(window.location.search);
-        searchQuery = urlParams.get('search') || '';
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
 
-        const typeIcons = { 'Rose':'local_florist', 'Tulip':'filter_vintage', 'Lily':'eco', 'Sunflower':'wb_sunny', 'Orchid':'spa', 'Gypsophila':'blur_on', 'Carnation':'yard', 'Daisy':'brightness_5', 'Lavender':'grass', 'Peony':'favorite', 'Gerbera':'lens_blur', 'Iris':'water_drop' };
+    .animate-fadeInUp {
+      animation: fadeInUp 0.3s ease-out;
+    }
+  </style>
 
-        // ========== COMPLETE TRANSLATIONS ==========
-        const dict = {
-            en: {
-                brandName: 'BLOOM', navHome: 'Home', navShop: 'Shop',navBouquets: 'Bouquets', navCategory: 'Categories', navOccasions: 'Occasions', navContact: 'Contact',
-                collectionsTitle: 'Collections', filterSub: 'Filter by Type', priceRangeTitle: 'Price Range', sortTitle: 'Sort By',
-                sortDefault: 'Default', sortPriceAsc: 'Price: Low to High', sortPriceDesc: 'Price: High to Low', sortName: 'Name A to Z',
-                bannerTag: 'Limited Release', bannerTitle: 'Seasonal Collections: The Noir Solstice', bannerBtn: 'Explore Curator\'s Choice',
-                boutiqueTitle: 'The Boutique', productCount: 'Showing {count} Hand-Selected Specimens',
-                mobileFilterTypeLabel: 'Filter by Type', mobileMaxPriceLabel: 'Max Price:', addToCart: 'ADD TO CART', quickView: 'Quick View', bestSeller: 'Best Seller',
-                loading: 'Loading botanical masterpieces...', errorMsg: 'Failed to load products.', noProducts: 'No products match the current filters.',
-                filterBtn: 'Filter', priceMaxLabel: 'Max: $', priceSuffix: '+',
-                catAll: 'All Flora',
-                loginRequired: 'Login Required',
-                loginMessage: 'Please login to add items to your cart',
-                addedToCart: 'Added to Cart!',
-                productAdded: 'Product has been added to your cart',
-                errorTitle: 'Error',
-                networkError: 'Network Error',
-                networkMessage: 'Please try again.',
-                loadingDetails: 'Loading product details...',
-                failedDetails: 'Failed to load product details.',
-                inStock: '✓ In Stock',
-                viewFullDetails: 'View Full Details →'
-            },
-            ar: {
-                brandName: 'شغف', navHome: 'الرئيسية', navShop: 'تسوق', navBouquets: 'باقات', navCategory: 'الفئات', navOccasions: 'المناسبات', navContact: 'اتصل بنا',
-                collectionsTitle: 'المجموعات', filterSub: 'تصفية حسب النوع', priceRangeTitle: 'نطاق السعر', sortTitle: 'ترتيب حسب',
-                sortDefault: 'الافتراضي', sortPriceAsc: 'السعر من الأقل إلى الأعلى', sortPriceDesc: 'السعر من الأعلى إلى الأقل', sortName: 'الاسم من الألف إلى الياء',
-                bannerTag: 'إصدار محدود', bannerTitle: 'مجموعات موسمية: الانقلاب الليلي', bannerBtn: 'استكشف اختيارات المنسق',
-                boutiqueTitle: 'المتجر', productCount: 'عرض {count} منتج',
-                mobileFilterTypeLabel: 'تصفية حسب النوع', mobileMaxPriceLabel: 'الحد الأقصى للسعر:', addToCart: 'أضف للسلة', quickView: 'معاينة سريعة', bestSeller: 'الأكثر مبيعاً',
-                loading: 'جاري تحميل المنتجات...', errorMsg: 'فشل تحميل المنتجات.', noProducts: 'لا توجد منتجات تطابق الفلتر الحالي.',
-                filterBtn: 'تصفية', priceMaxLabel: 'الحد الأقصى: $', priceSuffix: '+',
-                catAll: 'كل المنتجات',
-                loginRequired: 'مطلوب تسجيل الدخول',
-                loginMessage: 'يرجى تسجيل الدخول لإضافة المنتجات إلى السلة',
-                addedToCart: 'تمت الإضافة!',
-                productAdded: 'تمت إضافة المنتج إلى سلتك',
-                errorTitle: 'خطأ',
-                networkError: 'خطأ في الشبكة',
-                networkMessage: 'يرجى المحاولة لاحقاً',
-                loadingDetails: 'جاري تحميل تفاصيل المنتج...',
-                failedDetails: 'فشل تحميل تفاصيل المنتج',
-                inStock: '✓ متوفر',
-                viewFullDetails: 'عرض التفاصيل الكاملة ←'
-            }
+  <script>
+    // ========== GLOBALS ==========
+    const htmlTag = document.documentElement;
+    let currentLang = localStorage.getItem('bloomLang') || 'en';
+    let currentTheme = localStorage.getItem('bloomTheme') || 'dark';
+    let allProducts = [];
+    let currentType = 'all';
+    let maxPrice = 1000;
+    let sortMode = 'default';
+    let currentPage = 1;
+    const PER_PAGE = 9;
+    let searchQuery = '';
+
+    const urlParams = new URLSearchParams(window.location.search);
+    searchQuery = urlParams.get('search') || '';
+
+    const typeIcons = { 'Rose': 'local_florist', 'Tulip': 'filter_vintage', 'Lily': 'eco', 'Sunflower': 'wb_sunny', 'Orchid': 'spa', 'Gypsophila': 'blur_on', 'Carnation': 'yard', 'Daisy': 'brightness_5', 'Lavender': 'grass', 'Peony': 'favorite', 'Gerbera': 'lens_blur', 'Iris': 'water_drop' };
+
+    // ========== دالة عرض حالة المخزون ==========
+    function getStockDisplay(stock) {
+      if (stock === undefined || stock === null) {
+        return { html: '<span class="text-zinc-500 text-xs">Check availability</span>', disabled: false, class: '' };
+      }
+      if (stock <= 0) {
+        return {
+          html: '<span class="text-red-400 text-xs flex items-center gap-1"><span class="material-symbols-outlined text-sm">block</span> ❌ Sold Out</span>',
+          disabled: true,
+          class: 'opacity-50 cursor-not-allowed'
         };
+      }
+      if (stock <= 5) {
+        return {
+          html: `<span class="text-orange-400 text-xs flex items-center gap-1"><span class="material-symbols-outlined text-sm">warning</span> ⚠️ Only ${stock} left!</span>`,
+          disabled: false,
+          class: ''
+        };
+      }
+      if (stock <= 10) {
+        return {
+          html: `<span class="text-blue-400 text-xs flex items-center gap-1"><span class="material-symbols-outlined text-sm">inventory</span> 📦 ${stock} in stock</span>`,
+          disabled: false,
+          class: ''
+        };
+      }
+      return {
+        html: '<span class="text-green-400 text-xs flex items-center gap-1"><span class="material-symbols-outlined text-sm">check_circle</span> ✅ In Stock</span>',
+        disabled: false,
+        class: ''
+      };
+    }
 
-        function fixImageUrl(url) { if (!url) return 'https://placehold.co/400x500?text=Bloom'; if (url.startsWith('http')) return url; if (url.startsWith('/static/')) return url; return '/static/' + url; }
+    // ========== COMPLETE TRANSLATIONS ==========
+    const dict = {
+      en: {
+        brandName: 'BLOOM', navHome: 'Home', navShop: 'Shop', navBouquets: 'Bouquets', navCategory: 'Categories', navOccasions: 'Occasions', navContact: 'Contact',
+        collectionsTitle: 'Collections', filterSub: 'Filter by Type', priceRangeTitle: 'Price Range', sortTitle: 'Sort By',
+        sortDefault: 'Default', sortPriceAsc: 'Price: Low to High', sortPriceDesc: 'Price: High to Low', sortName: 'Name A to Z',
+        bannerTag: 'Limited Release', bannerTitle: 'Seasonal Collections: The Noir Solstice', bannerBtn: 'Explore Curator\'s Choice',
+        boutiqueTitle: 'The Boutique', productCount: 'Showing {count} Hand-Selected Specimens',
+        mobileFilterTypeLabel: 'Filter by Type', mobileMaxPriceLabel: 'Max Price:', addToCart: 'ADD TO CART', quickView: 'Quick View', bestSeller: 'Best Seller',
+        loading: 'Loading botanical masterpieces...', errorMsg: 'Failed to load products.', noProducts: 'No products match the current filters.',
+        filterBtn: 'Filter', priceMaxLabel: 'Max: $', priceSuffix: '+',
+        catAll: 'All Flora',
+        loginRequired: 'Login Required',
+        loginMessage: 'Please login to add items to your cart',
+        addedToCart: 'Added to Cart!',
+        productAdded: 'Product has been added to your cart',
+        errorTitle: 'Error',
+        networkError: 'Network Error',
+        networkMessage: 'Please try again.',
+        loadingDetails: 'Loading product details...',
+        failedDetails: 'Failed to load product details.',
+        inStock: '✓ In Stock',
+        viewFullDetails: 'View Full Details →',
+        stockLimit: 'Stock Limit',
+        stockLimitMsg: 'Only {stock} items available in stock!'
+      },
+      ar: {
+        brandName: 'شغف', navHome: 'الرئيسية', navShop: 'تسوق', navBouquets: 'باقات', navCategory: 'الفئات', navOccasions: 'المناسبات', navContact: 'اتصل بنا',
+        collectionsTitle: 'المجموعات', filterSub: 'تصفية حسب النوع', priceRangeTitle: 'نطاق السعر', sortTitle: 'ترتيب حسب',
+        sortDefault: 'الافتراضي', sortPriceAsc: 'السعر من الأقل إلى الأعلى', sortPriceDesc: 'السعر من الأعلى إلى الأقل', sortName: 'الاسم من الألف إلى الياء',
+        bannerTag: 'إصدار محدود', bannerTitle: 'مجموعات موسمية: الانقلاب الليلي', bannerBtn: 'استكشف اختيارات المنسق',
+        boutiqueTitle: 'المتجر', productCount: 'عرض {count} منتج',
+        mobileFilterTypeLabel: 'تصفية حسب النوع', mobileMaxPriceLabel: 'الحد الأقصى للسعر:', addToCart: 'أضف للسلة', quickView: 'معاينة سريعة', bestSeller: 'الأكثر مبيعاً',
+        loading: 'جاري تحميل المنتجات...', errorMsg: 'فشل تحميل المنتجات.', noProducts: 'لا توجد منتجات تطابق الفلتر الحالي.',
+        filterBtn: 'تصفية', priceMaxLabel: 'الحد الأقصى: $', priceSuffix: '+',
+        catAll: 'كل المنتجات',
+        loginRequired: 'مطلوب تسجيل الدخول',
+        loginMessage: 'يرجى تسجيل الدخول لإضافة المنتجات إلى السلة',
+        addedToCart: 'تمت الإضافة!',
+        productAdded: 'تمت إضافة المنتج إلى سلتك',
+        errorTitle: 'خطأ',
+        networkError: 'خطأ في الشبكة',
+        networkMessage: 'يرجى المحاولة لاحقاً',
+        loadingDetails: 'جاري تحميل تفاصيل المنتج...',
+        failedDetails: 'فشل تحميل تفاصيل المنتج',
+        inStock: '✓ متوفر',
+        viewFullDetails: 'عرض التفاصيل الكاملة ←',
+        stockLimit: 'حد المخزون',
+        stockLimitMsg: 'يوجد فقط {stock} قطع متاحة في المخزون!'
+      }
+    };
 
-        function applyLanguage(lang) {
-            const t = dict[lang];
-            htmlTag.setAttribute('lang', lang);
-            htmlTag.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-            // Update all translatable elements
-            document.getElementById('brandName').innerText = t.brandName;
-            document.getElementById('navHome').innerText = t.navHome;
-            document.getElementById('navShop').innerText = t.navShop;
-            document.getElementById('navCategory').innerText = t.navCategory;
-            document.getElementById('navOccasions').innerText = t.navOccasions;
-            document.getElementById('navBouquets').innerText = t.navBouquets;
-            document.getElementById('navContact').innerText = t.navContact;
-            document.getElementById('collectionsTitle').innerText = t.collectionsTitle;
-            document.getElementById('filterSub').innerText = t.filterSub;
-            document.getElementById('priceRangeTitle').innerText = t.priceRangeTitle;
-            document.getElementById('sortTitle').innerText = t.sortTitle;
-            document.getElementById('sortDefault').innerText = t.sortDefault;
-            document.getElementById('sortPriceAsc').innerText = t.sortPriceAsc;
-            document.getElementById('sortPriceDesc').innerText = t.sortPriceDesc;
-            document.getElementById('sortName').innerText = t.sortName;
-            document.getElementById('bannerTag').innerText = t.bannerTag;
-            document.getElementById('bannerTitle').innerText = t.bannerTitle;
-            document.getElementById('bannerBtn').innerText = t.bannerBtn;
-            document.getElementById('boutiqueTitle').innerText = t.boutiqueTitle;
-            document.getElementById('mobileFilterBtn').innerText = t.filterBtn;
-            document.getElementById('mobileFilterTypeLabel').innerText = t.mobileFilterTypeLabel;
-            document.getElementById('mobileMaxPriceLabel').innerHTML = `${t.mobileMaxPriceLabel} <span id="mobilePriceLabel" class="text-emerald-500">$${maxPrice}</span>`;
-            document.getElementById('priceCurrentLabel').innerHTML = `${t.priceMaxLabel}${maxPrice}${t.priceSuffix}`;
-            document.getElementById('footerPrivacy').innerText = t.footerPrivacy;
-            document.getElementById('footerTerms').innerText = t.footerTerms;
-            document.getElementById('footerShipping').innerText = t.footerShipping;
-            document.getElementById('footerWholesale').innerText = t.footerWholesale;
-            document.getElementById('copyright').innerText = t.copyright;
-            document.getElementById('langToggle').innerText = lang === 'en' ? 'AR' : 'EN';
-            
-            updateProductCount();
-            buildCategoryNav();
-            renderProducts();
-        }
+    function fixImageUrl(url) { if (!url) return 'https://placehold.co/400x500?text=Bloom'; if (url.startsWith('http')) return url; if (url.startsWith('/static/')) return url; return '/static/' + url; }
 
-        function setTheme(theme) {
-            if (theme === 'dark') { htmlTag.classList.replace('light', 'dark'); localStorage.setItem('bloomTheme', 'dark'); document.querySelector('#themeToggle span').innerText = 'dark_mode'; }
-            else { htmlTag.classList.replace('dark', 'light'); localStorage.setItem('bloomTheme', 'light'); document.querySelector('#themeToggle span').innerText = 'light_mode'; }
-        }
+    function applyLanguage(lang) {
+      const t = dict[lang];
+      htmlTag.setAttribute('lang', lang);
+      htmlTag.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+      document.getElementById('brandName').innerText = t.brandName;
+      document.getElementById('navHome').innerText = t.navHome;
+      document.getElementById('navShop').innerText = t.navShop;
+      document.getElementById('navCategory').innerText = t.navCategory;
+      document.getElementById('navOccasions').innerText = t.navOccasions;
+      document.getElementById('navBouquets').innerText = t.navBouquets;
+      document.getElementById('navContact').innerText = t.navContact;
+      document.getElementById('collectionsTitle').innerText = t.collectionsTitle;
+      document.getElementById('filterSub').innerText = t.filterSub;
+      document.getElementById('priceRangeTitle').innerText = t.priceRangeTitle;
+      document.getElementById('sortTitle').innerText = t.sortTitle;
+      document.getElementById('sortDefault').innerText = t.sortDefault;
+      document.getElementById('sortPriceAsc').innerText = t.sortPriceAsc;
+      document.getElementById('sortPriceDesc').innerText = t.sortPriceDesc;
+      document.getElementById('sortName').innerText = t.sortName;
+      document.getElementById('bannerTag').innerText = t.bannerTag;
+      document.getElementById('bannerTitle').innerText = t.bannerTitle;
+      document.getElementById('bannerBtn').innerText = t.bannerBtn;
+      document.getElementById('boutiqueTitle').innerText = t.boutiqueTitle;
+      document.getElementById('mobileFilterBtn').innerText = t.filterBtn;
+      document.getElementById('mobileFilterTypeLabel').innerText = t.mobileFilterTypeLabel;
+      document.getElementById('mobileMaxPriceLabel').innerHTML = `${t.mobileMaxPriceLabel} <span id="mobilePriceLabel" class="text-emerald-500">$${maxPrice}</span>`;
+      document.getElementById('priceCurrentLabel').innerHTML = `${t.priceMaxLabel}${maxPrice}${t.priceSuffix}`;
+      document.getElementById('footerPrivacy').innerText = t.footerPrivacy;
+      document.getElementById('footerTerms').innerText = t.footerTerms;
+      document.getElementById('footerShipping').innerText = t.footerShipping;
+      document.getElementById('footerWholesale').innerText = t.footerWholesale;
+      document.getElementById('copyright').innerText = t.copyright;
+      document.getElementById('langToggle').innerText = lang === 'en' ? 'AR' : 'EN';
 
-        function getFilteredProducts() {
-            let list = [...allProducts];
-            if (currentType !== 'all') list = list.filter(p => p.type && p.type.toLowerCase() === currentType.toLowerCase());
-            list = list.filter(p => parseFloat(p.price) <= maxPrice);
-            if (searchQuery && searchQuery.trim() !== '') {
-                const q = searchQuery.toLowerCase().trim();
-                list = list.filter(p => p.name.toLowerCase().includes(q) || (p.description && p.description.toLowerCase().includes(q)));
-            }
-            if (sortMode === 'price_asc') list.sort((a, b) => a.price - b.price);
-            else if (sortMode === 'price_desc') list.sort((a, b) => b.price - a.price);
-            else if (sortMode === 'name_asc') list.sort((a, b) => a.name.localeCompare(b.name));
-            return list;
-        }
+      updateProductCount();
+      buildCategoryNav();
+      renderProducts();
+    }
 
-        function updateProductCount() {
-            const el = document.getElementById('productCountText');
-            if (el) el.innerText = dict[currentLang].productCount.replace('{count}', getFilteredProducts().length);
-        }
-        function escapeHtml(str) { return str ? str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])) : ''; }
+    function setTheme(theme) {
+      if (theme === 'dark') { htmlTag.classList.replace('light', 'dark'); localStorage.setItem('bloomTheme', 'dark'); document.querySelector('#themeToggle span').innerText = 'dark_mode'; }
+      else { htmlTag.classList.replace('dark', 'light'); localStorage.setItem('bloomTheme', 'light'); document.querySelector('#themeToggle span').innerText = 'light_mode'; }
+    }
 
-        function buildCategoryNav() {
-            const t = dict[currentLang];
-            const types = [...new Set(allProducts.map(p => p.type).filter(Boolean))].sort();
-            const nav = document.getElementById('categoryNav');
-            nav.innerHTML = `<a href="#" class="cat-link ${currentType === 'all' ? 'active border-r-4 border-emerald-500' : ''} flex items-center gap-3 px-6 py-3 transition-all font-serif text-sm" data-type="all"><span class="material-symbols-outlined text-lg">eco</span><span>${t.catAll}</span></a>${types.map(type => `<a href="#" class="cat-link ${currentType === type ? 'active border-r-4 border-emerald-500' : ''} flex items-center gap-3 px-6 py-3 transition-all font-serif text-sm" data-type="${type}"><span class="material-symbols-outlined text-lg">${typeIcons[type] || 'local_florist'}</span><span>${type}</span></a>`).join('')}`;
-            const mob = document.getElementById('mobileCategoryBtns');
-            if (mob) mob.innerHTML = `<button class="mobile-cat-btn px-3 py-1 rounded-full text-xs font-label-caps border transition-all ${currentType === 'all' ? 'bg-emerald-500 text-white border-emerald-500' : 'border-zinc-700 text-zinc-400'}" data-type="all">${t.catAll}</button>${types.map(type => `<button class="mobile-cat-btn px-3 py-1 rounded-full text-xs font-label-caps border transition-all ${currentType === type ? 'bg-emerald-500 text-white border-emerald-500' : 'border-zinc-700 text-zinc-400'}" data-type="${type}">${type}</button>`).join('')}`;
-            document.querySelectorAll('.cat-link, .mobile-cat-btn').forEach(btn => btn.addEventListener('click', e => { e.preventDefault(); currentType = btn.getAttribute('data-type'); currentPage = 1; buildCategoryNav(); renderProducts(); }));
-        }
+    function getFilteredProducts() {
+      let list = [...allProducts];
+      if (currentType !== 'all') list = list.filter(p => p.type && p.type.toLowerCase() === currentType.toLowerCase());
+      list = list.filter(p => parseFloat(p.price) <= maxPrice);
+      if (searchQuery && searchQuery.trim() !== '') {
+        const q = searchQuery.toLowerCase().trim();
+        list = list.filter(p => p.name.toLowerCase().includes(q) || (p.description && p.description.toLowerCase().includes(q)));
+      }
+      if (sortMode === 'price_asc') list.sort((a, b) => a.price - b.price);
+      else if (sortMode === 'price_desc') list.sort((a, b) => b.price - a.price);
+      else if (sortMode === 'name_asc') list.sort((a, b) => a.name.localeCompare(b.name));
+      return list;
+    }
 
-        function renderProducts() {
-            const grid = document.getElementById('productsGrid');
-            const t = dict[currentLang];
-            const filtered = getFilteredProducts();
-            updateProductCount();
-            if (filtered.length === 0) { grid.innerHTML = `<div class="col-span-full text-center py-16 text-zinc-500">${t.noProducts}</div>`; document.getElementById('paginationContainer').classList.add('hidden'); return; }
-            const totalPages = Math.ceil(filtered.length / PER_PAGE);
-            if (currentPage > totalPages) currentPage = 1;
-            const paginated = filtered.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
-            grid.innerHTML = paginated.map(product => {
-                const imgSrc = fixImageUrl(product.image_url);
-                return `<div class="product-card rounded-xl overflow-hidden group border transition-all duration-500 emerald-glow bg-zinc-900/50 dark:bg-zinc-900/50 light:bg-white/85">
+    function updateProductCount() {
+      const el = document.getElementById('productCountText');
+      if (el) el.innerText = dict[currentLang].productCount.replace('{count}', getFilteredProducts().length);
+    }
+    function escapeHtml(str) { return str ? str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])) : ''; }
+
+    function buildCategoryNav() {
+      const t = dict[currentLang];
+      const types = [...new Set(allProducts.map(p => p.type).filter(Boolean))].sort();
+      const nav = document.getElementById('categoryNav');
+      nav.innerHTML = `<a href="#" class="cat-link ${currentType === 'all' ? 'active border-r-4 border-emerald-500' : ''} flex items-center gap-3 px-6 py-3 transition-all font-serif text-sm" data-type="all"><span class="material-symbols-outlined text-lg">eco</span><span>${t.catAll}</span></a>${types.map(type => `<a href="#" class="cat-link ${currentType === type ? 'active border-r-4 border-emerald-500' : ''} flex items-center gap-3 px-6 py-3 transition-all font-serif text-sm" data-type="${type}"><span class="material-symbols-outlined text-lg">${typeIcons[type] || 'local_florist'}</span><span>${type}</span></a>`).join('')}`;
+      const mob = document.getElementById('mobileCategoryBtns');
+      if (mob) mob.innerHTML = `<button class="mobile-cat-btn px-3 py-1 rounded-full text-xs font-label-caps border transition-all ${currentType === 'all' ? 'bg-emerald-500 text-white border-emerald-500' : 'border-zinc-700 text-zinc-400'}" data-type="all">${t.catAll}</button>${types.map(type => `<button class="mobile-cat-btn px-3 py-1 rounded-full text-xs font-label-caps border transition-all ${currentType === type ? 'bg-emerald-500 text-white border-emerald-500' : 'border-zinc-700 text-zinc-400'}" data-type="${type}">${type}</button>`).join('')}`;
+      document.querySelectorAll('.cat-link, .mobile-cat-btn').forEach(btn => btn.addEventListener('click', e => { e.preventDefault(); currentType = btn.getAttribute('data-type'); currentPage = 1; buildCategoryNav(); renderProducts(); }));
+    }
+
+    function renderProducts() {
+      const grid = document.getElementById('productsGrid');
+      const t = dict[currentLang];
+      const filtered = getFilteredProducts();
+      updateProductCount();
+      if (filtered.length === 0) { grid.innerHTML = `<div class="col-span-full text-center py-16 text-zinc-500">${t.noProducts}</div>`; document.getElementById('paginationContainer').classList.add('hidden'); return; }
+      const totalPages = Math.ceil(filtered.length / PER_PAGE);
+      if (currentPage > totalPages) currentPage = 1;
+      const paginated = filtered.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
+      grid.innerHTML = paginated.map(product => {
+        const imgSrc = fixImageUrl(product.image_url);
+        const stockInfo = getStockDisplay(product.stock);
+        return `<div class="product-card rounded-xl overflow-hidden group border transition-all duration-500 emerald-glow bg-zinc-900/50 dark:bg-zinc-900/50 light:bg-white/85">
                     <div class="h-72 overflow-hidden relative bg-zinc-800/50">
                         <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="${imgSrc}" alt="${escapeHtml(product.name)}" onerror="this.parentElement.querySelector('.img-fallback').style.display='flex';this.style.display='none';">
                         <div class="img-fallback absolute inset-0 items-center justify-center hidden"><span class="material-symbols-outlined text-6xl text-emerald-500/30">local_florist</span></div>
+                        ${product.stock <= 0 ? '<div class="absolute inset-0 bg-black/60 flex items-center justify-center"><span class="text-white font-bold px-4 py-2 bg-red-500/80 rounded-full text-sm">SOLD OUT</span></div>' : ''}
                         <div class="absolute inset-x-0 bottom-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex gap-2">
                             <button class="flex-1 bg-white/10 backdrop-blur-md text-white py-2 font-label-caps text-[10px] rounded hover:bg-emerald-500 transition-colors uppercase quick-view" data-id="${product.id}">${t.quickView}</button>
-                            <button class="w-10 h-10 bg-emerald-500 text-white flex items-center justify-center rounded hover:shadow-lg add-to-cart" data-id="${product.id}"><span class="material-symbols-outlined text-sm">add_shopping_cart</span></button>
+                            <button class="w-10 h-10 bg-emerald-500 text-white flex items-center justify-center rounded hover:shadow-lg add-to-cart ${stockInfo.disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}" data-id="${product.id}" ${stockInfo.disabled ? 'disabled' : ''}><span class="material-symbols-outlined text-sm">add_shopping_cart</span></button>
                         </div>
                     </div>
                     <div class="p-5">
@@ -454,656 +597,443 @@
                             <span class="text-emerald-400 font-bold ml-2">$${parseFloat(product.price).toFixed(2)}</span>
                         </div>
                         <p class="text-zinc-500 text-xs mb-3 line-clamp-2">${escapeHtml(product.description)}</p>
-                        <div class="flex flex-wrap gap-2">${product.type ? `<span class="badge px-2 py-0.5 text-[9px] uppercase font-bold tracking-widest rounded bg-zinc-800 text-zinc-400">${escapeHtml(product.type)}</span>` : ''}${product.is_best_seller ? `<span class="badge px-2 py-0.5 text-[9px] uppercase font-bold tracking-widest rounded bg-emerald-500/20 text-emerald-500">${t.bestSeller}</span>` : ''}</div>
+                        <div class="flex flex-wrap gap-2 justify-between items-center">
+                            <div class="flex flex-wrap gap-2">
+                                ${product.type ? `<span class="badge px-2 py-0.5 text-[9px] uppercase font-bold tracking-widest rounded bg-zinc-800 text-zinc-400">${escapeHtml(product.type)}</span>` : ''}
+                                ${product.is_best_seller ? `<span class="badge px-2 py-0.5 text-[9px] uppercase font-bold tracking-widest rounded bg-emerald-500/20 text-emerald-500">${t.bestSeller}</span>` : ''}
+                            </div>
+                            ${stockInfo.html}
+                        </div>
                     </div>
                 </div>`;
-            }).join('');
-            attachProductEvents();
-            renderPagination(totalPages);
+      }).join('');
+      attachProductEvents();
+      renderPagination(totalPages);
+    }
+
+    function attachProductEvents() {
+      document.querySelectorAll('.add-to-cart').forEach(btn => btn.addEventListener('click', () => addToCart(btn.getAttribute('data-id'))));
+      document.querySelectorAll('.quick-view').forEach(btn => btn.addEventListener('click', () => openQuickView(btn.getAttribute('data-id'))));
+    }
+
+    function renderPagination(totalPages) {
+      const container = document.getElementById('paginationContainer');
+      const btns = document.getElementById('pageButtons');
+      if (totalPages <= 1) { container.classList.add('hidden'); return; }
+      container.classList.remove('hidden');
+      btns.innerHTML = Array.from({ length: totalPages }, (_, i) => i + 1).map(p => `<button class="page-btn w-10 h-10 rounded-lg font-label-caps text-[10px] transition-all ${p === currentPage ? 'bg-emerald-500 text-white' : 'glass text-zinc-400 hover:text-emerald-400'}" data-page="${p}">${p}</button>`).join('');
+      document.querySelectorAll('.page-btn').forEach(btn => btn.addEventListener('click', () => { currentPage = parseInt(btn.getAttribute('data-page')); renderProducts(); window.scrollTo({ top: 0, behavior: 'smooth' }); }));
+      document.getElementById('prevPage').onclick = () => { if (currentPage > 1) { currentPage--; renderProducts(); } };
+      document.getElementById('nextPage').onclick = () => { if (currentPage < totalPages) { currentPage++; renderProducts(); } };
+    }
+
+    async function addToCart(flowerId, quantity = 1) {
+      const token = localStorage.getItem('access_token');
+      const t = dict[currentLang];
+      if (!token) {
+        Swal.fire({ icon: 'warning', title: t.loginRequired, text: t.loginMessage, confirmButtonColor: '#2ecc71' }).then(() => window.location.href = '/login');
+        return;
+      }
+      try {
+        const res = await fetch('/api/cart/add', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ flower_id: parseInt(flowerId), quantity: quantity })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          Swal.fire({ icon: 'success', title: t.addedToCart, text: t.productAdded, timer: 1500, showConfirmButton: false });
+          updateCartCount();
         }
+        else Swal.fire({ icon: 'error', title: t.errorTitle, text: data.error || t.networkMessage });
+      } catch { Swal.fire({ icon: 'error', title: t.networkError, text: t.networkMessage }); }
+    }
 
-        function attachProductEvents() {
-            document.querySelectorAll('.add-to-cart').forEach(btn => btn.addEventListener('click', () => addToCart(btn.getAttribute('data-id'))));
-            document.querySelectorAll('.quick-view').forEach(btn => btn.addEventListener('click', () => openQuickView(btn.getAttribute('data-id'))));
+    async function updateCartCount() { const token = localStorage.getItem('access_token'); if (!token) return; try { const res = await fetch('/api/cart/', { headers: { 'Authorization': `Bearer ${token}` } }); if (res.ok) { const data = await res.json(); const countEl = document.getElementById('cartCount'); if (countEl && data.item_count > 0) { countEl.innerText = data.item_count; countEl.classList.remove('hidden'); } else if (countEl) countEl.classList.add('hidden'); } } catch (e) { } }
+
+    const modal = document.getElementById('quickViewModal');
+    const modalContent = document.getElementById('quickViewContent');
+
+    function openQuickView(productId) {
+      if (!productId) return;
+      const t = dict[currentLang];
+      modal.classList.remove('hidden'); modal.classList.add('flex'); document.body.style.overflow = 'hidden';
+      modalContent.innerHTML = `<div class="text-center py-12 text-primary animate-pulse">${t.loadingDetails}</div>`;
+      fetch(`/api/flowers/${productId}`).then(res => res.json()).then(product => renderQuickView(product)).catch(() => modalContent.innerHTML = `<div class="text-center py-12 text-error">${t.failedDetails}</div>`);
+    }
+
+    function closeQuickView() { modal.classList.add('hidden'); modal.classList.remove('flex'); document.body.style.overflow = ''; }
+
+    function renderQuickView(product) {
+      const t = dict[currentLang];
+      const pid = product.id;
+      const maxStock = product.stock || 0;
+      const isOutOfStock = maxStock <= 0;
+
+      modalContent.innerHTML = `<div class="flex flex-col md:flex-row gap-6"><div class="md:w-1/2"><img src="${fixImageUrl(product.image_url)}" class="w-full h-auto rounded-xl object-cover"></div><div class="md:w-1/2"><span class="text-sm text-primary uppercase tracking-wider">${escapeHtml(product.category || 'Botanical')}</span><h2 class="font-headline-md text-headline-md mt-2">${escapeHtml(product.name)}</h2><div class="flex items-center gap-3 mb-4"><span class="text-3xl font-bold text-primary">$${product.price.toFixed(2)}</span>${getStockDisplay(maxStock).html}</div><p class="text-on-surface-variant mb-6">${escapeHtml(product.description || 'No description available.')}</p>${!isOutOfStock ? `<div class="flex items-center gap-4 mb-6"><div class="flex items-center border rounded-full"><button class="w-10 h-10 hover:text-primary" id="quickQtyDec">-</button><span id="quickQtyValue" class="w-12 text-center font-bold">1</span><button class="w-10 h-10 hover:text-primary" id="quickQtyInc">+</button></div><button id="quickAddToCart" data-id="${pid}" class="flex-1 bg-primary text-white py-3 rounded-full font-bold">${t.addToCart}</button></div>` : `<button class="w-full bg-red-500/50 text-white py-3 rounded-full font-bold cursor-not-allowed" disabled>❌ Sold Out</button>`}<a href="/product/${pid}" class="text-primary hover:underline text-sm">${t.viewFullDetails}</a></div></div></div>`;
+
+      if (!isOutOfStock) {
+        let qty = 1;
+        const qtySpan = document.getElementById('quickQtyValue');
+        document.getElementById('quickQtyDec').onclick = () => { if (qty > 1) { qty--; qtySpan.innerText = qty; } };
+        document.getElementById('quickQtyInc').onclick = () => {
+          if (qty < maxStock) {
+            qty++;
+            qtySpan.innerText = qty;
+          } else if (maxStock > 0) {
+            Swal.fire({ icon: 'warning', title: t.stockLimit, text: t.stockLimitMsg.replace('{stock}', maxStock), confirmButtonColor: '#2ecc71' });
+          }
+        };
+        document.getElementById('quickAddToCart').onclick = () => { addToCart(pid, qty); closeQuickView(); };
+      }
+    }
+
+    document.getElementById('closeModalBtn')?.addEventListener('click', closeQuickView);
+    modal?.addEventListener('click', (e) => { if (e.target === modal) closeQuickView(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) closeQuickView(); });
+
+    async function loadAllProducts() {
+      const grid = document.getElementById('productsGrid');
+      const t = dict[currentLang];
+      grid.innerHTML = `<div class="col-span-full text-center py-12 text-primary animate-pulse">${t.loading}</div>`;
+      try {
+        const res = await fetch('/api/flowers/');
+        if (!res.ok) throw new Error();
+        allProducts = await res.json();
+        if (searchQuery) {
+          const searchInput = document.getElementById('searchInput');
+          if (searchInput) searchInput.value = searchQuery;
         }
+        buildCategoryNav();
+        renderProducts();
+        updateCartCount();
+      } catch (err) { grid.innerHTML = `<div class="col-span-full text-center py-12 text-error">${t.errorMsg}</div>`; }
+    }
 
-        function renderPagination(totalPages) {
-            const container = document.getElementById('paginationContainer');
-            const btns = document.getElementById('pageButtons');
-            if (totalPages <= 1) { container.classList.add('hidden'); return; }
-            container.classList.remove('hidden');
-            btns.innerHTML = Array.from({ length: totalPages }, (_, i) => i+1).map(p => `<button class="page-btn w-10 h-10 rounded-lg font-label-caps text-[10px] transition-all ${p === currentPage ? 'bg-emerald-500 text-white' : 'glass text-zinc-400 hover:text-emerald-400'}" data-page="${p}">${p}</button>`).join('');
-            document.querySelectorAll('.page-btn').forEach(btn => btn.addEventListener('click', () => { currentPage = parseInt(btn.getAttribute('data-page')); renderProducts(); window.scrollTo({ top: 0, behavior: 'smooth' }); }));
-            document.getElementById('prevPage').onclick = () => { if (currentPage > 1) { currentPage--; renderProducts(); } };
-            document.getElementById('nextPage').onclick = () => { if (currentPage < totalPages) { currentPage++; renderProducts(); } };
-        }
+    document.getElementById('themeToggle').addEventListener('click', () => { currentTheme = currentTheme === 'light' ? 'dark' : 'light'; setTheme(currentTheme); });
+    document.getElementById('langToggle').addEventListener('click', () => { currentLang = currentLang === 'en' ? 'ar' : 'en'; localStorage.setItem('bloomLang', currentLang); applyLanguage(currentLang); });
+    document.getElementById('priceSlider').addEventListener('input', e => { maxPrice = parseInt(e.target.value); document.getElementById('priceCurrentLabel').innerHTML = `${dict[currentLang].priceMaxLabel}${maxPrice}${dict[currentLang].priceSuffix}`; document.getElementById('mobilePriceLabel').innerText = `$${maxPrice}`; currentPage = 1; renderProducts(); });
+    document.getElementById('mobilePriceSlider')?.addEventListener('input', e => { maxPrice = parseInt(e.target.value); document.getElementById('priceSlider').value = maxPrice; document.getElementById('priceCurrentLabel').innerHTML = `${dict[currentLang].priceMaxLabel}${maxPrice}${dict[currentLang].priceSuffix}`; document.getElementById('mobilePriceLabel').innerText = `$${maxPrice}`; currentPage = 1; renderProducts(); });
+    document.querySelectorAll('input[name="sort"]').forEach(radio => radio.addEventListener('change', e => { sortMode = e.target.value; currentPage = 1; renderProducts(); }));
+    document.getElementById('mobileFilterBtn')?.addEventListener('click', () => document.getElementById('mobileFilters').classList.toggle('hidden'));
+    document.getElementById('bannerBtn').addEventListener('click', () => Swal.fire({ icon: 'info', title: "Curator's Choice", text: 'Exclusive collection coming soon.' }));
 
-        async function addToCart(flowerId) {
-            const token = localStorage.getItem('access_token');
-            const t = dict[currentLang];
-            if (!token) { 
-                Swal.fire({ icon: 'warning', title: t.loginRequired, text: t.loginMessage, confirmButtonColor: '#2ecc71' }).then(() => window.location.href = '/login'); 
-                return; 
-            }
-            try {
-                const res = await fetch('/api/cart/add', { method: 'POST', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ flower_id: parseInt(flowerId), quantity: 1 }) });
-                const data = await res.json();
-                if (res.ok) { 
-                    Swal.fire({ icon: 'success', title: t.addedToCart, text: t.productAdded, timer: 1500, showConfirmButton: false }); 
-                    updateCartCount(); 
-                }
-                else Swal.fire({ icon: 'error', title: t.errorTitle, text: data.error || t.networkMessage });
-            } catch { Swal.fire({ icon: 'error', title: t.networkError, text: t.networkMessage }); }
-        }
+    setTheme(currentTheme);
+    applyLanguage(currentLang);
+    loadAllProducts();
+  </script>
 
-        async function updateCartCount() { const token = localStorage.getItem('access_token'); if (!token) return; try { const res = await fetch('/api/cart/', { headers: { 'Authorization': `Bearer ${token}` } }); if (res.ok) { const data = await res.json(); const countEl = document.getElementById('cartCount'); if (countEl && data.item_count > 0) { countEl.innerText = data.item_count; countEl.classList.remove('hidden'); } else if (countEl) countEl.classList.add('hidden'); } } catch(e){} }
+  <!-- Chatbot Widget -->
+  <style>
+    :root {
+      --cb-bg: #0d1410;
+      --cb-surface: #141c17;
+      --cb-surface2: #1c2820;
+      --cb-border: rgba(84, 233, 138, 0.15);
+      --cb-green: #54e98a;
+      --cb-green2: #2ecc71;
+      --cb-text: #e1e3e4;
+      --cb-muted: #7a8f80;
+      --cb-user-bg: #1e3a2a;
+      --cb-bot-bg: #192218;
+      --cb-radius: 18px;
+      --cb-w: 370px;
+      --cb-h: 520px;
+      --cb-z: 9999;
+    }
 
-        const modal = document.getElementById('quickViewModal');
-        const modalContent = document.getElementById('quickViewContent');
-        function openQuickView(productId) { 
-            if (!productId) return; 
-            const t = dict[currentLang];
-            modal.classList.remove('hidden'); modal.classList.add('flex'); document.body.style.overflow = 'hidden'; 
-            modalContent.innerHTML = `<div class="text-center py-12 text-primary animate-pulse">${t.loadingDetails}</div>`; 
-            fetch(`/api/flowers/${productId}`).then(res=>res.json()).then(product=>renderQuickView(product)).catch(()=>modalContent.innerHTML=`<div class="text-center py-12 text-error">${t.failedDetails}</div>`); 
-        }
-        function closeQuickView() { modal.classList.add('hidden'); modal.classList.remove('flex'); document.body.style.overflow = ''; }
-        function renderQuickView(product) { 
-            const t = dict[currentLang];
-            const pid = product.id; 
-            modalContent.innerHTML = `<div class="flex flex-col md:flex-row gap-6"><div class="md:w-1/2"><img src="${fixImageUrl(product.image_url)}" class="w-full h-auto rounded-xl object-cover"></div><div class="md:w-1/2"><span class="text-sm text-primary uppercase tracking-wider">${escapeHtml(product.category||'Botanical')}</span><h2 class="font-headline-md text-headline-md mt-2">${escapeHtml(product.name)}</h2><div class="flex items-center gap-3 mb-4"><span class="text-3xl font-bold text-primary">$${product.price.toFixed(2)}</span><span class="text-green-500 text-sm">${t.inStock}</span></div><p class="text-on-surface-variant mb-6">${escapeHtml(product.description||'No description available.')}</p><div class="flex items-center gap-4 mb-6"><div class="flex items-center border rounded-full"><button class="w-10 h-10 hover:text-primary" id="quickQtyDec">-</button><span id="quickQtyValue" class="w-12 text-center font-bold">1</span><button class="w-10 h-10 hover:text-primary" id="quickQtyInc">+</button></div><button id="quickAddToCart" data-id="${pid}" class="flex-1 bg-primary text-white py-3 rounded-full font-bold">${t.addToCart}</button></div><a href="/product/${pid}" class="text-primary hover:underline text-sm">${t.viewFullDetails}</a></div></div>`;
-            let qty = 1; const qtySpan = document.getElementById('quickQtyValue'); document.getElementById('quickQtyDec').onclick = () => { if (qty>1) { qty--; qtySpan.innerText = qty; } }; document.getElementById('quickQtyInc').onclick = () => { if (product.stock>qty) { qty++; qtySpan.innerText = qty; } }; document.getElementById('quickAddToCart').onclick = () => { addToCart(pid, qty); closeQuickView(); }; }
-        document.getElementById('closeModalBtn')?.addEventListener('click', closeQuickView); modal?.addEventListener('click', (e) => { if (e.target === modal) closeQuickView(); }); document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) closeQuickView(); });
+    #cb-toggle {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: var(--cb-z);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 32px rgba(46, 204, 113, 0.35);
+      transition: transform 0.3s ease;
+    }
 
-        async function loadAllProducts() {
-            const grid = document.getElementById('productsGrid');
-            const t = dict[currentLang];
-            grid.innerHTML = `<div class="col-span-full text-center py-12 text-primary animate-pulse">${t.loading}</div>`;
-            try {
-                const res = await fetch('/api/flowers/');
-                if (!res.ok) throw new Error();
-                allProducts = await res.json();
-                if (searchQuery) {
-                    const searchInput = document.getElementById('searchInput');
-                    if (searchInput) searchInput.value = searchQuery;
-                }
-                buildCategoryNav();
-                renderProducts();
-                updateCartCount();
-            } catch(err) { grid.innerHTML = `<div class="col-span-full text-center py-12 text-error">${t.errorMsg}</div>`; }
-        }
+    #cb-toggle:hover {
+      transform: scale(1.08);
+    }
 
-        document.getElementById('themeToggle').addEventListener('click', () => { currentTheme = currentTheme === 'light' ? 'dark' : 'light'; setTheme(currentTheme); loadAllProducts(); });
-        document.getElementById('langToggle').addEventListener('click', () => { currentLang = currentLang === 'en' ? 'ar' : 'en'; localStorage.setItem('bloomLang', currentLang); applyLanguage(currentLang); loadAllProducts(); });
-        document.getElementById('priceSlider').addEventListener('input', e => { maxPrice = parseInt(e.target.value); document.getElementById('priceCurrentLabel').innerHTML = `${dict[currentLang].priceMaxLabel}${maxPrice}${dict[currentLang].priceSuffix}`; document.getElementById('mobilePriceLabel').innerText = `$${maxPrice}`; currentPage = 1; renderProducts(); });
-        document.getElementById('mobilePriceSlider')?.addEventListener('input', e => { maxPrice = parseInt(e.target.value); document.getElementById('priceSlider').value = maxPrice; document.getElementById('priceCurrentLabel').innerHTML = `${dict[currentLang].priceMaxLabel}${maxPrice}${dict[currentLang].priceSuffix}`; document.getElementById('mobilePriceLabel').innerText = `$${maxPrice}`; currentPage = 1; renderProducts(); });
-        document.querySelectorAll('input[name="sort"]').forEach(radio => radio.addEventListener('change', e => { sortMode = e.target.value; currentPage = 1; renderProducts(); }));
-        document.getElementById('mobileFilterBtn')?.addEventListener('click', () => document.getElementById('mobileFilters').classList.toggle('hidden'));
-        document.getElementById('bannerBtn').addEventListener('click', () => Swal.fire({ icon: 'info', title: "Curator's Choice", text: 'Exclusive collection coming soon.' }));
+    #cb-toggle svg {
+      width: 28px;
+      height: 28px;
+      fill: #fff;
+    }
 
-        setTheme(currentTheme);
-        applyLanguage(currentLang);
-        loadAllProducts();
-    </script>
+    #cb-window {
+      position: fixed;
+      bottom: 100px;
+      right: 28px;
+      z-index: var(--cb-z);
+      width: var(--cb-w);
+      max-height: var(--cb-h);
+      background: var(--cb-bg);
+      border: 1px solid var(--cb-border);
+      border-radius: var(--cb-radius);
+      display: flex;
+      flex-direction: column;
+      transform: translateY(20px) scale(0.95);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.35s, opacity 0.3s;
+      overflow: hidden;
+    }
 
+    #cb-window.open {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+      pointer-events: all;
+    }
 
-  <!--
-====================================================================
-  BLOOM STORE — CHATBOT WIDGET
-  
-  HOW TO USE:
-  Paste this entire block just before </body> in any HTML page.
-  The chatbot will appear as a floating button at bottom-right.
-====================================================================
--->
+    #cb-header {
+      padding: 16px 20px;
+      background: linear-gradient(135deg, #1a2e1f, #0f1d13);
+      border-bottom: 1px solid var(--cb-border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-<!-- ===================== CHATBOT STYLES ===================== -->
-<style>
-  /* ── Chatbot root variables ── */
-  :root {
-    --cb-bg:        #0d1410;
-    --cb-surface:   #141c17;
-    --cb-surface2:  #1c2820;
-    --cb-border:    rgba(84, 233, 138, 0.15);
-    --cb-green:     #54e98a;
-    --cb-green2:    #2ecc71;
-    --cb-text:      #e1e3e4;
-    --cb-muted:     #7a8f80;
-    --cb-user-bg:   #1e3a2a;
-    --cb-bot-bg:    #192218;
-    --cb-radius:    18px;
-    --cb-w:         370px;
-    --cb-h:         520px;
-    --cb-z:         9999;
-  }
+    .cb-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-  /* ── Floating toggle button ── */
-  #cb-toggle {
-    position: fixed;
-    bottom: 28px;
-    right: 28px;
-    z-index: var(--cb-z);
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 8px 32px rgba(46, 204, 113, 0.35), 0 0 0 0 rgba(46, 204, 113, 0.4);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    animation: cb-pulse 2.5s infinite;
-  }
-  #cb-toggle:hover {
-    transform: scale(1.08);
-    box-shadow: 0 12px 40px rgba(46, 204, 113, 0.5), 0 0 0 0 rgba(46, 204, 113, 0.4);
-  }
-  #cb-toggle svg { width: 28px; height: 28px; fill: #fff; transition: transform 0.3s; }
-  #cb-toggle.open svg { transform: rotate(45deg); }
+    .cb-header-info h3 {
+      color: #fff;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: 'Noto Serif', serif;
+      margin: 0;
+    }
 
-  @keyframes cb-pulse {
-    0%, 100% { box-shadow: 0 8px 32px rgba(46,204,113,0.35), 0 0 0 0 rgba(46,204,113,0.4); }
-    50%       { box-shadow: 0 8px 32px rgba(46,204,113,0.35), 0 0 0 10px rgba(46,204,113,0); }
-  }
+    .cb-header-info p {
+      color: var(--cb-green);
+      font-size: 11px;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
 
-  /* Notification dot */
-  #cb-notif {
-    position: absolute;
-    top: 4px; right: 4px;
-    width: 14px; height: 14px;
-    background: #ff4d6d;
-    border-radius: 50%;
-    border: 2px solid #0d1410;
-    animation: cb-bounce 1s infinite alternate;
-  }
-  @keyframes cb-bounce { from { transform: scale(1); } to { transform: scale(1.3); } }
+    #cb-close {
+      margin-left: auto;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--cb-muted);
+      font-size: 20px;
+    }
 
-  /* ── Chat window ── */
-  #cb-window {
-    position: fixed;
-    bottom: 100px;
-    right: 28px;
-    z-index: var(--cb-z);
-    width: var(--cb-w);
-    max-height: var(--cb-h);
-    background: var(--cb-bg);
-    border: 1px solid var(--cb-border);
-    border-radius: var(--cb-radius);
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(84,233,138,0.08);
-    transform: translateY(20px) scale(0.95);
-    opacity: 0;
-    pointer-events: none;
-    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease;
-    overflow: hidden;
-  }
-  #cb-window.open {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-    pointer-events: all;
-  }
+    #cb-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 340px;
+    }
 
-  /* ── Header ── */
-  #cb-header {
-    padding: 16px 20px;
-    background: linear-gradient(135deg, #1a2e1f, #0f1d13);
-    border-bottom: 1px solid var(--cb-border);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .cb-avatar {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-    flex-shrink: 0;
-    box-shadow: 0 0 16px rgba(46,204,113,0.3);
-  }
-  .cb-header-info h3 {
-    color: #fff; font-size: 15px; font-weight: 600;
-    font-family: 'Noto Serif', serif;
-    margin: 0 0 2px;
-  }
-  .cb-header-info p {
-    color: var(--cb-green); font-size: 11px; margin: 0;
-    display: flex; align-items: center; gap: 5px;
-  }
-  .cb-online-dot {
-    width: 7px; height: 7px;
-    background: var(--cb-green); border-radius: 50%;
-    animation: cb-blink 1.5s infinite;
-  }
-  @keyframes cb-blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .cb-msg {
+      display: flex;
+      gap: 8px;
+    }
 
-  #cb-close {
-    margin-left: auto;
-    background: none; border: none; cursor: pointer;
-    color: var(--cb-muted); font-size: 20px; line-height: 1;
-    padding: 4px 8px; border-radius: 8px;
-    transition: color 0.2s, background 0.2s;
-  }
-  #cb-close:hover { color: #fff; background: rgba(255,255,255,0.08); }
+    .cb-msg.user {
+      flex-direction: row-reverse;
+    }
 
-  /* ── Messages area ── */
-  #cb-messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(84,233,138,0.2) transparent;
-    min-height: 0;
-    max-height: 340px;
-  }
-  #cb-messages::-webkit-scrollbar { width: 4px; }
-  #cb-messages::-webkit-scrollbar-thumb { background: rgba(84,233,138,0.2); border-radius: 4px; }
+    .cb-bubble {
+      max-width: 82%;
+      padding: 10px 14px;
+      border-radius: 16px;
+      font-size: 13.5px;
+      line-height: 1.55;
+      font-family: 'Manrope', sans-serif;
+    }
 
-  /* ── Message bubbles ── */
-  .cb-msg {
-    display: flex;
-    gap: 8px;
-    animation: cb-fadein 0.3s ease;
-  }
-  @keyframes cb-fadein { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+    .cb-msg.bot .cb-bubble {
+      background: var(--cb-bot-bg);
+      color: var(--cb-text);
+      border: 1px solid var(--cb-border);
+      border-bottom-left-radius: 4px;
+    }
 
-  .cb-msg.user { flex-direction: row-reverse; }
+    .cb-msg.user .cb-bubble {
+      background: var(--cb-user-bg);
+      color: #c8f5d8;
+      border-bottom-right-radius: 4px;
+    }
 
-  .cb-msg-avatar {
-    width: 30px; height: 30px; border-radius: 50%;
-    flex-shrink: 0; display: flex; align-items: center;
-    justify-content: center; font-size: 14px;
-    margin-top: 2px;
-  }
-  .cb-msg.bot .cb-msg-avatar {
-    background: linear-gradient(135deg, #1a3a22, #0f2016);
-    border: 1px solid var(--cb-border);
-  }
-  .cb-msg.user .cb-msg-avatar {
-    background: rgba(46,204,113,0.15);
-    border: 1px solid rgba(46,204,113,0.2);
-  }
+    #cb-quick {
+      padding: 8px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      border-top: 1px solid var(--cb-border);
+      background: var(--cb-surface);
+    }
 
-  .cb-bubble {
-    max-width: 82%;
-    padding: 10px 14px;
-    border-radius: 16px;
-    font-size: 13.5px;
-    line-height: 1.55;
-    font-family: 'Manrope', sans-serif;
-  }
-  .cb-msg.bot .cb-bubble {
-    background: var(--cb-bot-bg);
-    color: var(--cb-text);
-    border: 1px solid var(--cb-border);
-    border-bottom-left-radius: 4px;
-  }
-  .cb-msg.user .cb-bubble {
-    background: var(--cb-user-bg);
-    color: #c8f5d8;
-    border: 1px solid rgba(84,233,138,0.18);
-    border-bottom-right-radius: 4px;
-  }
+    .cb-quick-btn {
+      padding: 5px 12px;
+      background: rgba(84, 233, 138, 0.06);
+      border: 1px solid rgba(84, 233, 138, 0.18);
+      border-radius: 20px;
+      color: var(--cb-green);
+      font-size: 11px;
+      cursor: pointer;
+    }
 
-  /* Link button inside bot message */
-  .cb-link-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    margin-top: 8px;
-    padding: 6px 12px;
-    background: linear-gradient(135deg, rgba(46,204,113,0.2), rgba(46,204,113,0.08));
-    border: 1px solid rgba(84,233,138,0.3);
-    border-radius: 20px;
-    color: var(--cb-green) !important;
-    font-size: 11.5px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-decoration: none !important;
-    text-transform: uppercase;
-    transition: background 0.2s, border-color 0.2s;
-  }
-  .cb-link-btn:hover {
-    background: rgba(46,204,113,0.25);
-    border-color: rgba(84,233,138,0.5);
-  }
-  .cb-link-btn svg { width: 12px; height: 12px; }
+    #cb-input-area {
+      padding: 12px 16px;
+      border-top: 1px solid var(--cb-border);
+      background: var(--cb-surface2);
+      display: flex;
+      gap: 8px;
+    }
 
-  /* Typing indicator */
-  .cb-typing {
-    display: flex; align-items: center; gap: 5px; padding: 10px 14px;
-    background: var(--cb-bot-bg); border: 1px solid var(--cb-border);
-    border-radius: 16px; border-bottom-left-radius: 4px;
-    width: fit-content;
-  }
-  .cb-typing span {
-    width: 7px; height: 7px; background: var(--cb-green);
-    border-radius: 50%; animation: cb-typing 1.2s infinite ease-in-out;
-  }
-  .cb-typing span:nth-child(2) { animation-delay: 0.2s; }
-  .cb-typing span:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes cb-typing {
-    0%,80%,100% { transform:scale(0.6); opacity:0.4; }
-    40%          { transform:scale(1);   opacity:1; }
-  }
+    #cb-input {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 9px 16px;
+      color: var(--cb-text);
+      font-size: 13px;
+      outline: none;
+    }
 
-  /* ── Quick replies ── */
-  #cb-quick {
-    padding: 8px 16px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    border-top: 1px solid var(--cb-border);
-    background: var(--cb-surface);
-  }
-  .cb-quick-btn {
-    padding: 5px 12px;
-    background: rgba(84,233,138,0.06);
-    border: 1px solid rgba(84,233,138,0.18);
-    border-radius: 20px;
-    color: var(--cb-green);
-    font-size: 11px;
-    font-family: 'Manrope', sans-serif;
-    cursor: pointer;
-    transition: background 0.2s, border-color 0.2s;
-    white-space: nowrap;
-  }
-  .cb-quick-btn:hover {
-    background: rgba(84,233,138,0.15);
-    border-color: rgba(84,233,138,0.4);
-  }
+    #cb-send {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-  /* ── Input area ── */
-  #cb-input-area {
-    padding: 12px 16px;
-    border-top: 1px solid var(--cb-border);
-    background: var(--cb-surface2);
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-  #cb-input {
-    flex: 1;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 24px;
-    padding: 9px 16px;
-    color: var(--cb-text);
-    font-size: 13px;
-    font-family: 'Manrope', sans-serif;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  #cb-input:focus { border-color: rgba(84,233,138,0.4); }
-  #cb-input::placeholder { color: var(--cb-muted); }
-  #cb-send {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
-    border: none;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 16px rgba(46,204,113,0.25);
-  }
-  #cb-send:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(46,204,113,0.4); }
-  #cb-send svg { width: 17px; height: 17px; fill: #fff; }
+    #cb-send svg {
+      width: 17px;
+      height: 17px;
+      fill: #fff;
+    }
 
-  /* ── Mobile ── */
-  @media (max-width: 420px) {
-    :root { --cb-w: calc(100vw - 24px); }
-    #cb-window { right: 12px; bottom: 90px; }
-    #cb-toggle { right: 16px; bottom: 20px; }
-  }
+    html.light #cb-window {
+      --cb-bg: #f8faf9;
+      --cb-surface: #f0f4f2;
+      --cb-surface2: #eaf0ec;
+      --cb-text: #1a1c1c;
+      --cb-bot-bg: #f0f5f2;
+      --cb-user-bg: #e0f5e9;
+    }
 
-  /* Light mode overrides */
-  html.light #cb-window {
-    --cb-bg: #f8faf9;
-    --cb-surface: #f0f4f2;
-    --cb-surface2: #eaf0ec;
-    --cb-border: rgba(46, 204, 113, 0.2);
-    --cb-text: #1a1c1c;
-    --cb-muted: #6b7c6f;
-    --cb-bot-bg: #f0f5f2;
-    --cb-user-bg: #e0f5e9;
-    background: var(--cb-bg);
-  }
-  html.light #cb-header { background: linear-gradient(135deg, #e8f5ee, #ddf0e7); }
-  html.light #cb-header .cb-header-info h3 { color: #1a1c1c; }
-  html.light .cb-bubble { color: #1a1c1c; }
-  html.light .cb-msg.bot .cb-bubble { background: #f0f5f2; border-color: rgba(46,204,113,0.18); }
-  html.light .cb-msg.user .cb-bubble { background: #dcf0e5; color: #0d3320; }
-  html.light #cb-input { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.1); color: #1a1c1c; }
-  html.light #cb-input::placeholder { color: #9aada0; }
-</style>
+    @media (max-width: 420px) {
+      :root {
+        --cb-w: calc(100vw - 24px);
+      }
 
-<!-- ===================== CHATBOT HTML ===================== -->
+      #cb-window {
+        right: 12px;
+        bottom: 90px;
+      }
 
-<!-- Floating Toggle Button -->
-<button id="cb-toggle" aria-label="Open chat assistant" title="Chat with Bloom">
-  <span id="cb-notif"></span>
-  <!-- Flower/Chat icon -->
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 3.0 1.01 4.29L2 22l5.71-1.01C9 21.64 10.46 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.38 0-2.68-.31-3.84-.86l-.27-.13-2.82.5.5-2.82-.13-.27C4.31 15.18 4 13.88 4 12.5 4 7.81 7.81 4 12.5 4S21 7.81 21 12.5 17.19 21 12.5 21H12zm5-8h-4V8h-2v5H7v2h4v4h2v-4h4v-2z"/>
-  </svg>
-</button>
+      #cb-toggle {
+        right: 16px;
+        bottom: 20px;
+      }
+    }
+  </style>
 
-<!-- Chat Window -->
-<div id="cb-window" role="dialog" aria-label="Bloom floral assistant">
+  <button id="cb-toggle" aria-label="Open chat assistant">
+    <svg viewBox="0 0 24 24">
+      <path
+        d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 3.0 1.01 4.29L2 22l5.71-1.01C9 21.64 10.46 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z" />
+    </svg>
+  </button>
 
-  <!-- Header -->
-  <div id="cb-header">
-    <div class="cb-avatar">🌸</div>
-    <div class="cb-header-info">
-      <h3>Bloom Assistant</h3>
-      <p><span class="cb-online-dot"></span> Online · Here to help</p>
+  <div id="cb-window">
+    <div id="cb-header">
+      <div class="cb-avatar">🌸</div>
+      <div class="cb-header-info">
+        <h3>Bloom Assistant</h3>
+        <p><span style="width:7px;height:7px;background:#54e98a;border-radius:50%;display:inline-block;"></span> Online
+        </p>
+      </div>
+      <button id="cb-close">✕</button>
     </div>
-    <button id="cb-close" aria-label="Close chat">✕</button>
+    <div id="cb-messages"></div>
+    <div id="cb-quick">
+      <button class="cb-quick-btn" data-msg="birthday flowers">🎂 Birthday</button>
+      <button class="cb-quick-btn" data-msg="wedding bouquet">💍 Wedding</button>
+      <button class="cb-quick-btn" data-msg="graduation flowers">🎓 Graduation</button>
+      <button class="cb-quick-btn" data-msg="valentine roses">❤️ Valentine</button>
+    </div>
+    <div id="cb-input-area">
+      <input id="cb-input" type="text" placeholder="Ask about flowers...">
+      <button id="cb-send"><svg viewBox="0 0 24 24">
+          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+        </svg></button>
+    </div>
   </div>
 
-  <!-- Messages -->
-  <div id="cb-messages"></div>
-
-  <!-- Quick Replies -->
-  <div id="cb-quick">
-    <button class="cb-quick-btn" data-msg="birthday flowers">🎂 Birthday</button>
-    <button class="cb-quick-btn" data-msg="wedding bouquet">💍 Wedding</button>
-    <button class="cb-quick-btn" data-msg="graduation flowers">🎓 Graduation</button>
-    <button class="cb-quick-btn" data-msg="valentine roses">❤️ Valentine</button>
-    <button class="cb-quick-btn" data-msg="luxury flowers">💎 Luxury</button>
-    <button class="cb-quick-btn" data-msg="delivery">🚚 Delivery</button>
-  </div>
-
-  <!-- Input -->
-  <div id="cb-input-area">
-    <input id="cb-input" type="text" placeholder="Ask about flowers, occasions..." maxlength="200" autocomplete="off">
-    <button id="cb-send" aria-label="Send message">
-      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-    </button>
-  </div>
-</div>
-
-<!-- ===================== CHATBOT SCRIPT ===================== -->
-<script>
-(function () {
-  'use strict';
-
-  // ── DOM refs ──
-  const toggle   = document.getElementById('cb-toggle');
-  const window_  = document.getElementById('cb-window');
-  const closeBtn = document.getElementById('cb-close');
-  const messages = document.getElementById('cb-messages');
-  const input    = document.getElementById('cb-input');
-  const sendBtn  = document.getElementById('cb-send');
-  const notif    = document.getElementById('cb-notif');
-  const quickBtns = document.querySelectorAll('.cb-quick-btn');
-
-  let isOpen = false;
-  let isTyping = false;
-  let welcomed = false;
-
-  // ── Open / Close ──
-  function openChat() {
-    isOpen = true;
-    window_.classList.add('open');
-    toggle.classList.add('open');
-    notif.style.display = 'none';
-    input.focus();
-    if (!welcomed) {
-      welcomed = true;
-      setTimeout(() => showBotMessage(
-        "🌸 Welcome to <strong>Bloom Store</strong>! I'm your personal floral assistant.<br><br>Tell me about an occasion, emotion, or flower type — and I'll guide you to the perfect arrangement. What brings you here today?",
-        "/shop",
-        "Browse All Flowers"
-      ), 400);
-    }
-  }
-
-  function closeChat() {
-    isOpen = false;
-    window_.classList.remove('open');
-    toggle.classList.remove('open');
-  }
-
-  toggle.addEventListener('click', () => isOpen ? closeChat() : openChat());
-  closeBtn.addEventListener('click', closeChat);
-
-  // Close on outside click
-  document.addEventListener('click', (e) => {
-    if (isOpen && !window_.contains(e.target) && e.target !== toggle) {
-      closeChat();
-    }
-  });
-
-  // ── Append user message ──
-  function appendUserMessage(text) {
-    const div = document.createElement('div');
-    div.className = 'cb-msg user';
-    div.innerHTML = `
-      <div class="cb-msg-avatar">👤</div>
-      <div class="cb-bubble">${escapeHtml(text)}</div>
-    `;
-    messages.appendChild(div);
-    scrollToBottom();
-  }
-
-  // ── Show bot message ──
-  function showBotMessage(text, link, label) {
-    removeTyping();
-    const div = document.createElement('div');
-    div.className = 'cb-msg bot';
-    const linkHtml = link ? `
-      <br>
-      <a href="${link}" class="cb-link-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
-        ${escapeHtml(label || 'View')}
-      </a>` : '';
-    div.innerHTML = `
-      <div class="cb-msg-avatar">🌸</div>
-      <div class="cb-bubble">${text}${linkHtml}</div>
-    `;
-    messages.appendChild(div);
-    scrollToBottom();
-  }
-
-  // ── Typing indicator ──
-  function showTyping() {
-    if (isTyping) return;
-    isTyping = true;
-    const div = document.createElement('div');
-    div.className = 'cb-msg bot';
-    div.id = 'cb-typing-msg';
-    div.innerHTML = `
-      <div class="cb-msg-avatar">🌸</div>
-      <div class="cb-typing"><span></span><span></span><span></span></div>
-    `;
-    messages.appendChild(div);
-    scrollToBottom();
-  }
-
-  function removeTyping() {
-    isTyping = false;
-    const el = document.getElementById('cb-typing-msg');
-    if (el) el.remove();
-  }
-
-  // ── Scroll ──
-  function scrollToBottom() {
-    requestAnimationFrame(() => {
-      messages.scrollTop = messages.scrollHeight;
-    });
-  }
-
-  // ── Escape HTML ──
-  function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);
-  }
-
-  // ── Send message ──
-  async function sendMessage() {
-    const text = input.value.trim();
-    if (!text || isTyping) return;
-
-    input.value = '';
-    appendUserMessage(text);
-    showTyping();
-
-    try {
-      const res = await fetch('/api/chatbot/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text })
+  <script>
+    (function () {
+      const toggle = document.getElementById('cb-toggle');
+      const window_ = document.getElementById('cb-window');
+      const closeBtn = document.getElementById('cb-close');
+      const messages = document.getElementById('cb-messages');
+      const input = document.getElementById('cb-input');
+      const sendBtn = document.getElementById('cb-send');
+      let isOpen = false;
+      function openChat() { isOpen = true; window_.classList.add('open'); input.focus(); }
+      function closeChat() { isOpen = false; window_.classList.remove('open'); }
+      toggle.addEventListener('click', () => isOpen ? closeChat() : openChat());
+      closeBtn.addEventListener('click', closeChat);
+      function appendUserMessage(text) {
+        const div = document.createElement('div'); div.className = 'cb-msg user';
+        div.innerHTML = `<div class="cb-bubble">${escapeHtml(text)}</div>`;
+        messages.appendChild(div); scrollToBottom();
+      }
+      function showBotMessage(text) {
+        const div = document.createElement('div'); div.className = 'cb-msg bot';
+        div.innerHTML = `<div class="cb-bubble">${text}</div>`;
+        messages.appendChild(div); scrollToBottom();
+      }
+      function scrollToBottom() { requestAnimationFrame(() => messages.scrollTop = messages.scrollHeight); }
+      function escapeHtml(str) { return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[m]); }
+      async function sendMessage() {
+        const text = input.value.trim();
+        if (!text) return;
+        input.value = '';
+        appendUserMessage(text);
+        showBotMessage("🌸 Thank you for your message! Our team will get back to you shortly. In the meantime, feel free to browse our <a href='/shop' style='color:#54e98a'>flower collection</a>.");
+      }
+      sendBtn.addEventListener('click', sendMessage);
+      input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); sendMessage(); } });
+      document.querySelectorAll('.cb-quick-btn').forEach(btn => {
+        btn.addEventListener('click', () => { input.value = btn.getAttribute('data-msg'); sendMessage(); });
       });
-      const data = await res.json();
-
-      // Small delay for natural feel
-      setTimeout(() => {
-        showBotMessage(data.reply, data.link, data.label);
-      }, 600);
-
-    } catch (err) {
-      setTimeout(() => {
-        showBotMessage(
-          "🌿 Sorry, I'm having trouble connecting right now. Please try again in a moment or visit our shop directly.",
-          "/shop",
-          "Browse Shop"
-        );
-      }, 600);
-    }
-  }
-
-  // ── Event listeners ──
-  sendBtn.addEventListener('click', sendMessage);
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
-  });
-
-  // Quick reply buttons
-  quickBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (!isOpen) openChat();
-      input.value = btn.getAttribute('data-msg');
-      setTimeout(sendMessage, 100);
-    });
-  });
-
-  // Show notification dot after 3s if chat not opened
-  setTimeout(() => {
-    if (!isOpen) notif.style.display = 'block';
-  }, 3000);
-
-})();
-</script>
+    })();
+  </script>
 </body>
+
 </html>

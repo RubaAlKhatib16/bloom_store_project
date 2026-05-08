@@ -50,7 +50,7 @@ from routes.consultation_routes import consultation_bp
 from routes.contact_routes import contact_bp
 
 from routes.chatbot_route import chatbot_bp
-
+from routes.payment_routes import payment_bp
 # تسجيل Blueprints مع prefix للـ API
 app.register_blueprint(auth_bp, url_prefix='/api/auth')  
 app.register_blueprint(user_bp, url_prefix='/api/user')
@@ -64,6 +64,7 @@ app.register_blueprint(consultation_bp)
 app.register_blueprint(cart_bp, url_prefix='/api/cart')
 app.register_blueprint(contact_bp)
 app.register_blueprint(chatbot_bp, url_prefix='/api/chatbot')
+app.register_blueprint(payment_bp, url_prefix='/api/payment')
 # Scheduler
 scheduler = BackgroundScheduler()
 scheduler.add_job(func=check_reminders_and_notify_job, trigger="cron", hour=9, minute=0)

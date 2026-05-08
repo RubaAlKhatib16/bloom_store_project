@@ -1,9 +1,11 @@
-from flask import Blueprint, render_template, request, jsonify, session
+from flask import Blueprint, render_template, request, jsonify, session, current_app
 from functools import wraps
 from db import get_db_connection
 import bcrypt
 from datetime import datetime
 import json
+import os
+from werkzeug.utils import secure_filename
 from flask_jwt_extended import jwt_required, get_jwt, verify_jwt_in_request
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/api/admin')
@@ -26,6 +28,7 @@ def admin_required(f):
 @admin_required
 def admin_dashboard():
     return render_template('admin_dashboard.html')
+
 
 # ==================== API: إدارة المنتجات ====================
 @admin_bp.route('/products', methods=['GET'])
@@ -57,10 +60,6 @@ def admin_get_products():
     conn.close()
     return jsonify(products)
 
-# إضافة منتج (مع رفع صورة)
-from werkzeug.utils import secure_filename
-import os
-from flask import current_app
 
 @admin_bp.route('/products', methods=['POST'])
 @admin_required
@@ -93,7 +92,7 @@ def admin_add_product():
     conn.close()
     return jsonify({'message': 'Product added', 'id': flower_id}), 201
 
-# تعديل منتج
+
 @admin_bp.route('/products/<int:product_id>', methods=['PUT'])
 @admin_required
 def admin_update_product(product_id):
@@ -113,7 +112,7 @@ def admin_update_product(product_id):
     conn.close()
     return jsonify({'message': 'Updated'})
 
-# حذف منتج
+
 @admin_bp.route('/products/<int:product_id>', methods=['DELETE'])
 @admin_required
 def admin_delete_product(product_id):
@@ -124,6 +123,7 @@ def admin_delete_product(product_id):
     cursor.close()
     conn.close()
     return jsonify({'message': 'Deleted'})
+
 
 # ==================== API: إدارة الطلبات ====================
 @admin_bp.route('/orders', methods=['GET'])
@@ -156,17 +156,45 @@ def admin_get_orders():
     conn.close()
     return jsonify(orders)
 
+
 @admin_bp.route('/orders/<int:order_id>/status', methods=['PUT'])
 @admin_required
 def admin_update_order_status(order_id):
     new_status = request.json.get('status')
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("UPDATE Orders SET Status=? WHERE OrderID=?", (new_status, order_id))
+    
+    cursor.execute("SELECT Status, UserID FROM Orders WHERE OrderID = ?", (order_id,))
+    order = cursor.fetchone()
+    
+    if not order:
+        cursor.close()
+        conn.close()
+        return jsonify({'error': 'Order not found'}), 404
+    
+    old_status = order[0]
+    user_id = order[1]
+    
+    cursor.execute("UPDATE Orders SET Status = ? WHERE OrderID = ?", (new_status, order_id))
+    
+    if new_status in ('completed', 'delivered') and old_status not in ('completed', 'delivered'):
+        # إضافة النقاط
+        cursor.execute("UPDATE Users SET Points = ISNULL(Points, 0) + 10 WHERE UserID = ?", (user_id,))
+        
+        # تسجيل في PointsLog
+        cursor.execute("""
+            INSERT INTO PointsLog (UserID, Points, Reason, OrderID, CreatedAt)
+            VALUES (?, 10, 'Order completed - Loyalty reward', ?, GETDATE())
+        """, (user_id, order_id))
+        
+        message = 'Order status updated and 10 loyalty points added to customer!'
+    else:
+        message = 'Order status updated'
+    
     conn.commit()
     cursor.close()
     conn.close()
-    return jsonify({'message': 'Status updated'})
+    return jsonify({'message': message})
 
 # ==================== API: أكثر المنتجات مبيعاً ====================
 @admin_bp.route('/best-sellers', methods=['GET'])
@@ -195,7 +223,8 @@ def admin_best_sellers():
     conn.close()
     return jsonify(sellers)
 
-# ==================== API: المستخدمين والنقاط ====================
+
+# ==================== API: المستخدمين ====================
 @admin_bp.route('/users', methods=['GET'])
 @admin_required
 def admin_get_users():
@@ -211,23 +240,11 @@ def admin_get_users():
             'email': row.Email,
             'points': row.Points,
             'role': row.Role,
-            
         })
     cursor.close()
     conn.close()
     return jsonify(users)
 
-@admin_bp.route('/users/<int:user_id>/points', methods=['PUT'])
-@admin_required
-def admin_update_user_points(user_id):
-    points = request.json.get('points', 0)
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("UPDATE Users SET Points = ? WHERE UserID = ?", (points, user_id))
-    conn.commit()
-    cursor.close()
-    conn.close()
-    return jsonify({'message': 'Points updated'})
 
 # ==================== API: إدارة كوبونات الخصم ====================
 @admin_bp.route('/coupons', methods=['GET'])
@@ -253,6 +270,7 @@ def admin_get_coupons():
     conn.close()
     return jsonify(coupons)
 
+
 @admin_bp.route('/coupons', methods=['POST'])
 @admin_required
 def admin_add_coupon():
@@ -272,6 +290,7 @@ def admin_add_coupon():
     conn.close()
     return jsonify({'message': 'Coupon added'}), 201
 
+
 @admin_bp.route('/coupons/<int:coupon_id>', methods=['DELETE'])
 @admin_required
 def admin_delete_coupon(coupon_id):
@@ -282,6 +301,7 @@ def admin_delete_coupon(coupon_id):
     cursor.close()
     conn.close()
     return jsonify({'message': 'Coupon deleted'})
+
 
 # ==================== CONSULTATIONS ====================
 @admin_bp.route('/consultations', methods=['GET'])
@@ -314,33 +334,32 @@ def get_consultations():
     conn.close()
     return jsonify(consultations)
 
-@admin_bp.route('/api/consultations/<int:consultation_id>', methods=['DELETE'])
+
+@admin_bp.route('/consultations/<int:consultation_id>', methods=['DELETE'])
 @admin_required
 def delete_consultation(consultation_id):
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM consultations WHERE id = ?", (consultation_id,))
+    cursor.execute("DELETE FROM Consultations WHERE ConsultationID = ?", (consultation_id,))
     conn.commit()
     cursor.close()
     conn.close()
     return jsonify({'message': 'Consultation deleted'})
-# ==================== API: إحصائيات سريعة (cards) ====================
+
+
+# ==================== API: إحصائيات سريعة ====================
 @admin_bp.route('/stats', methods=['GET'])
 @admin_required
 def admin_stats():
     conn = get_db_connection()
     cursor = conn.cursor()
-    # عدد المستخدمين
     cursor.execute("SELECT COUNT(*) FROM Users")
     user_count = cursor.fetchone()[0]
-    # عدد الطلبات
     cursor.execute("SELECT COUNT(*) FROM Orders")
     order_count = cursor.fetchone()[0]
-    # عدد المنتجات
     cursor.execute("SELECT COUNT(*) FROM Flower")
     product_count = cursor.fetchone()[0]
-    # إجمالي المبيعات (حسب الطلبات المدفوعة)
-    cursor.execute("SELECT ISNULL(SUM(TotalAmount), 0) FROM Orders WHERE Status IN ('paid','shipped','delivered')")
+    cursor.execute("SELECT ISNULL(SUM(TotalAmount), 0) FROM Orders WHERE Status IN ('paid','shipped','delivered','completed')")
     total_revenue = float(cursor.fetchone()[0])
     cursor.close()
     conn.close()
@@ -350,3 +369,30 @@ def admin_stats():
         'products': product_count,
         'revenue': total_revenue
     })
+
+
+
+@admin_bp.route('/products/<int:product_id>/stock', methods=['PUT'])
+@admin_required
+def admin_update_stock(product_id):
+    data = request.json
+    new_stock = data.get('stock')
+    
+    if new_stock is None or new_stock < 0:
+        return jsonify({'error': 'Invalid stock quantity'}), 400
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute("UPDATE Flower SET Stock = ? WHERE FlowerID = ?", (new_stock, product_id))
+    
+    if cursor.rowcount == 0:
+        cursor.close()
+        conn.close()
+        return jsonify({'error': 'Product not found'}), 404
+    
+    conn.commit()
+    cursor.close()
+    conn.close()
+    
+    return jsonify({'message': 'Stock updated successfully'})

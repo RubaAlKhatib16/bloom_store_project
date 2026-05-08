@@ -1,37 +1,43 @@
 <!DOCTYPE html>
 <html class="dark" lang="en" id="html-tag" dir="ltr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bloom Store | Checkout</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
         }
+
         .glass-panel {
             background: rgba(15, 18, 20, 0.85);
             backdrop-filter: blur(16px);
             border: 1px solid rgba(134, 148, 134, 0.25);
             transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
+
         .glass-panel:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(46, 204, 113, 0.15);
+            box-shadow: 0 8px 30px rgba(46, 204, 113, 0.12);
         }
-        .emerald-glow:hover {
-            box-shadow: 0 0 20px rgba(46, 204, 113, 0.3);
-        }
-        /* Dark mode base */
+
         body {
             background: #0a0c10;
             color: #eef2ff;
         }
-        input, select, textarea {
+
+        input,
+        select,
+        textarea {
             background: #1a1f24;
             border: 1px solid #2d3748;
             border-radius: 0.75rem;
@@ -41,77 +47,91 @@
             color: #f1f5f9;
             font-size: 0.95rem;
         }
-        input:focus, select:focus, textarea:focus {
+
+        input:focus,
+        select:focus,
+        textarea:focus {
             border-color: #2ecc71;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(46,204,113,0.3);
+            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
             background: #0f1318;
         }
+
         label {
             color: #cbd5e6;
             font-weight: 500;
             margin-bottom: 0.25rem;
             display: block;
         }
-        /* Light mode overrides */
+
         html.light body {
             background: #f0f4f8;
             color: #1a202c;
         }
+
         html.light .glass-panel {
             background: rgba(255, 255, 255, 0.92);
             border: 1px solid rgba(0, 0, 0, 0.08);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
         }
-        html.light input, html.light select, html.light textarea {
-            background: #ffffff;
+
+        html.light input,
+        html.light select,
+        html.light textarea {
+            background: #fff;
             border: 1px solid #cbd5e0;
             color: #1a202c;
         }
-        html.light input:focus, html.light select:focus, html.light textarea:focus {
-            background: #ffffff;
-            border-color: #2ecc71;
+
+        html.light input:focus {
+            background: #fff;
         }
+
         html.light label {
             color: #2d3748;
         }
+
         html.light .bg-black {
             background-color: #f8fafc !important;
         }
-        html.light .border-zinc-900 {
-            border-color: #e2e8f0;
-        }
+
         html.light .text-zinc-600 {
             color: #4a5568 !important;
         }
+
         html.light .text-zinc-500 {
             color: #2d3748 !important;
         }
+
         html.light .bg-surface-container-high {
             background: #f1f5f9;
         }
+
         html.dark .bg-surface-container-high {
             background: #1e293b;
         }
-        /* RTL support */
+
         [dir="rtl"] .flex-row {
             flex-direction: row-reverse;
         }
-        /* custom scroll */
+
         #cartItemsContainer::-webkit-scrollbar {
             width: 4px;
         }
+
         #cartItemsContainer::-webkit-scrollbar-track {
             background: #2d3748;
             border-radius: 4px;
         }
+
         #cartItemsContainer::-webkit-scrollbar-thumb {
             background: #2ecc71;
             border-radius: 4px;
         }
+
         html.light #cartItemsContainer::-webkit-scrollbar-track {
             background: #e2e8f0;
         }
+
         .btn-primary {
             background: #2ecc71;
             color: #00210c;
@@ -120,109 +140,348 @@
             border-radius: 2rem;
             transition: all 0.2s;
         }
+
         .btn-primary:hover {
             background: #27ae60;
             transform: scale(1.02);
         }
+
         .btn-primary:active {
             transform: scale(0.98);
         }
-        /* order summary */
+
+        .btn-primary:disabled {
+            background: #4a5568;
+            color: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .summary-value {
             font-weight: 600;
             color: #2ecc71;
         }
+
         html.light .summary-value {
             color: #0a6e3a;
+        }
+
+        /* ── Credit Card UI ── */
+        .card-visual {
+            background: linear-gradient(135deg, #1a2e1f 0%, #0d1f15 50%, #162a1c 100%);
+            border: 1px solid rgba(84, 233, 138, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: all 0.4s;
+            min-height: 180px;
+        }
+
+        html.light .card-visual {
+            background: linear-gradient(135deg, #e8f5ee 0%, #d4edde 50%, #c8e8d2 100%);
+            border-color: rgba(46, 204, 113, 0.3);
+        }
+
+        .card-visual::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: rgba(46, 204, 113, 0.06);
+        }
+
+        .card-visual::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: 30px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(46, 204, 113, 0.04);
+        }
+
+        .card-chip {
+            width: 44px;
+            height: 32px;
+            background: linear-gradient(135deg, #d4a843, #f0c060);
+            border-radius: 6px;
+            margin-bottom: 24px;
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-number-display {
+            font-family: 'Courier New', monospace;
+            font-size: 20px;
+            letter-spacing: 3px;
+            color: #e0f5e9;
+            margin-bottom: 20px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        html.light .card-number-display {
+            color: #1a3a22;
+        }
+
+        .card-brand-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .card-brand-visa {
+            color: #fff;
+            font-style: italic;
+            font-size: 22px;
+        }
+
+        .card-brand-mastercard {
+            display: flex;
+            gap: -6px;
+        }
+
+        .card-brand-mastercard span:first-child {
+            background: #eb001b;
+        }
+
+        .card-brand-mastercard span:last-child {
+            background: #f79e1b;
+        }
+
+        .card-brand-mastercard span {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: block;
+            opacity: 0.9;
+        }
+
+        .card-brand-amex {
+            color: #00a3e0;
+            font-weight: 900;
+            font-size: 14px;
+        }
+
+        .card-brand-discover {
+            color: #f76f20;
+            font-weight: 800;
+            font-size: 13px;
+        }
+
+        /* Input group with icon */
+        .input-group {
+            position: relative;
+        }
+
+        .input-group .input-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #4a5568;
+            font-size: 14px;
+            pointer-events: none;
+        }
+
+        .input-valid {
+            border-color: #2ecc71 !important;
+        }
+
+        .input-error {
+            border-color: #e53e3e !important;
+            box-shadow: 0 0 0 2px rgba(229, 62, 62, 0.15) !important;
+        }
+
+        /* Test cards hint panel */
+        .test-cards-panel {
+            background: rgba(46, 204, 113, 0.05);
+            border: 1px dashed rgba(84, 233, 138, 0.25);
+            border-radius: 12px;
+            padding: 14px;
+            margin-top: 12px;
+        }
+
+        html.light .test-cards-panel {
+            background: rgba(46, 204, 113, 0.06);
+        }
+
+        .test-card-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(84, 233, 138, 0.1);
+            font-size: 12px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            transition: background 0.15s;
+            border-radius: 6px;
+            padding: 6px 8px;
+        }
+
+        .test-card-row:last-child {
+            border-bottom: none;
+        }
+
+        .test-card-row:hover {
+            background: rgba(84, 233, 138, 0.08);
+        }
+
+        .test-card-row .card-num {
+            color: #54e98a;
+            letter-spacing: 1px;
+        }
+
+        .test-card-row .card-type {
+            color: #9aada0;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .test-card-row .card-result {
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+
+        .result-success {
+            background: rgba(46, 204, 113, 0.15);
+            color: #54e98a;
+        }
+
+        .result-decline {
+            background: rgba(229, 62, 62, 0.15);
+            color: #fc8181;
+        }
+
+        .result-error {
+            background: rgba(237, 137, 54, 0.15);
+            color: #f6ad55;
+        }
+
+        /* Processing animation */
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .processing-spinner {
+            animation: spin 0.8s linear infinite;
+        }
+
+        /* Card flip animation */
+        .card-container {
+            perspective: 1000px;
+        }
+
+        .card-inner {
+            transition: transform 0.5s;
+            transform-style: preserve-3d;
+        }
+
+        .card-container.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* CVV hint */
+        .cvv-tooltip {
+            position: absolute;
+            right: 0;
+            top: -60px;
+            background: #1a2e1f;
+            border: 1px solid rgba(84, 233, 138, 0.3);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 11px;
+            color: #54e98a;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 10;
+        }
+
+        .cvv-wrapper:hover .cvv-tooltip {
+            opacity: 1;
         }
     </style>
     <script>
         tailwind.config = {
             darkMode: "class",
-            theme: { extend: {
-                colors: {
-                    primary: '#2ecc71',
-                    'on-background': '#eef2ff',
-                },
-                borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
-                spacing: { xs: "0.5rem", xl: "4rem", lg: "2.5rem", margin: "32px", gutter: "24px", sm: "1rem", md: "1.5rem", unit: "4px" },
-                fontFamily: { "display-lg": ["Noto Serif"], "body-lg": ["Manrope"], "label-caps": ["Manrope"], "headline-md": ["Noto Serif"], "body-md": ["Manrope"], "headline-sm": ["Noto Serif"] },
-                fontSize: {
-                    "display-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
-                    "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
-                    "label-caps": ["12px", { lineHeight: "1.2", letterSpacing: "0.1em", fontWeight: "700" }],
-                    "headline-md": ["32px", { lineHeight: "1.2", fontWeight: "600" }],
-                    "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
-                    "headline-sm": ["24px", { lineHeight: "1.3", fontWeight: "500" }]
+            theme: {
+                extend: {
+                    colors: { primary: '#2ecc71', 'on-background': '#eef2ff' },
+                    borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+                    spacing: { xs: "0.5rem", xl: "4rem", lg: "2.5rem", margin: "32px", gutter: "24px", sm: "1rem", md: "1.5rem", unit: "4px" },
+                    fontFamily: { "display-lg": ["Noto Serif"], "body-lg": ["Manrope"], "label-caps": ["Manrope"], "headline-md": ["Noto Serif"], "body-md": ["Manrope"], "headline-sm": ["Noto Serif"] },
+                    fontSize: {
+                        "display-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "label-caps": ["12px", { lineHeight: "1.2", letterSpacing: "0.1em", fontWeight: "700" }],
+                        "headline-md": ["32px", { lineHeight: "1.2", fontWeight: "600" }],
+                        "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "headline-sm": ["24px", { lineHeight: "1.3", fontWeight: "500" }]
+                    }
                 }
-            } }
+            }
         }
     </script>
 </head>
+
 <body class="font-body-md min-h-screen pb-20 md:pb-0">
 
-    <!-- Shared navbar -->
- <nav class="fixed top-0 w-full z-50 border-b border-white/10 bg-zinc-950/70 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
-    <div class="flex justify-between items-center px-8 py-4 w-full max-w-7xl mx-auto">
-        <div class="text-2xl font-serif font-light tracking-[0.2em] text-emerald-500" id="brandName">BLOOM</div>
-        <div class="hidden md:flex items-center gap-8">
-            <a href="/" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navHome">Home</a>
-            <a href="/shop" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navShop">Shop</a>
-            <a href="/categories" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navCategory">Categories</a>
-            <a href="/occasions" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navOccasions">Occasions</a>
-            <a href="/bouquets" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navBouquets">Bouquets</a>
-            <a href="/contact" class="nav-link font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all" id="navContact">Contact</a>
+    <!-- Navbar -->
+    <nav
+        class="fixed top-0 w-full z-50 border-b border-white/10 bg-zinc-950/70 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+        <div class="flex justify-between items-center px-8 py-4 w-full max-w-7xl mx-auto">
+            <div class="text-2xl font-serif font-light tracking-[0.2em] text-emerald-500" id="brandName">BLOOM</div>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="/" class="font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all"
+                    id="navHome">Home</a>
+                <a href="/shop" class="font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all"
+                    id="navShop">Shop</a>
+                <a href="/categories"
+                    class="font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all"
+                    id="navCategory">Categories</a>
+                <a href="/occasions"
+                    class="font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all"
+                    id="navOccasions">Occasions</a>
+                <a href="/contact" class="font-serif tracking-tight text-zinc-400 hover:text-emerald-200 transition-all"
+                    id="navContact">Contact</a>
+            </div>
+            <div class="flex items-center gap-6">
+                <button id="themeToggle" class="text-emerald-500 hover:bg-white/5 p-2 rounded-full"><span
+                        class="material-symbols-outlined">light_mode</span></button>
+                <button id="langToggle"
+                    class="text-emerald-500 border border-emerald-500/50 px-3 py-1 rounded-full text-sm font-bold">AR</button>
+                <a href="/cart" class="relative">
+                    <span class="material-symbols-outlined text-emerald-500">shopping_cart</span>
+                    <span id="cartCount"
+                        class="absolute -top-2 -right-2 bg-emerald-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                </a>
+                <a href="/profile" class="material-symbols-outlined text-emerald-500">person</a>
+            </div>
         </div>
-        <div class="flex items-center gap-6">
-            <button id="themeToggle" class="text-emerald-500 hover:bg-white/5 p-2 rounded-full"><span class="material-symbols-outlined">light_mode</span></button>
-            <button id="langToggle" class="text-emerald-500 border border-emerald-500/50 px-3 py-1 rounded-full text-sm font-bold">AR</button>
-            <a href="/cart" class="relative">
-                <span class="material-symbols-outlined text-emerald-500">shopping_cart</span>
-                <span id="cartCount" class="absolute -top-2 -right-2 bg-emerald-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
-            </a>
-            <a href="/profile" class="material-symbols-outlined text-emerald-500">person</a>
-        </div>
-    </div>
-</nav>
-
-<script>
-    // دالة لتفعيل الرابط النشط في شريط التنقل
-    function setActiveNavLink() {
-        const currentPath = window.location.pathname;
-        const navLinks = document.querySelectorAll('.nav-link');
-        
-        navLinks.forEach(link => {
-            // إزالة الكلاسات النشطة من جميع الروابط
-            link.classList.remove('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
-            link.classList.add('text-zinc-400');
-            
-            const linkPath = link.getAttribute('href');
-            
-            // التحقق من تطابق المسار (مع معالجة الحالة الخاصة للصفحة الرئيسية)
-            if (linkPath === '/' && (currentPath === '/' || currentPath === '')) {
-                link.classList.add('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
-                link.classList.remove('text-zinc-400');
-            } else if (linkPath !== '/' && currentPath.startsWith(linkPath)) {
-                link.classList.add('text-emerald-400', 'border-b-2', 'border-emerald-500', 'pb-1');
-                link.classList.remove('text-zinc-400');
-            }
-        });
-    }
-    
-    // تنفيذ الدالة عند تحميل الصفحة وأيضاً عند تغيير المسار (للمشاريع التي تستخدم History API)
-    document.addEventListener('DOMContentLoaded', setActiveNavLink);
-    window.addEventListener('popstate', setActiveNavLink);
-</script>
+    </nav>
 
     <main class="max-w-7xl mx-auto px-4 pt-32 pb-xl grid grid-cols-1 lg:grid-cols-12 gap-6">
+
         <!-- Left column -->
         <div class="lg:col-span-8 space-y-6">
             <h1 class="font-display-lg text-display-lg text-emerald-500" id="pageTitle">Checkout</h1>
 
-            <!-- Shipping section -->
+            <!-- Shipping Info -->
             <div class="glass-panel p-6 rounded-xl">
-                <div class="flex items-center gap-2 mb-4 border-b border-outline-variant pb-2">
-                    <span class="material-symbols-outlined text-primary">local_shipping</span>
+                <div class="flex items-center gap-2 mb-4 border-b border-white/10 pb-3">
+                    <span class="material-symbols-outlined text-emerald-500">local_shipping</span>
                     <h2 class="font-headline-sm text-headline-sm" id="shippingTitle">Shipping Information</h2>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -249,99 +508,214 @@
                 </div>
             </div>
 
-            <!-- Shipping method -->
+            <!-- Shipping Method -->
             <div class="glass-panel p-6 rounded-xl">
-                <div class="flex items-center gap-2 mb-4 border-b border-outline-variant pb-2">
-                    <span class="material-symbols-outlined text-primary">delivery_dining</span>
+                <div class="flex items-center gap-2 mb-4 border-b border-white/10 pb-3">
+                    <span class="material-symbols-outlined text-emerald-500">delivery_dining</span>
                     <h2 class="font-headline-sm text-headline-sm" id="shippingMethodTitle">Shipping Method</h2>
                 </div>
                 <div class="space-y-3">
-                    <label class="flex items-center justify-between p-4 bg-surface-container-high rounded-xl cursor-pointer border border-transparent hover:border-primary/40 transition-all group">
+                    <label
+                        class="flex items-center justify-between p-4 bg-surface-container-high rounded-xl cursor-pointer border border-transparent hover:border-emerald-500/40 transition-all">
                         <div class="flex items-center gap-3">
-                            <input type="radio" name="shippingMethod" value="standard" checked class="text-primary focus:ring-primary w-5 h-5">
+                            <input type="radio" name="shippingMethod" value="standard" checked
+                                class="text-primary w-5 h-5 accent-emerald-500">
                             <div>
-                                <p class="font-body-lg text-body-lg text-on-surface font-semibold" id="standardLabel">Standard Delivery</p>
-                                <p class="text-xs text-outline" id="standardDesc">3-5 business days</p>
+                                <p class="font-semibold" id="standardLabel">Standard Delivery</p>
+                                <p class="text-xs opacity-60" id="standardDesc">3-5 business days</p>
                             </div>
                         </div>
-                        <span class="font-headline-sm text-emerald-500" id="standardPrice">$12.00</span>
+                        <span class="font-semibold text-emerald-400" id="standardPrice">$12.00</span>
                     </label>
-                    <label class="flex items-center justify-between p-4 bg-surface-container-high rounded-xl cursor-pointer border border-primary/40 shadow-[0_0_10px_rgba(46,204,113,0.2)]">
+                    <label
+                        class="flex items-center justify-between p-4 bg-surface-container-high rounded-xl cursor-pointer border border-emerald-500/40 shadow-[0_0_10px_rgba(46,204,113,0.15)]">
                         <div class="flex items-center gap-3">
-                            <input type="radio" name="shippingMethod" value="express" class="text-primary focus:ring-primary w-5 h-5">
+                            <input type="radio" name="shippingMethod" value="express"
+                                class="text-primary w-5 h-5 accent-emerald-500">
                             <div>
-                                <p class="font-body-lg text-body-lg text-emerald-400 font-bold" id="expressLabel">Express Artisan</p>
-                                <p class="text-xs text-outline" id="expressDesc">Next day temperature-controlled</p>
+                                <p class="font-bold text-emerald-400" id="expressLabel">Express Artisan</p>
+                                <p class="text-xs opacity-60" id="expressDesc">Next day temperature-controlled</p>
                             </div>
                         </div>
-                        <span class="font-headline-sm text-emerald-400" id="expressPrice">$28.00</span>
+                        <span class="font-semibold text-emerald-400" id="expressPrice">$28.00</span>
                     </label>
                 </div>
             </div>
 
-            <!-- Payment method -->
+            <!-- Payment Method -->
             <div class="glass-panel p-6 rounded-xl">
-                <div class="flex items-center gap-2 mb-4 border-b border-outline-variant pb-2">
-                    <span class="material-symbols-outlined text-primary">payments</span>
+                <div class="flex items-center gap-2 mb-4 border-b border-white/10 pb-3">
+                    <span class="material-symbols-outlined text-emerald-500">payments</span>
                     <h2 class="font-headline-sm text-headline-sm" id="paymentTitle">Payment Method</h2>
                 </div>
-                <div class="space-y-3">
-                    <label class="flex items-center gap-3 p-3 rounded-xl border border-primary/60 bg-primary/10 cursor-pointer">
-                        <input type="radio" name="paymentMethod" value="cod" checked class="text-primary w-5 h-5">
-                        <span class="font-label-caps text-label-caps font-semibold" id="codLabel">Cash on Delivery</span>
+                <div class="space-y-3 mb-5">
+                    <label
+                        class="flex items-center gap-3 p-3 rounded-xl border border-emerald-500/60 bg-emerald-500/10 cursor-pointer">
+                        <input type="radio" name="paymentMethod" value="cod" checked class="w-5 h-5 accent-emerald-500">
+                        <span class="material-symbols-outlined text-emerald-400 text-lg">payments</span>
+                        <span class="font-label-caps text-label-caps font-semibold" id="codLabel">Cash on
+                            Delivery</span>
                     </label>
-                    <label class="flex items-center gap-3 p-3 rounded-xl border border-outline-variant hover:border-primary/40 cursor-pointer transition">
-                        <input type="radio" name="paymentMethod" value="card" class="text-primary w-5 h-5">
-                        <span class="font-label-caps text-label-caps" id="cardLabel">Credit Card (coming soon)</span>
+                    <label
+                        class="flex items-center gap-3 p-3 rounded-xl border border-white/10 hover:border-emerald-500/40 cursor-pointer transition">
+                        <input type="radio" name="paymentMethod" value="card" class="w-5 h-5 accent-emerald-500">
+                        <span class="material-symbols-outlined text-emerald-400 text-lg">credit_card</span>
+                        <span class="font-label-caps text-label-caps" id="cardLabel">Credit / Debit Card</span>
+                        <span class="ml-auto flex gap-1">
+                            <img src="https://raw.githubusercontent.com/aaronfagan/svg-credit-card-payment-icons/main/flat/visa.svg"
+                                class="h-5 rounded" alt="Visa" onerror="this.style.display='none'">
+                            <img src="https://raw.githubusercontent.com/aaronfagan/svg-credit-card-payment-icons/main/flat/mastercard.svg"
+                                class="h-5 rounded" alt="MC" onerror="this.style.display='none'">
+                        </span>
                     </label>
                 </div>
-                <div id="cardFields" class="mt-5 hidden">
-                    <div class="grid grid-cols-2 gap-3">
-                        <div class="col-span-2">
-                            <label class="font-label-caps text-label-caps">Card Number</label>
-                            <input type="text" placeholder="0000 0000 0000 0000">
+
+                <!-- Credit Card Fields -->
+                <div id="cardFields" class="hidden">
+
+                    <!-- Live Card Visual -->
+                    <div class="card-visual mb-5" id="cardVisual">
+                        <div class="card-brand-icon" id="cardBrandIcon">
+                            <span class="card-brand-visa" id="brandVisa" style="display:none">VISA</span>
+                            <span class="card-brand-amex" id="brandAmex" style="display:none">AMEX</span>
+                            <span class="card-brand-discover" id="brandDiscover" style="display:none">DISCOVER</span>
+                            <div class="card-brand-mastercard" id="brandMastercard" style="display:none">
+                                <span></span><span style="margin-left:-8px"></span>
+                            </div>
+                        </div>
+                        <div class="card-chip"></div>
+                        <div class="card-number-display" id="cardNumberDisplay">•••• •••• •••• ••••</div>
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <div style="font-size:9px;color:#6b8f75;letter-spacing:1px;margin-bottom:2px">CARD
+                                    HOLDER</div>
+                                <div style="font-size:13px;color:#c8f5d8;letter-spacing:1px" id="cardHolderDisplay">YOUR
+                                    NAME</div>
+                            </div>
+                            <div>
+                                <div style="font-size:9px;color:#6b8f75;letter-spacing:1px;margin-bottom:2px">EXPIRES
+                                </div>
+                                <div style="font-size:13px;color:#c8f5d8;letter-spacing:1px" id="cardExpiryDisplay">
+                                    MM/YY</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card inputs -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="font-label-caps text-label-caps text-xs mb-1" id="cardNumberLabel">Card
+                                Number</label>
+                            <div class="input-group">
+                                <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19"
+                                    autocomplete="cc-number">
+                                <span class="input-icon" id="cardTypeIcon">💳</span>
+                            </div>
+                            <p class="text-xs text-red-400 mt-1 hidden" id="cardNumberError">Please enter a valid card
+                                number</p>
                         </div>
                         <div>
-                            <label class="font-label-caps text-label-caps">Expiry</label>
-                            <input type="text" placeholder="MM/YY">
+                            <label class="font-label-caps text-label-caps text-xs mb-1" id="cardHolderLabel">Card Holder
+                                Name</label>
+                            <input type="text" id="cardHolder" placeholder="John Doe" autocomplete="cc-name">
                         </div>
-                        <div>
-                            <label class="font-label-caps text-label-caps">CVV</label>
-                            <input type="text" placeholder="123">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="font-label-caps text-label-caps text-xs mb-1" id="expiryLabel">Expiry
+                                    Date</label>
+                                <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5"
+                                    autocomplete="cc-exp">
+                                <p class="text-xs text-red-400 mt-1 hidden" id="expiryError">Invalid expiry date</p>
+                            </div>
+                            <div class="cvv-wrapper relative">
+                                <label class="font-label-caps text-label-caps text-xs mb-1" id="cvvLabel">CVV</label>
+                                <div class="input-group">
+                                    <input type="password" id="cardCvv" placeholder="•••" maxlength="4"
+                                        autocomplete="cc-csc">
+                                    <span class="input-icon">🔒</span>
+                                </div>
+                                <div class="cvv-tooltip">3 digits on back of card (4 for Amex)</div>
+                                <p class="text-xs text-red-400 mt-1 hidden" id="cvvError">Invalid CVV</p>
+                            </div>
                         </div>
+                    </div>
+
+                    <!-- Test Cards Reference -->
+                    <div class="test-cards-panel">
+                        <p class="text-xs font-bold text-emerald-400 mb-3 flex items-center gap-1">
+                            <span class="material-symbols-outlined text-sm">science</span>
+                            Test Cards — Click to auto-fill
+                        </p>
+                        <div class="test-card-row" onclick="fillTestCard('4242424242424242','Test User','12/26','123')">
+                            <span class="card-num">4242 4242 4242 4242</span>
+                            <span class="card-type">Visa</span>
+                            <span class="card-result result-success">✓ Success</span>
+                        </div>
+                        <div class="test-card-row" onclick="fillTestCard('5555555555554444','Test User','09/27','321')">
+                            <span class="card-num">5555 5555 5555 4444</span>
+                            <span class="card-type">Mastercard</span>
+                            <span class="card-result result-success">✓ Success</span>
+                        </div>
+                        <div class="test-card-row" onclick="fillTestCard('378282246310005','Test User','11/26','1234')">
+                            <span class="card-num">3782 822463 10005</span>
+                            <span class="card-type">Amex</span>
+                            <span class="card-result result-success">✓ Success</span>
+                        </div>
+                        <div class="test-card-row"
+                            onclick="fillTestCard('4000000000000002','Declined Card','12/26','123')">
+                            <span class="card-num">4000 0000 0000 0002</span>
+                            <span class="card-type">Visa</span>
+                            <span class="card-result result-decline">✗ Declined</span>
+                        </div>
+                        <div class="test-card-row"
+                            onclick="fillTestCard('4000000000009995','Insufficient','12/26','123')">
+                            <span class="card-num">4000 0000 0000 9995</span>
+                            <span class="card-type">Visa</span>
+                            <span class="card-result result-decline">✗ Insufficient</span>
+                        </div>
+                        <div class="test-card-row"
+                            onclick="fillTestCard('4000000000000069','Expired Card','12/26','123')">
+                            <span class="card-num">4000 0000 0000 0069</span>
+                            <span class="card-type">Visa</span>
+                            <span class="card-result result-error">⚠ Expired</span>
+                        </div>
+                        <p class="text-[10px] text-emerald-500/50 mt-2 text-center">Use any future expiry date & any CVV
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Order summary sidebar -->
+        <!-- Order Summary Sidebar -->
         <aside class="lg:col-span-4 h-fit sticky top-32">
-            <div class="glass-panel p-6 rounded-xl border-primary/30 shadow-xl">
-                <h2 class="font-headline-sm text-headline-sm mb-4 text-emerald-500" id="orderSummaryTitle">Order Summary</h2>
-                <div id="cartItemsContainer" class="space-y-3 mb-4 max-h-80 overflow-y-auto pr-1"></div>
-                <div class="space-y-2 border-t border-outline-variant pt-4 mb-4">
+            <div class="glass-panel p-6 rounded-xl border-emerald-500/20 shadow-xl">
+                <h2 class="font-headline-sm text-headline-sm mb-4 text-emerald-500" id="orderSummaryTitle">Order Summary
+                </h2>
+                <div id="cartItemsContainer" class="space-y-3 mb-4 max-h-72 overflow-y-auto pr-1"></div>
+                <div class="space-y-2 border-t border-white/10 pt-4 mb-4">
                     <div class="flex justify-between text-sm">
-                        <span id="subtotalLabel">Subtotal</span>
+                        <span id="subtotalLabel" class="opacity-70">Subtotal</span>
                         <span id="cartSubtotal" class="font-semibold">$0.00</span>
                     </div>
                     <div class="flex justify-between text-sm">
-                        <span id="shippingLabel">Shipping</span>
+                        <span id="shippingLabel" class="opacity-70">Shipping</span>
                         <span id="cartShipping" class="font-semibold">$0.00</span>
                     </div>
                     <div class="flex justify-between text-sm">
-                        <span id="taxLabel">Tax (10%)</span>
+                        <span id="taxLabel" class="opacity-70">Tax (10%)</span>
                         <span id="cartTax" class="font-semibold">$0.00</span>
                     </div>
                 </div>
-                <div class="flex justify-between items-end border-t border-primary/30 pt-4 mb-6">
-                    <span class="font-headline-sm text-headline-sm text-emerald-500" id="totalLabel">Total</span>
+                <div class="flex justify-between items-end border-t border-emerald-500/20 pt-4 mb-6">
+                    <span class="font-headline-sm text-emerald-500" id="totalLabel">Total</span>
                     <span class="text-3xl font-serif italic text-emerald-400 font-bold" id="cartTotal">$0.00</span>
                 </div>
                 <button id="placeOrderBtn" class="btn-primary w-full flex items-center justify-center gap-2">
                     <span class="material-symbols-outlined text-lg">verified_user</span>
                     <span id="completeBtnText">Complete Secure Purchase</span>
                 </button>
-                <p class="text-[10px] text-center text-outline mt-4 uppercase tracking-widest opacity-70" id="secureText">Encrypted SSL Transaction</p>
+                <p class="text-[10px] text-center opacity-40 mt-4 uppercase tracking-widest" id="secureText">Encrypted
+                    SSL Transaction</p>
             </div>
         </aside>
     </main>
@@ -350,16 +724,208 @@
     <footer class="w-full py-12 px-8 border-t border-zinc-900 bg-black/80 flex flex-col items-center gap-6 mt-10">
         <div class="text-emerald-500 font-serif italic text-xl">Bloom Store</div>
         <div class="flex flex-wrap justify-center gap-8">
-            <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-400 transition" id="footerPrivacy">Privacy Policy</a>
-            <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-400 transition" id="footerTerms">Terms of Service</a>
-            <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-400 transition" id="footerShipping">Shipping Info</a>
-            <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-400 transition" id="footerContact">Contact</a>
+            <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-400 transition"
+                id="footerPrivacy">Privacy Policy</a>
+            <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-400 transition"
+                id="footerTerms">Terms of Service</a>
+            <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-400 transition"
+                id="footerShipping">Shipping Info</a>
+            <a href="#" class="font-serif text-sm text-zinc-500 hover:text-emerald-400 transition"
+                id="footerContact">Contact</a>
         </div>
         <p class="font-serif text-sm text-zinc-500" id="copyright">© 2026 Bloom Store. Botanical Elegance.</p>
     </footer>
 
     <script>
-        // Helper: fix image URL without double /static
+        // ============================================================
+        // FAKE / TEST CREDIT CARD SYSTEM
+        // ============================================================
+
+        // Test card database — each card has a specific simulated outcome
+        const TEST_CARDS = {
+            '4242424242424242': { result: 'success', brand: 'visa' },
+            '4111111111111111': { result: 'success', brand: 'visa' },
+            '5555555555554444': { result: 'success', brand: 'mastercard' },
+            '5105105105105100': { result: 'success', brand: 'mastercard' },
+            '378282246310005': { result: 'success', brand: 'amex' },
+            '6011111111111117': { result: 'success', brand: 'discover' },
+            '4000000000000002': { result: 'declined', brand: 'visa' },
+            '4000000000009995': { result: 'insufficient', brand: 'visa' },
+            '4000000000000069': { result: 'expired', brand: 'visa' },
+            '4000000000000127': { result: 'cvc_fail', brand: 'visa' },
+        };
+
+        // Detect card brand from number
+        function detectCardBrand(number) {
+            const n = number.replace(/\s/g, '');
+            if (/^4/.test(n)) return 'visa';
+            if (/^5[1-5]/.test(n)) return 'mastercard';
+            if (/^3[47]/.test(n)) return 'amex';
+            if (/^6(?:011|5)/.test(n)) return 'discover';
+            return 'unknown';
+        }
+
+        // Luhn algorithm — validate card number
+        function luhnCheck(num) {
+            const digits = num.replace(/\D/g, '');
+            let sum = 0, alt = false;
+            for (let i = digits.length - 1; i >= 0; i--) {
+                let d = parseInt(digits[i]);
+                if (alt) { d *= 2; if (d > 9) d -= 9; }
+                sum += d;
+                alt = !alt;
+            }
+            return sum % 10 === 0;
+        }
+
+        // Format card number with spaces
+        function formatCardNumber(value) {
+            const digits = value.replace(/\D/g, '');
+            const brand = detectCardBrand(digits);
+            if (brand === 'amex') {
+                // Amex: 4-6-5
+                return digits.replace(/(\d{4})(\d{0,6})(\d{0,5})/, (_, a, b, c) => [a, b, c].filter(Boolean).join(' ')).substring(0, 17);
+            }
+            // Others: 4-4-4-4
+            return digits.replace(/(\d{4})/g, '$1 ').trim().substring(0, 19);
+        }
+
+        // Format expiry MM/YY
+        function formatExpiry(value) {
+            const digits = value.replace(/\D/g, '');
+            if (digits.length >= 2) return digits.substring(0, 2) + '/' + digits.substring(2, 4);
+            return digits;
+        }
+
+        // Update card visual
+        function updateCardVisual() {
+            const num = document.getElementById('cardNumber').value || '';
+            const holder = document.getElementById('cardHolder').value || '';
+            const expiry = document.getElementById('cardExpiry').value || '';
+            const brand = detectCardBrand(num);
+
+            // Number display
+            const digits = num.replace(/\s/g, '');
+            let display = '';
+            if (brand === 'amex') {
+                display = (digits + '•'.repeat(15)).substring(0, 15);
+                display = display.substring(0, 4) + ' ' + display.substring(4, 10) + ' ' + display.substring(10, 15);
+            } else {
+                display = (digits + '•'.repeat(16)).substring(0, 16);
+                display = display.match(/.{1,4}/g).join(' ');
+            }
+            document.getElementById('cardNumberDisplay').innerText = display;
+            document.getElementById('cardHolderDisplay').innerText = holder.toUpperCase() || 'YOUR NAME';
+            document.getElementById('cardExpiryDisplay').innerText = expiry || 'MM/YY';
+
+            // Brand icons
+            ['brandVisa', 'brandAmex', 'brandDiscover', 'brandMastercard'].forEach(id => {
+                document.getElementById(id).style.display = 'none';
+            });
+            if (brand === 'visa') document.getElementById('brandVisa').style.display = 'block';
+            if (brand === 'amex') document.getElementById('brandAmex').style.display = 'block';
+            if (brand === 'discover') document.getElementById('brandDiscover').style.display = 'block';
+            if (brand === 'mastercard') document.getElementById('brandMastercard').style.display = 'flex';
+
+            // Card type icon in input
+            const icons = { visa: '💳', mastercard: '🔴', amex: '💎', discover: '🟠', unknown: '💳' };
+            document.getElementById('cardTypeIcon').innerText = icons[brand] || '💳';
+        }
+
+        // Auto-fill a test card
+        function fillTestCard(number, holder, expiry, cvv) {
+            const formatted = formatCardNumber(number);
+            document.getElementById('cardNumber').value = formatted;
+            document.getElementById('cardHolder').value = holder;
+            document.getElementById('cardExpiry').value = expiry;
+            document.getElementById('cardCvv').value = cvv;
+            updateCardVisual();
+            // Flash the card visual
+            const visual = document.getElementById('cardVisual');
+            visual.style.boxShadow = '0 0 30px rgba(84,233,138,0.4)';
+            setTimeout(() => { visual.style.boxShadow = ''; }, 800);
+        }
+
+        // Validate card form
+        function validateCardFields() {
+            const num = document.getElementById('cardNumber').value.replace(/\s/g, '');
+            const expiry = document.getElementById('cardExpiry').value;
+            const cvv = document.getElementById('cardCvv').value;
+            const brand = detectCardBrand(num);
+            let valid = true;
+
+            // Number
+            const numError = document.getElementById('cardNumberError');
+            const minLen = brand === 'amex' ? 15 : 16;
+            if (num.length < minLen || !luhnCheck(num)) {
+                numError.classList.remove('hidden');
+                document.getElementById('cardNumber').classList.add('input-error');
+                valid = false;
+            } else {
+                numError.classList.add('hidden');
+                document.getElementById('cardNumber').classList.remove('input-error');
+                document.getElementById('cardNumber').classList.add('input-valid');
+            }
+
+            // Expiry
+            const expiryError = document.getElementById('expiryError');
+            const [month, year] = expiry.split('/');
+            const now = new Date();
+            const expDate = new Date(2000 + parseInt(year || 0), parseInt(month || 0) - 1);
+            if (!month || !year || expDate < now || parseInt(month) > 12 || parseInt(month) < 1) {
+                expiryError.classList.remove('hidden');
+                document.getElementById('cardExpiry').classList.add('input-error');
+                valid = false;
+            } else {
+                expiryError.classList.add('hidden');
+                document.getElementById('cardExpiry').classList.remove('input-error');
+                document.getElementById('cardExpiry').classList.add('input-valid');
+            }
+
+            // CVV
+            const cvvError = document.getElementById('cvvError');
+            const cvvLen = brand === 'amex' ? 4 : 3;
+            if (cvv.length !== cvvLen || !/^\d+$/.test(cvv)) {
+                cvvError.classList.remove('hidden');
+                document.getElementById('cardCvv').classList.add('input-error');
+                valid = false;
+            } else {
+                cvvError.classList.add('hidden');
+                document.getElementById('cardCvv').classList.remove('input-error');
+                document.getElementById('cardCvv').classList.add('input-valid');
+            }
+
+            return valid;
+        }
+
+        // Simulate card processing
+        async function processCardPayment(cardNumber) {
+            const clean = cardNumber.replace(/\s/g, '');
+            const cardInfo = TEST_CARDS[clean];
+
+            // Simulate network delay
+            await new Promise(r => setTimeout(r, 2000));
+
+            if (!cardInfo) {
+                // Unknown card — treat as success if passes Luhn
+                if (luhnCheck(clean)) return { success: true };
+                return { success: false, error: 'Card not recognized' };
+            }
+
+            switch (cardInfo.result) {
+                case 'success': return { success: true };
+                case 'declined': return { success: false, error: 'Your card was declined. Please try a different card.' };
+                case 'insufficient': return { success: false, error: 'Insufficient funds. Please try a different card.' };
+                case 'expired': return { success: false, error: 'Your card has expired. Please update your payment method.' };
+                case 'cvc_fail': return { success: false, error: 'Incorrect CVC code. Please check and try again.' };
+                default: return { success: false, error: 'Payment failed. Please try again.' };
+            }
+        }
+
+        // ============================================================
+        // PAGE LOGIC
+        // ============================================================
+
         function fixImageUrl(url) {
             if (!url) return '';
             if (url.startsWith('http')) return url;
@@ -377,28 +943,46 @@
 
         const dict = {
             en: {
-                brandName: 'Bloom Store', navHome: 'Home', navShop: 'Shop', navCategory: 'Categories', navOccasions: 'Occasions', navContact: 'Contact',
-                pageTitle: 'Checkout', shippingTitle: 'Shipping Information', fullNameLabel: 'Full Name', addressLabel: 'Address', cityLabel: 'City', zipLabel: 'Zip Code', phoneLabel: 'Phone Number',
-                shippingMethodTitle: 'Shipping Method', standardLabel: 'Standard Delivery', standardDesc: '3-5 business days', standardPrice: '$12.00',
+                brandName: 'Bloom Store', navHome: 'Home', navShop: 'Shop', navCategory: 'Categories',
+                navOccasions: 'Occasions', navContact: 'Contact',
+                pageTitle: 'Checkout', shippingTitle: 'Shipping Information',
+                fullNameLabel: 'Full Name', addressLabel: 'Address', cityLabel: 'City',
+                zipLabel: 'Zip Code', phoneLabel: 'Phone Number',
+                shippingMethodTitle: 'Shipping Method',
+                standardLabel: 'Standard Delivery', standardDesc: '3-5 business days', standardPrice: '$12.00',
                 expressLabel: 'Express Artisan', expressDesc: 'Next day temperature-controlled', expressPrice: '$28.00',
-                paymentTitle: 'Payment Method', codLabel: 'Cash on Delivery', cardLabel: 'Credit Card (coming soon)',
-                orderSummaryTitle: 'Order Summary', subtotalLabel: 'Subtotal', shippingLabel: 'Shipping', taxLabel: 'Tax (10%)', totalLabel: 'Total',
+                paymentTitle: 'Payment Method', codLabel: 'Cash on Delivery', cardLabel: 'Credit / Debit Card',
+                cardNumberLabel: 'Card Number', cardHolderLabel: 'Card Holder Name',
+                expiryLabel: 'Expiry Date', cvvLabel: 'CVV',
+                orderSummaryTitle: 'Order Summary', subtotalLabel: 'Subtotal',
+                shippingLabel: 'Shipping', taxLabel: 'Tax (10%)', totalLabel: 'Total',
                 completeBtnText: 'Complete Secure Purchase', secureText: 'Encrypted SSL Transaction',
-                footerPrivacy: 'Privacy Policy', footerTerms: 'Terms of Service', footerShipping: 'Shipping Info', footerContact: 'Contact',
+                footerPrivacy: 'Privacy Policy', footerTerms: 'Terms of Service',
+                footerShipping: 'Shipping Info', footerContact: 'Contact',
                 copyright: '© 2026 Bloom Store. Botanical Elegance.',
-                loadingCart: 'Loading cart...', emptyCart: 'Your cart is empty. Please add items before checkout.', orderSuccess: 'Order placed successfully!', orderError: 'Failed to place order.'
+                emptyCart: 'Your cart is empty.', orderSuccess: 'Order Placed!', orderError: 'Failed to place order.',
+                processing: 'Processing Payment...', processingCard: 'Verifying card...'
             },
             ar: {
-                brandName: 'شغف', navHome: 'الرئيسية', navShop: 'تسوق', navCategory: 'الفئات', navOccasions: 'المناسبات', navContact: 'اتصل بنا',
-                pageTitle: 'الدفع', shippingTitle: 'معلومات الشحن', fullNameLabel: 'الاسم الكامل', addressLabel: 'العنوان', cityLabel: 'المدينة', zipLabel: 'الرمز البريدي', phoneLabel: 'رقم الهاتف',
-                shippingMethodTitle: 'طريقة الشحن', standardLabel: 'شحن عادي', standardDesc: '3-5 أيام عمل', standardPrice: '12.00 $',
-                expressLabel: 'شحن سريع', expressDesc: 'ليوم التالي مع التحكم بدرجة الحرارة', expressPrice: '28.00 $',
-                paymentTitle: 'طريقة الدفع', codLabel: 'الدفع عند الاستلام', cardLabel: 'بطاقة ائتمان (قريباً)',
-                orderSummaryTitle: 'ملخص الطلب', subtotalLabel: 'المجموع الفرعي', shippingLabel: 'الشحن', taxLabel: 'الضريبة (10%)', totalLabel: 'المجموع الكلي',
+                brandName: 'شغف', navHome: 'الرئيسية', navShop: 'تسوق', navCategory: 'الفئات',
+                navOccasions: 'المناسبات', navContact: 'اتصل بنا',
+                pageTitle: 'الدفع', shippingTitle: 'معلومات الشحن',
+                fullNameLabel: 'الاسم الكامل', addressLabel: 'العنوان', cityLabel: 'المدينة',
+                zipLabel: 'الرمز البريدي', phoneLabel: 'رقم الهاتف',
+                shippingMethodTitle: 'طريقة الشحن',
+                standardLabel: 'شحن عادي', standardDesc: '3-5 أيام عمل', standardPrice: '12.00 $',
+                expressLabel: 'شحن سريع', expressDesc: 'اليوم التالي مع التحكم بدرجة الحرارة', expressPrice: '28.00 $',
+                paymentTitle: 'طريقة الدفع', codLabel: 'الدفع عند الاستلام', cardLabel: 'بطاقة ائتمان / خصم',
+                cardNumberLabel: 'رقم البطاقة', cardHolderLabel: 'اسم حامل البطاقة',
+                expiryLabel: 'تاريخ الانتهاء', cvvLabel: 'رمز CVV',
+                orderSummaryTitle: 'ملخص الطلب', subtotalLabel: 'المجموع الفرعي',
+                shippingLabel: 'الشحن', taxLabel: 'الضريبة (10%)', totalLabel: 'المجموع الكلي',
                 completeBtnText: 'إتمام الشراء الآمن', secureText: 'معاملات مشفرة SSL',
-                footerPrivacy: 'سياسة الخصوصية', footerTerms: 'شروط الخدمة', footerShipping: 'معلومات الشحن', footerContact: 'اتصل بنا',
+                footerPrivacy: 'سياسة الخصوصية', footerTerms: 'شروط الخدمة',
+                footerShipping: 'معلومات الشحن', footerContact: 'اتصل بنا',
                 copyright: '© 2026 شغف. أناقة نباتية.',
-                loadingCart: 'جاري تحميل السلة...', emptyCart: 'سلتك فارغة. أضف منتجات قبل إتمام الشراء.', orderSuccess: 'تم تقديم الطلب بنجاح!', orderError: 'فشل تقديم الطلب.'
+                emptyCart: 'سلتك فارغة.', orderSuccess: 'تم تقديم الطلب!', orderError: 'فشل تقديم الطلب.',
+                processing: 'جاري المعالجة...', processingCard: 'جاري التحقق من البطاقة...'
             }
         };
 
@@ -407,9 +991,7 @@
             htmlTag.setAttribute('lang', lang);
             htmlTag.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
             for (let id in t) { const el = document.getElementById(id); if (el) el.innerText = t[id]; }
-            document.getElementById('langToggle').innerText = (lang === 'en') ? 'AR' : 'EN';
-            if (document.getElementById('standardPrice')) document.getElementById('standardPrice').innerText = t.standardPrice;
-            if (document.getElementById('expressPrice')) document.getElementById('expressPrice').innerText = t.expressPrice;
+            document.getElementById('langToggle').innerText = lang === 'en' ? 'AR' : 'EN';
         }
 
         function setTheme(theme) {
@@ -426,14 +1008,14 @@
 
         async function updateCartCount() {
             const token = localStorage.getItem('access_token');
-            if (!token) { const c = document.getElementById('cartCount'); if(c) c.classList.add('hidden'); return; }
+            if (!token) return;
             try {
                 const res = await fetch('/api/cart/', { headers: { 'Authorization': `Bearer ${token}` } });
                 const data = await res.json();
                 const countEl = document.getElementById('cartCount');
                 if (countEl && data.item_count > 0) { countEl.innerText = data.item_count; countEl.classList.remove('hidden'); }
                 else if (countEl) countEl.classList.add('hidden');
-            } catch(e) {}
+            } catch (e) { }
         }
 
         async function loadCartForCheckout() {
@@ -445,29 +1027,26 @@
                 const data = await res.json();
                 cartData = data;
                 if (!data.items || data.items.length === 0) {
-                    container.innerHTML = `<div class="text-center py-6 text-outline opacity-80">${dict[currentLang].emptyCart}</div>`;
+                    container.innerHTML = `<div class="text-center py-6 opacity-60 text-sm">${dict[currentLang].emptyCart}</div>`;
                     document.getElementById('placeOrderBtn').disabled = true;
-                    document.getElementById('placeOrderBtn').classList.add('opacity-50', 'cursor-not-allowed');
                     calculateTotals();
                     return;
                 }
                 container.innerHTML = data.items.map(item => `
-                    <div class="flex items-center gap-3 mb-3 pb-3 border-b border-outline-variant">
-                        <img src="${fixImageUrl(item.image_url)}" 
-                             class="w-12 h-12 object-cover rounded-lg flex-shrink-0" 
-                             alt="${escapeHtml(item.name)}"
-                             onerror="this.src='https://placehold.co/80x80?text=Bloom'">
-                        <div class="flex-grow">
-                            <p class="font-body-md font-medium text-on-background">${escapeHtml(item.name)}</p>
-                            <p class="text-xs text-outline">Qty: ${item.quantity}</p>
-                        </div>
-                        <p class="font-headline-sm text-emerald-400">$${item.subtotal.toFixed(2)}</p>
+                <div class="flex items-center gap-3 pb-3 border-b border-white/10">
+                    <img src="${fixImageUrl(item.image_url)}" class="w-12 h-12 object-cover rounded-lg flex-shrink-0"
+                         alt="${escapeHtml(item.name)}" onerror="this.src='https://placehold.co/80x80?text=🌸'">
+                    <div class="flex-grow min-w-0">
+                        <p class="font-medium text-sm truncate">${escapeHtml(item.name)}</p>
+                        <p class="text-xs opacity-50">Qty: ${item.quantity}</p>
                     </div>
-                `).join('');
-                document.getElementById('placeOrderBtn').disabled = false;
-                document.getElementById('placeOrderBtn').classList.remove('opacity-50', 'cursor-not-allowed');
+                    <p class="font-semibold text-emerald-400 whitespace-nowrap">$${item.subtotal.toFixed(2)}</p>
+                </div>
+            `).join('');
                 calculateTotals();
-            } catch (err) { container.innerHTML = `<div class="text-center py-6 text-red-500">Failed to load cart.</div>`; }
+            } catch (err) {
+                container.innerHTML = `<div class="text-center py-6 text-red-400 text-sm">Failed to load cart.</div>`;
+            }
         }
 
         function calculateTotals() {
@@ -481,46 +1060,129 @@
             document.getElementById('cartTotal').innerText = `$${total.toFixed(2)}`;
         }
 
+        function setButtonLoading(loading, text) {
+            const btn = document.getElementById('placeOrderBtn');
+            if (loading) {
+                btn.disabled = true;
+                btn.innerHTML = `<svg class="processing-spinner w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg><span>${text || 'Processing...'}</span>`;
+            } else {
+                btn.disabled = false;
+                btn.innerHTML = `<span class="material-symbols-outlined text-lg">verified_user</span><span id="completeBtnText">${dict[currentLang].completeBtnText}</span>`;
+            }
+        }
+
         async function placeOrder() {
             const token = localStorage.getItem('access_token');
             if (!token) { Swal.fire({ icon: 'warning', title: 'Login Required', text: 'Please login to continue.' }).then(() => window.location.href = '/login'); return; }
+
+            // Validate shipping fields
             const fullName = document.getElementById('fullName').value.trim();
             const address = document.getElementById('address').value.trim();
             const city = document.getElementById('city').value.trim();
             const zipCode = document.getElementById('zipCode').value.trim();
             const phone = document.getElementById('phone').value.trim();
             if (!fullName || !address || !city || !zipCode || !phone) {
-                Swal.fire({ icon: 'error', title: 'Missing Information', text: 'Please fill all shipping fields.' });
+                Swal.fire({ icon: 'error', title: 'Missing Info', text: 'Please fill all shipping fields.', confirmButtonColor: '#2ecc71' });
                 return;
             }
+
             const shippingMethod = document.querySelector('input[name="shippingMethod"]:checked').value;
             const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+            // ── Credit card flow ──
+            if (paymentMethod === 'card') {
+                if (!validateCardFields()) {
+                    Swal.fire({ icon: 'error', title: 'Card Error', text: 'Please check your card details and try again.', confirmButtonColor: '#2ecc71' });
+                    return;
+                }
+
+                const cardNumber = document.getElementById('cardNumber').value;
+
+                // Show processing state
+                setButtonLoading(true, dict[currentLang].processingCard);
+
+                // Simulate card processing
+                const cardResult = await processCardPayment(cardNumber);
+
+                if (!cardResult.success) {
+                    setButtonLoading(false);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Payment Declined',
+                        html: `<p>${cardResult.error}</p><br><p style="font-size:12px;opacity:0.7">This is a test environment. Try a different test card from the list.</p>`,
+                        confirmButtonColor: '#2ecc71',
+                        confirmButtonText: 'Try Again'
+                    });
+                    return;
+                }
+            }
+
+            // Place order via API
+            setButtonLoading(true, dict[currentLang].processing);
             try {
+                const shippingCost = shippingMethod === 'standard' ? 12 : 28;
+                const subtotal = cartData.total || 0;
+                const tax = subtotal * 0.10;
+                const finalTotal = subtotal + shippingCost + tax;
+
                 const res = await fetch('/api/orders/', {
                     method: 'POST',
                     headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ full_name: fullName, address, city, zip_code: zipCode, phone, shipping_method: shippingMethod, payment_method: paymentMethod })
+                    body: JSON.stringify({
+                        full_name: fullName, address, city,
+                        zip_code: zipCode, phone,
+                        shipping_method: shippingMethod,
+                        payment_method: paymentMethod,
+                        total: finalTotal
+                    })
                 });
                 const data = await res.json();
+                setButtonLoading(false);
+
                 if (res.ok) {
-                    Swal.fire({ icon: 'success', title: dict[currentLang].orderSuccess, text: `Order #${data.order_id} created. Total: $${data.total.toFixed(2)}` }).then(() => {
-                        window.location.href = `/order-confirmation/${data.order_id}`;
+                    const isCard = paymentMethod === 'card';
+                    await Swal.fire({
+                        icon: 'success',
+                        title: dict[currentLang].orderSuccess,
+                        html: `
+                        <p>Order <strong>#${data.order_id}</strong> has been placed.</p>
+                        <p style="margin-top:8px">Total: <strong style="color:#2ecc71">$${finalTotal.toFixed(2)}</strong></p>
+                        ${isCard ? '<p style="margin-top:8px;font-size:12px;opacity:0.7">✅ Payment processed successfully</p>' : ''}
+                    `,
+                        confirmButtonColor: '#2ecc71',
+                        confirmButtonText: 'View Order'
                     });
+                    window.location.href = `/order-confirmation/${data.order_id}`;
                 } else {
-                    Swal.fire({ icon: 'error', title: 'Error', text: data.error || dict[currentLang].orderError });
+                    Swal.fire({ icon: 'error', title: 'Error', text: data.error || dict[currentLang].orderError, confirmButtonColor: '#2ecc71' });
                 }
-            } catch (err) { Swal.fire({ icon: 'error', title: 'Network Error', text: 'Please try again.' }); }
+            } catch (err) {
+                setButtonLoading(false);
+                Swal.fire({ icon: 'error', title: 'Network Error', text: 'Please try again.', confirmButtonColor: '#2ecc71' });
+            }
         }
 
-        function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
+        }
 
-        document.getElementById('themeToggle').addEventListener('click', () => { currentTheme = currentTheme === 'light' ? 'dark' : 'light'; setTheme(currentTheme); });
-        document.getElementById('langToggle').addEventListener('click', () => { currentLang = currentLang === 'en' ? 'ar' : 'en'; localStorage.setItem('bloomLang', currentLang); applyLanguage(currentLang); loadCartForCheckout(); });
+        // ── Event Listeners ──
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(currentTheme);
+        });
+        document.getElementById('langToggle').addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            localStorage.setItem('bloomLang', currentLang);
+            applyLanguage(currentLang);
+            loadCartForCheckout();
+        });
         document.querySelectorAll('input[name="shippingMethod"]').forEach(radio => {
-            radio.addEventListener('change', (e) => { selectedShipping = e.target.value; calculateTotals(); });
+            radio.addEventListener('change', e => { selectedShipping = e.target.value; calculateTotals(); });
         });
         document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
-            radio.addEventListener('change', (e) => {
+            radio.addEventListener('change', e => {
                 const cardFields = document.getElementById('cardFields');
                 if (e.target.value === 'card') cardFields.classList.remove('hidden');
                 else cardFields.classList.add('hidden');
@@ -528,569 +1190,489 @@
         });
         document.getElementById('placeOrderBtn').addEventListener('click', placeOrder);
 
+        // Card input listeners
+        document.getElementById('cardNumber').addEventListener('input', function () {
+            this.value = formatCardNumber(this.value);
+            updateCardVisual();
+        });
+        document.getElementById('cardHolder').addEventListener('input', updateCardVisual);
+        document.getElementById('cardExpiry').addEventListener('input', function () {
+            this.value = formatExpiry(this.value);
+            updateCardVisual();
+        });
+        document.getElementById('cardCvv').addEventListener('focus', function () {
+            document.getElementById('cardVisual').style.transform = 'rotateY(5deg)';
+        });
+        document.getElementById('cardCvv').addEventListener('blur', function () {
+            document.getElementById('cardVisual').style.transform = '';
+        });
+
+        // ── Init ──
         setTheme(currentTheme);
         applyLanguage(currentLang);
         loadCartForCheckout();
         updateCartCount();
     </script>
 
-      <!--
-====================================================================
-  BLOOM STORE — CHATBOT WIDGET
-  
-  HOW TO USE:
-  Paste this entire block just before </body> in any HTML page.
-  The chatbot will appear as a floating button at bottom-right.
-====================================================================
--->
+    <!-- Chatbot Widget -->
+    <style>
+        :root {
+            --cb-bg: #0d1410;
+            --cb-surface: #141c17;
+            --cb-surface2: #1c2820;
+            --cb-border: rgba(84, 233, 138, 0.15);
+            --cb-green: #54e98a;
+            --cb-green2: #2ecc71;
+            --cb-text: #e1e3e4;
+            --cb-muted: #7a8f80;
+            --cb-user-bg: #1e3a2a;
+            --cb-bot-bg: #192218;
+            --cb-radius: 18px;
+            --cb-w: 370px;
+            --cb-h: 520px;
+            --cb-z: 9999;
+        }
 
-<!-- ===================== CHATBOT STYLES ===================== -->
-<style>
-  /* ── Chatbot root variables ── */
-  :root {
-    --cb-bg:        #0d1410;
-    --cb-surface:   #141c17;
-    --cb-surface2:  #1c2820;
-    --cb-border:    rgba(84, 233, 138, 0.15);
-    --cb-green:     #54e98a;
-    --cb-green2:    #2ecc71;
-    --cb-text:      #e1e3e4;
-    --cb-muted:     #7a8f80;
-    --cb-user-bg:   #1e3a2a;
-    --cb-bot-bg:    #192218;
-    --cb-radius:    18px;
-    --cb-w:         370px;
-    --cb-h:         520px;
-    --cb-z:         9999;
-  }
+        #cb-toggle {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: var(--cb-z);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(46, 204, 113, 0.35);
+            transition: transform 0.3s;
+            animation: cb-pulse 2.5s infinite;
+        }
 
-  /* ── Floating toggle button ── */
-  #cb-toggle {
-    position: fixed;
-    bottom: 28px;
-    right: 28px;
-    z-index: var(--cb-z);
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 8px 32px rgba(46, 204, 113, 0.35), 0 0 0 0 rgba(46, 204, 113, 0.4);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    animation: cb-pulse 2.5s infinite;
-  }
-  #cb-toggle:hover {
-    transform: scale(1.08);
-    box-shadow: 0 12px 40px rgba(46, 204, 113, 0.5), 0 0 0 0 rgba(46, 204, 113, 0.4);
-  }
-  #cb-toggle svg { width: 28px; height: 28px; fill: #fff; transition: transform 0.3s; }
-  #cb-toggle.open svg { transform: rotate(45deg); }
+        #cb-toggle:hover {
+            transform: scale(1.08);
+        }
 
-  @keyframes cb-pulse {
-    0%, 100% { box-shadow: 0 8px 32px rgba(46,204,113,0.35), 0 0 0 0 rgba(46,204,113,0.4); }
-    50%       { box-shadow: 0 8px 32px rgba(46,204,113,0.35), 0 0 0 10px rgba(46,204,113,0); }
-  }
+        #cb-toggle svg {
+            width: 28px;
+            height: 28px;
+            fill: #fff;
+        }
 
-  /* Notification dot */
-  #cb-notif {
-    position: absolute;
-    top: 4px; right: 4px;
-    width: 14px; height: 14px;
-    background: #ff4d6d;
-    border-radius: 50%;
-    border: 2px solid #0d1410;
-    animation: cb-bounce 1s infinite alternate;
-  }
-  @keyframes cb-bounce { from { transform: scale(1); } to { transform: scale(1.3); } }
+        @keyframes cb-pulse {
 
-  /* ── Chat window ── */
-  #cb-window {
-    position: fixed;
-    bottom: 100px;
-    right: 28px;
-    z-index: var(--cb-z);
-    width: var(--cb-w);
-    max-height: var(--cb-h);
-    background: var(--cb-bg);
-    border: 1px solid var(--cb-border);
-    border-radius: var(--cb-radius);
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(84,233,138,0.08);
-    transform: translateY(20px) scale(0.95);
-    opacity: 0;
-    pointer-events: none;
-    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease;
-    overflow: hidden;
-  }
-  #cb-window.open {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-    pointer-events: all;
-  }
+            0%,
+            100% {
+                box-shadow: 0 8px 32px rgba(46, 204, 113, 0.35), 0 0 0 0 rgba(46, 204, 113, 0.4)
+            }
 
-  /* ── Header ── */
-  #cb-header {
-    padding: 16px 20px;
-    background: linear-gradient(135deg, #1a2e1f, #0f1d13);
-    border-bottom: 1px solid var(--cb-border);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .cb-avatar {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-    flex-shrink: 0;
-    box-shadow: 0 0 16px rgba(46,204,113,0.3);
-  }
-  .cb-header-info h3 {
-    color: #fff; font-size: 15px; font-weight: 600;
-    font-family: 'Noto Serif', serif;
-    margin: 0 0 2px;
-  }
-  .cb-header-info p {
-    color: var(--cb-green); font-size: 11px; margin: 0;
-    display: flex; align-items: center; gap: 5px;
-  }
-  .cb-online-dot {
-    width: 7px; height: 7px;
-    background: var(--cb-green); border-radius: 50%;
-    animation: cb-blink 1.5s infinite;
-  }
-  @keyframes cb-blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+            50% {
+                box-shadow: 0 8px 32px rgba(46, 204, 113, 0.35), 0 0 0 10px rgba(46, 204, 113, 0)
+            }
+        }
 
-  #cb-close {
-    margin-left: auto;
-    background: none; border: none; cursor: pointer;
-    color: var(--cb-muted); font-size: 20px; line-height: 1;
-    padding: 4px 8px; border-radius: 8px;
-    transition: color 0.2s, background 0.2s;
-  }
-  #cb-close:hover { color: #fff; background: rgba(255,255,255,0.08); }
+        #cb-notif {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 14px;
+            height: 14px;
+            background: #ff4d6d;
+            border-radius: 50%;
+            border: 2px solid #0d1410;
+            display: none;
+            animation: cb-bounce 1s infinite alternate;
+        }
 
-  /* ── Messages area ── */
-  #cb-messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(84,233,138,0.2) transparent;
-    min-height: 0;
-    max-height: 340px;
-  }
-  #cb-messages::-webkit-scrollbar { width: 4px; }
-  #cb-messages::-webkit-scrollbar-thumb { background: rgba(84,233,138,0.2); border-radius: 4px; }
+        @keyframes cb-bounce {
+            from {
+                transform: scale(1)
+            }
 
-  /* ── Message bubbles ── */
-  .cb-msg {
-    display: flex;
-    gap: 8px;
-    animation: cb-fadein 0.3s ease;
-  }
-  @keyframes cb-fadein { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+            to {
+                transform: scale(1.3)
+            }
+        }
 
-  .cb-msg.user { flex-direction: row-reverse; }
+        #cb-window {
+            position: fixed;
+            bottom: 100px;
+            right: 28px;
+            z-index: var(--cb-z);
+            width: var(--cb-w);
+            max-height: var(--cb-h);
+            background: var(--cb-bg);
+            border: 1px solid var(--cb-border);
+            border-radius: var(--cb-radius);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+            transform: translateY(20px) scale(0.95);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s;
+            overflow: hidden;
+        }
 
-  .cb-msg-avatar {
-    width: 30px; height: 30px; border-radius: 50%;
-    flex-shrink: 0; display: flex; align-items: center;
-    justify-content: center; font-size: 14px;
-    margin-top: 2px;
-  }
-  .cb-msg.bot .cb-msg-avatar {
-    background: linear-gradient(135deg, #1a3a22, #0f2016);
-    border: 1px solid var(--cb-border);
-  }
-  .cb-msg.user .cb-msg-avatar {
-    background: rgba(46,204,113,0.15);
-    border: 1px solid rgba(46,204,113,0.2);
-  }
+        #cb-window.open {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+            pointer-events: all;
+        }
 
-  .cb-bubble {
-    max-width: 82%;
-    padding: 10px 14px;
-    border-radius: 16px;
-    font-size: 13.5px;
-    line-height: 1.55;
-    font-family: 'Manrope', sans-serif;
-  }
-  .cb-msg.bot .cb-bubble {
-    background: var(--cb-bot-bg);
-    color: var(--cb-text);
-    border: 1px solid var(--cb-border);
-    border-bottom-left-radius: 4px;
-  }
-  .cb-msg.user .cb-bubble {
-    background: var(--cb-user-bg);
-    color: #c8f5d8;
-    border: 1px solid rgba(84,233,138,0.18);
-    border-bottom-right-radius: 4px;
-  }
+        #cb-header {
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #1a2e1f, #0f1d13);
+            border-bottom: 1px solid var(--cb-border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-  /* Link button inside bot message */
-  .cb-link-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    margin-top: 8px;
-    padding: 6px 12px;
-    background: linear-gradient(135deg, rgba(46,204,113,0.2), rgba(46,204,113,0.08));
-    border: 1px solid rgba(84,233,138,0.3);
-    border-radius: 20px;
-    color: var(--cb-green) !important;
-    font-size: 11.5px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-decoration: none !important;
-    text-transform: uppercase;
-    transition: background 0.2s, border-color 0.2s;
-  }
-  .cb-link-btn:hover {
-    background: rgba(46,204,113,0.25);
-    border-color: rgba(84,233,138,0.5);
-  }
-  .cb-link-btn svg { width: 12px; height: 12px; }
+        .cb-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
 
-  /* Typing indicator */
-  .cb-typing {
-    display: flex; align-items: center; gap: 5px; padding: 10px 14px;
-    background: var(--cb-bot-bg); border: 1px solid var(--cb-border);
-    border-radius: 16px; border-bottom-left-radius: 4px;
-    width: fit-content;
-  }
-  .cb-typing span {
-    width: 7px; height: 7px; background: var(--cb-green);
-    border-radius: 50%; animation: cb-typing 1.2s infinite ease-in-out;
-  }
-  .cb-typing span:nth-child(2) { animation-delay: 0.2s; }
-  .cb-typing span:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes cb-typing {
-    0%,80%,100% { transform:scale(0.6); opacity:0.4; }
-    40%          { transform:scale(1);   opacity:1; }
-  }
+        .cb-header-info h3 {
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: 'Noto Serif', serif;
+            margin: 0 0 2px;
+        }
 
-  /* ── Quick replies ── */
-  #cb-quick {
-    padding: 8px 16px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    border-top: 1px solid var(--cb-border);
-    background: var(--cb-surface);
-  }
-  .cb-quick-btn {
-    padding: 5px 12px;
-    background: rgba(84,233,138,0.06);
-    border: 1px solid rgba(84,233,138,0.18);
-    border-radius: 20px;
-    color: var(--cb-green);
-    font-size: 11px;
-    font-family: 'Manrope', sans-serif;
-    cursor: pointer;
-    transition: background 0.2s, border-color 0.2s;
-    white-space: nowrap;
-  }
-  .cb-quick-btn:hover {
-    background: rgba(84,233,138,0.15);
-    border-color: rgba(84,233,138,0.4);
-  }
+        .cb-header-info p {
+            color: var(--cb-green);
+            font-size: 11px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
-  /* ── Input area ── */
-  #cb-input-area {
-    padding: 12px 16px;
-    border-top: 1px solid var(--cb-border);
-    background: var(--cb-surface2);
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-  #cb-input {
-    flex: 1;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 24px;
-    padding: 9px 16px;
-    color: var(--cb-text);
-    font-size: 13px;
-    font-family: 'Manrope', sans-serif;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  #cb-input:focus { border-color: rgba(84,233,138,0.4); }
-  #cb-input::placeholder { color: var(--cb-muted); }
-  #cb-send {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
-    border: none;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 16px rgba(46,204,113,0.25);
-  }
-  #cb-send:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(46,204,113,0.4); }
-  #cb-send svg { width: 17px; height: 17px; fill: #fff; }
+        .cb-online-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--cb-green);
+            border-radius: 50%;
+            animation: cb-blink 1.5s infinite;
+        }
 
-  /* ── Mobile ── */
-  @media (max-width: 420px) {
-    :root { --cb-w: calc(100vw - 24px); }
-    #cb-window { right: 12px; bottom: 90px; }
-    #cb-toggle { right: 16px; bottom: 20px; }
-  }
+        @keyframes cb-blink {
 
-  /* Light mode overrides */
-  html.light #cb-window {
-    --cb-bg: #f8faf9;
-    --cb-surface: #f0f4f2;
-    --cb-surface2: #eaf0ec;
-    --cb-border: rgba(46, 204, 113, 0.2);
-    --cb-text: #1a1c1c;
-    --cb-muted: #6b7c6f;
-    --cb-bot-bg: #f0f5f2;
-    --cb-user-bg: #e0f5e9;
-    background: var(--cb-bg);
-  }
-  html.light #cb-header { background: linear-gradient(135deg, #e8f5ee, #ddf0e7); }
-  html.light #cb-header .cb-header-info h3 { color: #1a1c1c; }
-  html.light .cb-bubble { color: #1a1c1c; }
-  html.light .cb-msg.bot .cb-bubble { background: #f0f5f2; border-color: rgba(46,204,113,0.18); }
-  html.light .cb-msg.user .cb-bubble { background: #dcf0e5; color: #0d3320; }
-  html.light #cb-input { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.1); color: #1a1c1c; }
-  html.light #cb-input::placeholder { color: #9aada0; }
-</style>
+            0%,
+            100% {
+                opacity: 1
+            }
 
-<!-- ===================== CHATBOT HTML ===================== -->
+            50% {
+                opacity: 0.4
+            }
+        }
 
-<!-- Floating Toggle Button -->
-<button id="cb-toggle" aria-label="Open chat assistant" title="Chat with Bloom">
-  <span id="cb-notif"></span>
-  <!-- Flower/Chat icon -->
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 3.0 1.01 4.29L2 22l5.71-1.01C9 21.64 10.46 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.38 0-2.68-.31-3.84-.86l-.27-.13-2.82.5.5-2.82-.13-.27C4.31 15.18 4 13.88 4 12.5 4 7.81 7.81 4 12.5 4S21 7.81 21 12.5 17.19 21 12.5 21H12zm5-8h-4V8h-2v5H7v2h4v4h2v-4h4v-2z"/>
-  </svg>
-</button>
+        #cb-close {
+            margin-left: auto;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--cb-muted);
+            font-size: 20px;
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: color 0.2s;
+        }
 
-<!-- Chat Window -->
-<div id="cb-window" role="dialog" aria-label="Bloom floral assistant">
+        #cb-close:hover {
+            color: #fff;
+        }
 
-  <!-- Header -->
-  <div id="cb-header">
-    <div class="cb-avatar">🌸</div>
-    <div class="cb-header-info">
-      <h3>Bloom Assistant</h3>
-      <p><span class="cb-online-dot"></span> Online · Here to help</p>
+        #cb-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            min-height: 0;
+            max-height: 340px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(84, 233, 138, 0.2) transparent;
+        }
+
+        .cb-msg {
+            display: flex;
+            gap: 8px;
+            animation: cb-fadein 0.3s ease;
+        }
+
+        @keyframes cb-fadein {
+            from {
+                opacity: 0;
+                transform: translateY(8px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        .cb-msg.user {
+            flex-direction: row-reverse;
+        }
+
+        .cb-msg-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            margin-top: 2px;
+        }
+
+        .cb-msg.bot .cb-msg-avatar {
+            background: linear-gradient(135deg, #1a3a22, #0f2016);
+            border: 1px solid var(--cb-border);
+        }
+
+        .cb-msg.user .cb-msg-avatar {
+            background: rgba(46, 204, 113, 0.15);
+            border: 1px solid rgba(46, 204, 113, 0.2);
+        }
+
+        .cb-bubble {
+            max-width: 82%;
+            padding: 10px 14px;
+            border-radius: 16px;
+            font-size: 13.5px;
+            line-height: 1.55;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .cb-msg.bot .cb-bubble {
+            background: var(--cb-bot-bg);
+            color: var(--cb-text);
+            border: 1px solid var(--cb-border);
+            border-bottom-left-radius: 4px;
+        }
+
+        .cb-msg.user .cb-bubble {
+            background: var(--cb-user-bg);
+            color: #c8f5d8;
+            border: 1px solid rgba(84, 233, 138, 0.18);
+            border-bottom-right-radius: 4px;
+        }
+
+        .cb-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 8px;
+            padding: 6px 12px;
+            background: rgba(46, 204, 113, 0.15);
+            border: 1px solid rgba(84, 233, 138, 0.3);
+            border-radius: 20px;
+            color: var(--cb-green) !important;
+            font-size: 11.5px;
+            font-weight: 700;
+            text-decoration: none !important;
+            text-transform: uppercase;
+            transition: background 0.2s;
+        }
+
+        .cb-typing {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 10px 14px;
+            background: var(--cb-bot-bg);
+            border: 1px solid var(--cb-border);
+            border-radius: 16px;
+            border-bottom-left-radius: 4px;
+            width: fit-content;
+        }
+
+        .cb-typing span {
+            width: 7px;
+            height: 7px;
+            background: var(--cb-green);
+            border-radius: 50%;
+            animation: cb-typing 1.2s infinite ease-in-out;
+        }
+
+        .cb-typing span:nth-child(2) {
+            animation-delay: 0.2s
+        }
+
+        .cb-typing span:nth-child(3) {
+            animation-delay: 0.4s
+        }
+
+        @keyframes cb-typing {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0.6);
+                opacity: 0.4
+            }
+
+            40% {
+                transform: scale(1);
+                opacity: 1
+            }
+        }
+
+        #cb-quick {
+            padding: 8px 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            border-top: 1px solid var(--cb-border);
+            background: var(--cb-surface);
+        }
+
+        .cb-quick-btn {
+            padding: 5px 12px;
+            background: rgba(84, 233, 138, 0.06);
+            border: 1px solid rgba(84, 233, 138, 0.18);
+            border-radius: 20px;
+            color: var(--cb-green);
+            font-size: 11px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .cb-quick-btn:hover {
+            background: rgba(84, 233, 138, 0.15);
+        }
+
+        #cb-input-area {
+            padding: 12px 16px;
+            border-top: 1px solid var(--cb-border);
+            background: var(--cb-surface2);
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        #cb-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 9px 16px;
+            color: var(--cb-text);
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        #cb-input:focus {
+            border-color: rgba(84, 233, 138, 0.4);
+        }
+
+        #cb-input::placeholder {
+            color: var(--cb-muted);
+        }
+
+        #cb-send {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--cb-green2), #1a7a45);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: transform 0.2s;
+        }
+
+        #cb-send:hover {
+            transform: scale(1.08);
+        }
+
+        #cb-send svg {
+            width: 17px;
+            height: 17px;
+            fill: #fff;
+        }
+
+        @media(max-width:420px) {
+            :root {
+                --cb-w: calc(100vw - 24px)
+            }
+
+            #cb-window {
+                right: 12px;
+                bottom: 90px
+            }
+
+            #cb-toggle {
+                right: 16px;
+                bottom: 20px
+            }
+        }
+    </style>
+    <button id="cb-toggle" aria-label="Open chat"><span id="cb-notif"></span><svg viewBox="0 0 24 24">
+            <path
+                d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 3 1.01 4.29L2 22l5.71-1.01C9 21.64 10.46 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
+        </svg></button>
+    <div id="cb-window">
+        <div id="cb-header">
+            <div class="cb-avatar">🌸</div>
+            <div class="cb-header-info">
+                <h3>Bloom Assistant</h3>
+                <p><span class="cb-online-dot"></span> Online</p>
+            </div><button id="cb-close">✕</button>
+        </div>
+        <div id="cb-messages"></div>
+        <div id="cb-quick">
+            <button class="cb-quick-btn" data-msg="birthday flowers">🎂 Birthday</button>
+            <button class="cb-quick-btn" data-msg="wedding bouquet">💍 Wedding</button>
+            <button class="cb-quick-btn" data-msg="delivery">🚚 Delivery</button>
+            <button class="cb-quick-btn" data-msg="luxury flowers">💎 Luxury</button>
+        </div>
+        <div id="cb-input-area"><input id="cb-input" type="text" placeholder="Ask about flowers..." maxlength="200"
+                autocomplete="off"><button id="cb-send"><svg viewBox="0 0 24 24">
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                </svg></button></div>
     </div>
-    <button id="cb-close" aria-label="Close chat">✕</button>
-  </div>
-
-  <!-- Messages -->
-  <div id="cb-messages"></div>
-
-  <!-- Quick Replies -->
-  <div id="cb-quick">
-    <button class="cb-quick-btn" data-msg="birthday flowers">🎂 Birthday</button>
-    <button class="cb-quick-btn" data-msg="wedding bouquet">💍 Wedding</button>
-    <button class="cb-quick-btn" data-msg="graduation flowers">🎓 Graduation</button>
-    <button class="cb-quick-btn" data-msg="valentine roses">❤️ Valentine</button>
-    <button class="cb-quick-btn" data-msg="luxury flowers">💎 Luxury</button>
-    <button class="cb-quick-btn" data-msg="delivery">🚚 Delivery</button>
-  </div>
-
-  <!-- Input -->
-  <div id="cb-input-area">
-    <input id="cb-input" type="text" placeholder="Ask about flowers, occasions..." maxlength="200" autocomplete="off">
-    <button id="cb-send" aria-label="Send message">
-      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-    </button>
-  </div>
-</div>
-
-<!-- ===================== CHATBOT SCRIPT ===================== -->
-<script>
-(function () {
-  'use strict';
-
-  // ── DOM refs ──
-  const toggle   = document.getElementById('cb-toggle');
-  const window_  = document.getElementById('cb-window');
-  const closeBtn = document.getElementById('cb-close');
-  const messages = document.getElementById('cb-messages');
-  const input    = document.getElementById('cb-input');
-  const sendBtn  = document.getElementById('cb-send');
-  const notif    = document.getElementById('cb-notif');
-  const quickBtns = document.querySelectorAll('.cb-quick-btn');
-
-  let isOpen = false;
-  let isTyping = false;
-  let welcomed = false;
-
-  // ── Open / Close ──
-  function openChat() {
-    isOpen = true;
-    window_.classList.add('open');
-    toggle.classList.add('open');
-    notif.style.display = 'none';
-    input.focus();
-    if (!welcomed) {
-      welcomed = true;
-      setTimeout(() => showBotMessage(
-        "🌸 Welcome to <strong>Bloom Store</strong>! I'm your personal floral assistant.<br><br>Tell me about an occasion, emotion, or flower type — and I'll guide you to the perfect arrangement. What brings you here today?",
-        "/shop",
-        "Browse All Flowers"
-      ), 400);
-    }
-  }
-
-  function closeChat() {
-    isOpen = false;
-    window_.classList.remove('open');
-    toggle.classList.remove('open');
-  }
-
-  toggle.addEventListener('click', () => isOpen ? closeChat() : openChat());
-  closeBtn.addEventListener('click', closeChat);
-
-  // Close on outside click
-  document.addEventListener('click', (e) => {
-    if (isOpen && !window_.contains(e.target) && e.target !== toggle) {
-      closeChat();
-    }
-  });
-
-  // ── Append user message ──
-  function appendUserMessage(text) {
-    const div = document.createElement('div');
-    div.className = 'cb-msg user';
-    div.innerHTML = `
-      <div class="cb-msg-avatar">👤</div>
-      <div class="cb-bubble">${escapeHtml(text)}</div>
-    `;
-    messages.appendChild(div);
-    scrollToBottom();
-  }
-
-  // ── Show bot message ──
-  function showBotMessage(text, link, label) {
-    removeTyping();
-    const div = document.createElement('div');
-    div.className = 'cb-msg bot';
-    const linkHtml = link ? `
-      <br>
-      <a href="${link}" class="cb-link-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
-        ${escapeHtml(label || 'View')}
-      </a>` : '';
-    div.innerHTML = `
-      <div class="cb-msg-avatar">🌸</div>
-      <div class="cb-bubble">${text}${linkHtml}</div>
-    `;
-    messages.appendChild(div);
-    scrollToBottom();
-  }
-
-  // ── Typing indicator ──
-  function showTyping() {
-    if (isTyping) return;
-    isTyping = true;
-    const div = document.createElement('div');
-    div.className = 'cb-msg bot';
-    div.id = 'cb-typing-msg';
-    div.innerHTML = `
-      <div class="cb-msg-avatar">🌸</div>
-      <div class="cb-typing"><span></span><span></span><span></span></div>
-    `;
-    messages.appendChild(div);
-    scrollToBottom();
-  }
-
-  function removeTyping() {
-    isTyping = false;
-    const el = document.getElementById('cb-typing-msg');
-    if (el) el.remove();
-  }
-
-  // ── Scroll ──
-  function scrollToBottom() {
-    requestAnimationFrame(() => {
-      messages.scrollTop = messages.scrollHeight;
-    });
-  }
-
-  // ── Escape HTML ──
-  function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);
-  }
-
-  // ── Send message ──
-  async function sendMessage() {
-    const text = input.value.trim();
-    if (!text || isTyping) return;
-
-    input.value = '';
-    appendUserMessage(text);
-    showTyping();
-
-    try {
-      const res = await fetch('/api/chatbot/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text })
-      });
-      const data = await res.json();
-
-      // Small delay for natural feel
-      setTimeout(() => {
-        showBotMessage(data.reply, data.link, data.label);
-      }, 600);
-
-    } catch (err) {
-      setTimeout(() => {
-        showBotMessage(
-          "🌿 Sorry, I'm having trouble connecting right now. Please try again in a moment or visit our shop directly.",
-          "/shop",
-          "Browse Shop"
-        );
-      }, 600);
-    }
-  }
-
-  // ── Event listeners ──
-  sendBtn.addEventListener('click', sendMessage);
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
-  });
-
-  // Quick reply buttons
-  quickBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (!isOpen) openChat();
-      input.value = btn.getAttribute('data-msg');
-      setTimeout(sendMessage, 100);
-    });
-  });
-
-  // Show notification dot after 3s if chat not opened
-  setTimeout(() => {
-    if (!isOpen) notif.style.display = 'block';
-  }, 3000);
-
-})();
-</script>
+    <script>
+        (function () {
+            const toggle = document.getElementById('cb-toggle'), win = document.getElementById('cb-window'), closeBtn = document.getElementById('cb-close'), msgs = document.getElementById('cb-messages'), inp = document.getElementById('cb-input'), send = document.getElementById('cb-send'), notif = document.getElementById('cb-notif');
+            let open = false, typing = false, welcomed = false;
+            function openChat() { open = true; win.classList.add('open'); notif.style.display = 'none'; inp.focus(); if (!welcomed) { welcomed = true; setTimeout(() => botMsg("🌸 Welcome to <strong>Bloom Store</strong>! Need help choosing flowers?", "/shop", "Browse All"), 400); } }
+            function closeChat() { open = false; win.classList.remove('open'); }
+            toggle.addEventListener('click', () => open ? closeChat() : openChat());
+            closeBtn.addEventListener('click', closeChat);
+            document.addEventListener('click', e => { if (open && !win.contains(e.target) && e.target !== toggle) closeChat(); });
+            function userMsg(text) { const d = document.createElement('div'); d.className = 'cb-msg user'; d.innerHTML = `<div class="cb-msg-avatar">👤</div><div class="cb-bubble">${text.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]))}</div>`; msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; }
+            function botMsg(text, link, label) { if (typing) { const t = document.getElementById('cb-typing-msg'); if (t) t.remove(); typing = false; } const d = document.createElement('div'); d.className = 'cb-msg bot'; const lh = link ? `<br><a href="${link}" class="cb-link-btn">${label || 'View'}</a>` : ''; d.innerHTML = `<div class="cb-msg-avatar">🌸</div><div class="cb-bubble">${text}${lh}</div>`; msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; }
+            function showTyping() { if (typing) return; typing = true; const d = document.createElement('div'); d.className = 'cb-msg bot'; d.id = 'cb-typing-msg'; d.innerHTML = `<div class="cb-msg-avatar">🌸</div><div class="cb-typing"><span></span><span></span><span></span></div>`; msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; }
+            async function sendMsg() { const text = inp.value.trim(); if (!text || typing) return; inp.value = ''; userMsg(text); showTyping(); try { const r = await fetch('/api/chatbot/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: text }) }); const data = await r.json(); setTimeout(() => botMsg(data.reply, data.link, data.label), 600); } catch (e) { setTimeout(() => botMsg("🌿 Try browsing our shop directly.", "/shop", "Browse Shop"), 600); } }
+            send.addEventListener('click', sendMsg);
+            inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); sendMsg(); } });
+            document.querySelectorAll('.cb-quick-btn').forEach(btn => btn.addEventListener('click', () => { if (!open) openChat(); inp.value = btn.getAttribute('data-msg'); setTimeout(sendMsg, 100); }));
+            setTimeout(() => { if (!open) notif.style.display = 'block'; }, 3000);
+        })();
+    </script>
 </body>
+
 </html>

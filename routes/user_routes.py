@@ -153,7 +153,7 @@ def recent_orders():
     return jsonify(orders)
 
 
-# ==================== العناوين (مؤقت حتى إضافة الجدول) ====================
+# ==================== العناوين  ====================
 @user_bp.route('/addresses', methods=['GET'])
 @jwt_required()
 def get_addresses():
@@ -161,7 +161,7 @@ def get_addresses():
     return jsonify([])
 
 
-# ==================== وسائل الدفع (مؤقت) ====================
+# ==================== وسائل الدفع  ====================
 @user_bp.route('/payment', methods=['GET'])
 @jwt_required()
 def get_payment():
@@ -333,3 +333,83 @@ def update_user():
         conn.close()
 
         
+@user_bp.route('/points-history', methods=['GET'])
+@jwt_required()
+def get_points_history():
+    user_id = get_jwt_identity()
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute("""
+        SELECT Points, Reason, OrderID, CreatedAt
+        FROM PointsLog
+        WHERE UserID = ?
+        ORDER BY CreatedAt DESC
+    """, (user_id,))
+    
+    rows = cursor.fetchall()
+    history = []
+    for row in rows:
+        history.append({
+            'points': row.Points,
+            'reason': row.Reason,
+            'order_id': row.OrderID,
+            'created_at': row.CreatedAt.isoformat() if row.CreatedAt else ''
+        })
+    
+    cursor.close()
+    conn.close()
+    return jsonify(history)
+
+
+@user_bp.route('/orders/<int:order_id>', methods=['GET'])
+@jwt_required()
+def get_order_details(order_id):
+    user_id = get_jwt_identity()
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # جلب بيانات الطلب
+    cursor.execute("""
+        SELECT OrderID, OrderDate, Status, TotalAmount, DiscountApplied, ShippingAddress
+        FROM Orders
+        WHERE OrderID = ? AND UserID = ?
+    """, (order_id, user_id))
+    
+    order_row = cursor.fetchone()
+    if not order_row:
+        cursor.close()
+        conn.close()
+        return jsonify({'error': 'Order not found'}), 404
+    
+    # جلب عناصر الطلب
+    cursor.execute("""
+        SELECT oi.Quantity, oi.Price, f.FlowerName, f.ImageURL
+        FROM OrderItems oi
+        JOIN Flower f ON oi.FlowerID = f.FlowerID
+        WHERE oi.OrderID = ?
+    """, (order_id,))
+    
+    items_rows = cursor.fetchall()
+    items = []
+    for row in items_rows:
+        items.append({
+            'name': row.FlowerName,
+            'quantity': row.Quantity,
+            'price': float(row.Price),
+            'image': row.ImageURL
+        })
+    
+    cursor.close()
+    conn.close()
+    
+    return jsonify({
+        'id': order_row.OrderID,
+        'date': order_row.OrderDate.isoformat(),
+        'status': order_row.Status,
+        'total': float(order_row.TotalAmount),
+        'discount': float(order_row.DiscountApplied or 0),
+        'address': order_row.ShippingAddress,
+        'items': items,
+        'loyalty_points_earned': 10
+    })
