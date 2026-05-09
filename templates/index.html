@@ -802,7 +802,7 @@
   /* ── Floating toggle button ── */
   #cb-toggle {
     position: fixed;
-    bottom: 28px;
+    bottom: 20px;
     right: 28px;
     z-index: var(--cb-z);
     width: 60px;
@@ -1326,6 +1326,130 @@
   }, 3000);
 
 })();
+</script>
+
+
+
+
+<!-- أيقونة الجرس والإشعارات -->
+<div id="notificationBell" class="fixed z-50 cursor-pointer" style="bottom: 5rem; right: 1.5rem;">
+    <div class="relative">
+        <span class="material-symbols-outlined text-4xl text-emerald-400 bg-black/50 rounded-full p-2 backdrop-blur-sm">notifications</span>
+        <span id="notifBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+    </div>
+</div>
+
+<div id="notificationsPanel" class="fixed w-80 bg-zinc-900 glass rounded-xl shadow-2xl hidden flex-col max-h-96 overflow-y-auto" style="bottom: 7rem; right: 1.5rem; z-index: 70;">
+    <div class="p-3 border-b border-zinc-700 font-bold text-emerald-400">الإشعارات</div>
+    <div id="notificationsList" class="divide-y divide-zinc-800"></div>
+</div>
+
+<script>
+    // ----- SSE Connection -----
+    let eventSource = null;
+    let unreadCount = 0;
+
+    function connectSSE() {
+        const token = localStorage.getItem('access_token');
+        if (!token) return;
+        if (eventSource) eventSource.close();
+        eventSource = new EventSource(`/api/sse/stream?token=${token}`);
+        
+        eventSource.onmessage = function(event) {
+            const notif = JSON.parse(event.data);
+            showNotification(notif);
+            addToNotificationPanel(notif);
+            unreadCount++;
+            updateBadge();
+        };
+        
+        eventSource.onerror = function(err) {
+            console.error("SSE error", err);
+            setTimeout(connectSSE, 5000); // إعادة المحاولة بعد 5 ثوان
+        };
+    }
+    
+    function showNotification(notif) {
+        // عرض إشعار سطح المكتب (إذا كان مدعوماً)
+        if (Notification.permission === "granted") {
+            new Notification(notif.title, { body: notif.message, icon: "/static/favicon.ico" });
+        } else if (Notification.permission !== "denied") {
+            Notification.requestPermission().then(perm => {
+                if (perm === "granted") new Notification(notif.title, { body: notif.message });
+            });
+        }
+        // أيضاً عرض SweetAlert2 أو Toast
+        Swal.fire({
+            title: notif.title,
+            text: notif.message,
+            icon: 'info',
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            timerProgressBar: true
+        });
+    }
+    
+    function addToNotificationPanel(notif) {
+        const panel = document.getElementById('notificationsList');
+        const div = document.createElement('div');
+        div.className = 'p-3 hover:bg-zinc-800 cursor-pointer';
+        div.innerHTML = `<p class="font-bold text-sm">${escapeHtml(notif.title)}</p><p class="text-xs text-zinc-400">${escapeHtml(notif.message)}</p><span class="text-[10px] text-emerald-400">منذ قليل</span>`;
+        div.onclick = () => { /* يمكن توجيه المستخدم إلى صفحة التذكيرات */ };
+        panel.prepend(div);
+    }
+    
+    function updateBadge() {
+        const badge = document.getElementById('notifBadge');
+        if (unreadCount > 0) {
+            badge.innerText = unreadCount > 99 ? '99+' : unreadCount;
+            badge.classList.remove('hidden');
+        } else {
+            badge.classList.add('hidden');
+        }
+    }
+    
+    // فتح/إغلاق لوحة الإشعارات
+    document.getElementById('notificationBell').addEventListener('click', () => {
+        const panel = document.getElementById('notificationsPanel');
+        panel.classList.toggle('hidden');
+        if (!panel.classList.contains('hidden')) {
+            // هنا يمكن تغيير حالة الإشعارات إلى مقروءة (اختياري)
+            unreadCount = 0;
+            updateBadge();
+        }
+    });
+    
+    // تحميل الإشعارات السابقة من الخادم (عند تحميل الصفحة)
+    async function loadPreviousNotifications() {
+        const token = localStorage.getItem('access_token');
+        if (!token) return;
+        try {
+            const res = await fetch('/api/user/notifications', { headers: { 'Authorization': `Bearer ${token}` } });
+            const data = await res.json();
+            if (data.notifications) {
+                const panel = document.getElementById('notificationsList');
+                panel.innerHTML = '';
+                data.notifications.forEach(notif => {
+                    const div = document.createElement('div');
+                    div.className = 'p-3 hover:bg-zinc-800 cursor-pointer';
+                    div.innerHTML = `<p class="font-bold text-sm">${escapeHtml(notif.title)}</p><p class="text-xs text-zinc-400">${escapeHtml(notif.message)}</p><span class="text-[10px] text-emerald-400">${new Date(notif.created_at).toLocaleString()}</span>`;
+                    panel.appendChild(div);
+                });
+                unreadCount = data.unread_count || 0;
+                updateBadge();
+            }
+        } catch(e) {}
+    }
+    
+    function escapeHtml(str) { return str.replace(/[&<>]/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;' }[m])); }
+    
+    // بدء الاتصال عند تحميل الصفحة
+    document.addEventListener('DOMContentLoaded', () => {
+        connectSSE();
+        loadPreviousNotifications();
+    });
 </script>
 </body>
 

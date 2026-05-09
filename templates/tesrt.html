@@ -184,7 +184,10 @@
         }
     </style>
     <script>
-        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { primary: '#2ecc71' }, fontFamily: { 'serif': ['Noto Serif', 'serif'], 'sans': ['Manrope', 'sans-serif'] } } } };
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { colors: { primary: '#2ecc71' }, fontFamily: { 'serif': ['Noto Serif', 'serif'], 'sans': ['Manrope', 'sans-serif'] } } }
+        };
     </script>
 </head>
 
@@ -235,27 +238,27 @@
                     <h3 class="text-lg font-semibold mb-3">Quick Actions</h3>
                     <div class="flex gap-3 flex-wrap">
                         <button onclick="openProductModal()"
-                            class="btn-emerald text-white px-5 py-2 rounded-xl shadow-md flex items-center gap-2 transition-all">
+                            class="btn-emerald text-white px-5 py-2 rounded-xl shadow-md flex items-center gap-2 transition-all">➕
                             Add New Product</button>
                         <button onclick="openCouponModal()"
-                            class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl shadow-md flex items-center gap-2 transition-all">
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl shadow-md flex items-center gap-2 transition-all">🎫
                             Create Coupon</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Products Section -->
+            <!-- Products Section with Stock Management -->
             <div id="productsSection" class="hidden space-y-4">
                 <div class="flex justify-between items-center">
                     <h2 class="text-2xl font-bold">Products Management</h2>
                     <button onclick="openProductModal()"
-                        class="btn-emerald text-white px-4 py-2 rounded-xl shadow-md flex items-center gap-2 transition-all">
+                        class="btn-emerald text-white px-4 py-2 rounded-xl shadow-md flex items-center gap-2 transition-all">+
                         Add Product</button>
                 </div>
                 <div class="glass-panel rounded-2xl overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="min-w-full">
-                            <thead>
+                            <thead class="bg-surface-container-low">
                                 <tr>
                                     <th class="p-3 text-left">ID</th>
                                     <th class="p-3 text-left">Image</th>
@@ -279,7 +282,7 @@
                 <div class="glass-panel rounded-2xl overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="min-w-full">
-                            <thead>
+                            <thead class="bg-surface-container-low">
                                 <tr>
                                     <th class="p-3 text-left">ID</th>
                                     <th class="p-3 text-left">User</th>
@@ -309,7 +312,7 @@
                 <div class="glass-panel rounded-2xl overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="min-w-full">
-                            <thead>
+                            <thead class="bg-surface-container-low">
                                 <tr>
                                     <th class="p-3 text-left">ID</th>
                                     <th class="p-3 text-left">Username</th>
@@ -328,14 +331,15 @@
             <!-- Coupons Section -->
             <div id="couponsSection" class="hidden space-y-4">
                 <div class="flex justify-between items-center">
-                    <h2 class="text-2xl font-bold">Discount Coupons</h2><button onclick="openCouponModal()"
-                        class="btn-emerald text-white px-4 py-2 rounded-xl shadow-md flex items-center gap-2 transition-all">
+                    <h2 class="text-2xl font-bold">Discount Coupons</h2>
+                    <button onclick="openCouponModal()"
+                        class="btn-emerald text-white px-4 py-2 rounded-xl shadow-md flex items-center gap-2 transition-all">+
                         Create Coupon</button>
                 </div>
                 <div class="glass-panel rounded-2xl overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="min-w-full">
-                            <thead>
+                            <thead class="bg-surface-container-low">
                                 <tr>
                                     <th class="p-3 text-left">Code</th>
                                     <th class="p-3 text-left">Discount %</th>
@@ -355,14 +359,15 @@
             <!-- Consultations Section -->
             <div id="consultationsSection" class="hidden space-y-4">
                 <div class="flex justify-between items-center">
-                    <h2 class="text-2xl font-bold">Consultation Requests</h2><button id="refreshConsultations"
-                        class="btn-emerald text-white px-4 py-2 rounded-xl shadow-md flex items-center gap-2 transition-all">
+                    <h2 class="text-2xl font-bold">Consultation Requests</h2>
+                    <button id="refreshConsultations"
+                        class="btn-emerald text-white px-4 py-2 rounded-xl shadow-md flex items-center gap-2 transition-all">🔄
                         Refresh</button>
                 </div>
                 <div class="glass-panel rounded-2xl overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="min-w-full">
-                            <thead>
+                            <thead class="bg-surface-container-low">
                                 <tr>
                                     <th class="p-3 text-left">ID</th>
                                     <th class="p-3 text-left">Name</th>
@@ -383,8 +388,8 @@
         </main>
     </div>
 
-    <!-- Modals (Product, QuickStock, Coupon) --->
-  <div id="productModal" class="fixed inset-0 bg-black/50 modal-glass hidden items-center justify-center z-50">
+    <!-- Product Modal (Add/Edit Product) -->
+    <div id="productModal" class="fixed inset-0 bg-black/50 modal-glass hidden items-center justify-center z-50">
         <div class="glass-panel p-6 rounded-2xl w-full max-w-md shadow-2xl">
             <h3 class="text-xl font-bold mb-4" id="productModalTitle">Add Product</h3>
             <form id="productForm" enctype="multipart/form-data">
@@ -455,23 +460,20 @@
         </div>
     </div>
 
-
     <script>
+        // ========== GLOBALS ==========
         let token = localStorage.getItem('access_token');
         if (!token) window.location.href = '/login';
         let currentSection = 'stats';
 
+        // ========== HELPER ==========
         async function fetchAPI(endpoint, options = {}) {
             const res = await fetch(endpoint, {
                 ...options,
                 headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', ...options.headers }
             });
             if (res.status === 401) { localStorage.removeItem('access_token'); window.location.href = '/login'; return null; }
-            if (!res.ok) {
-                let errorMsg = 'Request failed';
-                try { const err = await res.json(); errorMsg = err.error || err.message || errorMsg; } catch (e) { }
-                throw new Error(errorMsg);
-            }
+            if (!res.ok) throw new Error((await res.json()).error || 'Request failed');
             return res.json();
         }
 
@@ -491,6 +493,7 @@
             if (activeBtn) activeBtn.classList.add('active');
         }
 
+        // ========== STATS ==========
         async function loadStats() {
             try {
                 const stats = await fetchAPI('/api/admin/stats');
@@ -500,25 +503,47 @@
                     <div class="glass-panel stats-card p-5 rounded-2xl"><h3 class="text-gray-500">Products</h3><p class="text-3xl font-bold text-emerald-400">${stats.products}</p></div>
                     <div class="glass-panel stats-card p-5 rounded-2xl"><h3 class="text-gray-500">Revenue</h3><p class="text-3xl font-bold text-emerald-400">$${stats.revenue.toFixed(2)}</p></div>
                 `;
-            } catch (e) { Swal.fire('Error', e.message, 'error'); }
+            } catch (e) { console.error(e); Swal.fire('Error', 'Failed to load stats', 'error'); }
         }
 
+        // ========== PRODUCTS (with stock management) ==========
         async function loadProducts() {
             try {
                 const products = await fetchAPI('/api/admin/products');
                 const tbody = document.getElementById('productsTable');
                 tbody.innerHTML = products.map(p => {
                     let stockClass = '', stockDisplay = '';
-                    if (p.stock <= 0) { stockClass = 'stock-low'; stockDisplay = ' Out of Stock'; }
-                    else if (p.stock <= 5) { stockClass = 'stock-low'; stockDisplay = ` Only ${p.stock} left`; }
-                    else if (p.stock <= 10) { stockClass = 'stock-medium'; stockDisplay = ` ${p.stock} left`; }
-                    else { stockClass = 'stock-high'; stockDisplay = ` ${p.stock}`; }
-                    return `<tr><td class="p-3">${p.id}</td><td class="p-3"><img src="${p.image_url ? (p.image_url.startsWith('/') ? '/static' + p.image_url : '/static/' + p.image_url) : '/static/placeholder.png'}" class="w-12 h-12 object-cover rounded"></td><td class="p-3 font-medium">${escapeHtml(p.name)}</td><td class="p-3">$${p.price}</td><td class="p-3"><div class="flex items-center gap-2"><span class="${stockClass} stock-badge">${stockDisplay}</span><button onclick="openQuickStockModal(${p.id}, ${p.stock})" class="text-blue-400 hover:text-blue-300"><span class="material-symbols-outlined text-sm">edit</span></button></div></td><td class="p-3">${p.is_bouquet ? '✅' : '❌'}</td><td class="p-3">${p.is_active ? 'Active' : 'Inactive'}</td><td class="p-3"><button onclick="editProduct(${p.id})" class="text-blue-500 hover:text-blue-400 mr-2">Edit</button><button onclick="deleteProduct(${p.id})" class="text-red-500 hover:text-red-400">Delete</button></td></tr>`;
+                    if (p.stock <= 0) { stockClass = 'stock-low'; stockDisplay = '❌ Out of Stock'; }
+                    else if (p.stock <= 5) { stockClass = 'stock-low'; stockDisplay = `⚠️ Only ${p.stock} left`; }
+                    else if (p.stock <= 10) { stockClass = 'stock-medium'; stockDisplay = `📦 ${p.stock} left`; }
+                    else { stockClass = 'stock-high'; stockDisplay = `✅ ${p.stock}`; }
+                    return `
+                        <tr>
+                            <td class="p-3">${p.id}</td>
+                            <td class="p-3"><img src="${p.image_url ? (p.image_url.startsWith('/') ? '/static' + p.image_url : '/static/' + p.image_url) : '/static/placeholder.png'}" class="w-12 h-12 object-cover rounded" onerror="this.src='/static/placeholder.png'"></td>
+                            <td class="p-3 font-medium">${escapeHtml(p.name)}</td>
+                            <td class="p-3">$${p.price}</td>
+                            <td class="p-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="${stockClass} stock-badge">${stockDisplay}</span>
+                                    <button onclick="openQuickStockModal(${p.id}, ${p.stock})" class="text-blue-400 hover:text-blue-300" title="Quick edit stock">
+                                        <span class="material-symbols-outlined text-sm">edit</span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td class="p-3">${p.is_bouquet ? '✅' : '❌'}</td>
+                            <td class="p-3">${p.is_active ? 'Active' : 'Inactive'}</td>
+                            <td class="p-3">
+                                <button onclick="editProduct(${p.id})" class="text-blue-500 hover:text-blue-400 mr-2">Edit</button>
+                                <button onclick="deleteProduct(${p.id})" class="text-red-500 hover:text-red-400">Delete</button>
+                            </td>
+                        </tr>
+                    `;
                 }).join('');
             } catch (e) { Swal.fire('Error', 'Failed to load products', 'error'); }
         }
 
-        // Stock quick edit
+        // Quick Stock Modal
         let currentStockProductId = null;
         function openQuickStockModal(productId, currentStock) {
             currentStockProductId = productId;
@@ -532,13 +557,21 @@
         }
         async function saveQuickStock() {
             const newStock = parseInt(document.getElementById('quickStockValue').value);
-            if (isNaN(newStock) || newStock < 0) { Swal.fire('Invalid', 'Stock must be >= 0', 'warning'); return; }
+            if (isNaN(newStock) || newStock < 0) {
+                Swal.fire('Invalid', 'Stock must be a number >= 0', 'warning');
+                return;
+            }
             try {
-                await fetchAPI(`/api/admin/products/${currentStockProductId}/stock`, { method: 'PUT', body: JSON.stringify({ stock: newStock }) });
+                await fetchAPI(`/api/admin/products/${currentStockProductId}/stock`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ stock: newStock })
+                });
                 Swal.fire('Updated', 'Stock updated successfully', 'success');
                 closeQuickStockModal();
                 loadProducts();
-            } catch (e) { Swal.fire('Error', e.message, 'error'); }
+            } catch (e) {
+                Swal.fire('Error', e.message || 'Failed to update stock', 'error');
+            }
         }
 
         // Product CRUD
@@ -548,13 +581,11 @@
             if (prod) openProductModal(prod);
         }
         async function deleteProduct(id) {
-            const confirm = await Swal.fire({ title: 'Delete product?', text: 'This cannot be undone', icon: 'warning', showCancelButton: true, confirmButtonColor: '#2ecc71', cancelButtonColor: '#ef4444' });
+            const confirm = await Swal.fire({ title: 'Delete product?', text: 'This action cannot be undone.', icon: 'warning', showCancelButton: true, confirmButtonColor: '#2ecc71', cancelButtonColor: '#ef4444' });
             if (confirm.isConfirmed) {
-                try {
-                    await fetchAPI(`/api/admin/products/${id}`, { method: 'DELETE' });
-                    Swal.fire('Deleted', '', 'success');
-                    loadProducts();
-                } catch (e) { Swal.fire('Error', e.message, 'error'); }
+                await fetchAPI(`/api/admin/products/${id}`, { method: 'DELETE' });
+                Swal.fire('Deleted', '', 'success');
+                loadProducts();
             }
         }
         function openProductModal(product = null) {
@@ -593,107 +624,110 @@
             formData.append('is_bouquet', document.getElementById('prodIsBouquet').checked ? 1 : 0);
             const imageFile = document.getElementById('prodImage').files[0];
             if (imageFile) formData.append('image', imageFile);
-            try {
-                if (id) {
-                    const data = { name: document.getElementById('prodName').value, price: parseFloat(document.getElementById('prodPrice').value), stock: parseInt(document.getElementById('prodStock').value), type: document.getElementById('prodType').value, category: document.getElementById('prodCategory').value, occasion: document.getElementById('prodOccasion').value, is_bouquet: document.getElementById('prodIsBouquet').checked ? 1 : 0, is_active: 1 };
-                    await fetchAPI(`/api/admin/products/${id}`, { method: 'PUT', body: JSON.stringify(data) });
-                    Swal.fire('Updated', '', 'success');
-                } else {
-                    await fetch('/api/admin/products', { method: 'POST', headers: { 'Authorization': `Bearer ${token}` }, body: formData });
-                    Swal.fire('Added', '', 'success');
-                }
-                closeProductModal();
-                loadProducts();
-            } catch (e) { Swal.fire('Error', e.message, 'error'); }
+            if (id) {
+                const data = { name: document.getElementById('prodName').value, price: parseFloat(document.getElementById('prodPrice').value), stock: parseInt(document.getElementById('prodStock').value), type: document.getElementById('prodType').value, category: document.getElementById('prodCategory').value, occasion: document.getElementById('prodOccasion').value, is_bouquet: document.getElementById('prodIsBouquet').checked ? 1 : 0, is_active: 1 };
+                await fetchAPI(`/api/admin/products/${id}`, { method: 'PUT', body: JSON.stringify(data) });
+                Swal.fire('Updated', '', 'success');
+            } else {
+                await fetch('/api/admin/products', { method: 'POST', headers: { 'Authorization': `Bearer ${token}` }, body: formData });
+                Swal.fire('Added', '', 'success');
+            }
+            closeProductModal();
+            loadProducts();
         });
 
-        // Orders
+        // ========== ORDERS ==========
         async function loadOrders() {
             try {
                 const orders = await fetchAPI('/api/admin/orders');
-                document.getElementById('ordersTable').innerHTML = orders.map(o => `<tr><td class="p-3">${o.id}</td><td class="p-3">${escapeHtml(o.username)}<br><span class="text-xs opacity-70">${o.email}</span></td><td class="p-3">${new Date(o.date).toLocaleDateString()}</td><td class="p-3">$${o.total.toFixed(2)}</td><td class="p-3"><span class="px-2 py-1 rounded-full text-xs font-semibold ${getStatusColor(o.status)}">${o.status}</span></td><td class="p-3"><select onchange="updateOrderStatus(${o.id}, this.value)" class="border rounded p-1 text-sm"><option ${o.status === 'pending' ? 'selected' : ''}>pending</option><option ${o.status === 'paid' ? 'selected' : ''}>paid</option><option ${o.status === 'shipped' ? 'selected' : ''}>shipped</option><option ${o.status === 'delivered' ? 'selected' : ''}>delivered</option><option ${o.status === 'cancelled' ? 'selected' : ''}>cancelled</option></select></td></tr>`).join('');
-            } catch (e) { console.error(e); }
+                document.getElementById('ordersTable').innerHTML = orders.map(o => `
+                    <tr><td class="p-3">${o.id}</td><td class="p-3">${escapeHtml(o.username)}<br><span class="text-xs opacity-70">${o.email}</span></td><td class="p-3">${new Date(o.date).toLocaleDateString()}</td><td class="p-3">$${o.total.toFixed(2)}</td><td class="p-3"><span class="px-2 py-1 rounded-full text-xs font-semibold ${getStatusColor(o.status)}">${o.status}</span></td><td class="p-3"><select onchange="updateOrderStatus(${o.id}, this.value)" class="border rounded p-1 text-sm"><option ${o.status === 'pending' ? 'selected' : ''}>pending</option><option ${o.status === 'paid' ? 'selected' : ''}>paid</option><option ${o.status === 'shipped' ? 'selected' : ''}>shipped</option><option ${o.status === 'delivered' ? 'selected' : ''}>delivered</option><option ${o.status === 'cancelled' ? 'selected' : ''}>cancelled</option></select></td></tr>
+                `).join('');
+            } catch (e) { }
         }
-        function getStatusColor(status) { const map = { 'pending': 'bg-yellow-100 text-yellow-800', 'paid': 'bg-blue-100 text-blue-800', 'shipped': 'bg-purple-100 text-purple-800', 'delivered': 'bg-green-100 text-green-800', 'cancelled': 'bg-red-100 text-red-800' }; return map[status] || 'bg-gray-100'; }
+        function getStatusColor(status) {
+            const map = { 'pending': 'bg-yellow-100 text-yellow-800', 'paid': 'bg-blue-100 text-blue-800', 'shipped': 'bg-purple-100 text-purple-800', 'delivered': 'bg-green-100 text-green-800', 'cancelled': 'bg-red-100 text-red-800' };
+            return map[status] || 'bg-gray-100';
+        }
         async function updateOrderStatus(orderId, newStatus) {
-            try { await fetchAPI(`/api/admin/orders/${orderId}/status`, { method: 'PUT', body: JSON.stringify({ status: newStatus }) }); Swal.fire('Updated', '', 'success'); loadOrders(); } catch (e) { Swal.fire('Error', e.message, 'error'); }
+            await fetchAPI(`/api/admin/orders/${orderId}/status`, { method: 'PUT', body: JSON.stringify({ status: newStatus }) });
+            Swal.fire('Updated', '', 'success');
+            loadOrders();
         }
 
-        // Best Sellers
+        // ========== BEST SELLERS ==========
         async function loadBestSellers() {
             try {
                 const sellers = await fetchAPI('/api/admin/best-sellers');
                 const list = document.getElementById('bestSellersList');
                 list.innerHTML = sellers.length ? sellers.map(s => `<li class="flex justify-between items-center border-b pb-2"><span>🌼 ${escapeHtml(s.name)}</span><span class="font-bold">Sold: ${s.total_sold} | Revenue: $${s.revenue.toFixed(2)}</span></li>`).join('') : '<li class="text-gray-500">No sales yet.</li>';
-            } catch (e) { console.error(e); }
+            } catch (e) { }
         }
 
-        // Users
+        // ========== USERS & POINTS ==========
         async function loadUsers() {
             try {
                 const users = await fetchAPI('/api/admin/users');
-                document.getElementById('usersTable').innerHTML = users.map(u => `<tr><td class="p-3">${u.id}</td><td class="p-3">${escapeHtml(u.username)}</td><td class="p-3">${escapeHtml(u.email)}</td><td class="p-3"><span id="points-${u.id}">${u.points}</span></td><td class="p-3">${u.role}</td><td class="p-3"><input type="number" id="pointsInput-${u.id}" value="${u.points}" class="w-24 p-1 border rounded"><button onclick="updatePoints(${u.id})" class="ml-2 bg-emerald-600 text-white px-2 py-1 rounded text-sm">Save</button></td></tr>`).join('');
-            } catch (e) { console.error(e); }
+                document.getElementById('usersTable').innerHTML = users.map(u => `
+                    <tr><td class="p-3">${u.id}</td><td class="p-3">${escapeHtml(u.username)}</td><td class="p-3">${escapeHtml(u.email)}</td><td class="p-3"><span id="points-${u.id}">${u.points}</span></td><td class="p-3">${u.role}</td><td class="p-3"><input type="number" id="pointsInput-${u.id}" value="${u.points}" class="w-24 p-1 border rounded"><button onclick="updatePoints(${u.id})" class="ml-2 bg-emerald-600 text-white px-2 py-1 rounded text-sm">Save</button></td></tr>
+                `).join('');
+            } catch (e) { }
         }
         async function updatePoints(userId) {
             const newPoints = parseInt(document.getElementById(`pointsInput-${userId}`).value);
-            try { await fetchAPI(`/api/admin/users/${userId}/points`, { method: 'PUT', body: JSON.stringify({ points: newPoints }) }); document.getElementById(`points-${userId}`).innerText = newPoints; Swal.fire('Points updated', '', 'success'); } catch (e) { Swal.fire('Error', e.message, 'error'); }
+            await fetchAPI(`/api/admin/users/${userId}/points`, { method: 'PUT', body: JSON.stringify({ points: newPoints }) });
+            document.getElementById(`points-${userId}`).innerText = newPoints;
+            Swal.fire('Points updated', '', 'success');
         }
 
-        // Coupons
+        // ========== COUPONS ==========
         async function loadCoupons() {
             try {
                 const coupons = await fetchAPI('/api/admin/coupons');
-                document.getElementById('couponsTable').innerHTML = coupons.map(c => `<tr><td class="p-3 font-mono">${escapeHtml(c.code)}</td><td class="p-3">${c.discount_percent}%</td><td class="p-3">${new Date(c.valid_from).toLocaleDateString()}</td><td class="p-3">${new Date(c.valid_to).toLocaleDateString()}</td><td class="p-3">${c.used_count}/${c.usage_limit || '∞'}</td><td class="p-3">${c.is_active ? '✅' : '❌'}</td><td class="p-3"><button onclick="deleteCoupon(${c.id})" class="text-red-500 hover:text-red-400">Delete</button></td></tr>`).join('');
-            } catch (e) { console.error(e); }
+                document.getElementById('couponsTable').innerHTML = coupons.map(c => `
+                    <tr><td class="p-3 font-mono">${escapeHtml(c.code)}</td><td class="p-3">${c.discount_percent}%</td><td class="p-3">${new Date(c.valid_from).toLocaleDateString()}</td><td class="p-3">${new Date(c.valid_to).toLocaleDateString()}</td><td class="p-3">${c.used_count}/${c.usage_limit || '∞'}</td><td class="p-3">${c.is_active ? '✅' : '❌'}</td><td class="p-3"><button onclick="deleteCoupon(${c.id})" class="text-red-500 hover:text-red-400">Delete</button></td></tr>
+                `).join('');
+            } catch (e) { }
         }
         function openCouponModal() { document.getElementById('couponModal').classList.remove('hidden'); document.getElementById('couponModal').classList.add('flex'); }
         function closeCouponModal() { document.getElementById('couponModal').classList.add('hidden'); document.getElementById('couponModal').classList.remove('flex'); }
         async function deleteCoupon(id) {
             const confirm = await Swal.fire({ title: 'Delete coupon?', icon: 'warning', showCancelButton: true, confirmButtonColor: '#2ecc71', cancelButtonColor: '#ef4444' });
-            if (confirm.isConfirmed) {
-                try { await fetchAPI(`/api/admin/coupons/${id}`, { method: 'DELETE' }); Swal.fire('Deleted', '', 'success'); loadCoupons(); } catch (e) { Swal.fire('Error', e.message, 'error'); }
-            }
+            if (confirm.isConfirmed) { await fetchAPI(`/api/admin/coupons/${id}`, { method: 'DELETE' }); Swal.fire('Deleted', '', 'success'); loadCoupons(); }
         }
         document.getElementById('couponForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const data = { code: document.getElementById('couponCode').value, discount_percent: parseInt(document.getElementById('couponPercent').value), valid_from: document.getElementById('couponFrom').value, valid_to: document.getElementById('couponTo').value, usage_limit: parseInt(document.getElementById('couponLimit').value) || null, is_active: 1 };
-            try { await fetchAPI('/api/admin/coupons', { method: 'POST', body: JSON.stringify(data) }); Swal.fire('Coupon created', '', 'success'); closeCouponModal(); loadCoupons(); } catch (e) { Swal.fire('Error', e.message, 'error'); }
+            await fetchAPI('/api/admin/coupons', { method: 'POST', body: JSON.stringify(data) });
+            Swal.fire('Coupon created', '', 'success');
+            closeCouponModal();
+            loadCoupons();
         });
 
-      
+        // ========== CONSULTATIONS ==========
         async function loadConsultations() {
             try {
                 const consultations = await fetchAPI('/api/admin/consultations');
                 const tbody = document.getElementById('consultationsTable');
                 if (!consultations.length) { tbody.innerHTML = '<tr><td colspan="9" class="p-4 text-center text-gray-500">No consultation requests yet.</td></tr>'; return; }
-                tbody.innerHTML = consultations.map(c => `<tr><td class="p-3">${c.id}</td><td class="p-3 font-medium">${escapeHtml(c.full_name)}</td><td class="p-3">${escapeHtml(c.email)}</td><td class="p-3">${escapeHtml(c.phone || '-')}</td><td class="p-3">${escapeHtml(c.occasion_type || '-')}</td><td class="p-3">${c.preferred_date ? new Date(c.preferred_date).toLocaleDateString() : '-'}</td><td class="p-3 max-w-xs truncate" title="${escapeHtml(c.message || '')}">${escapeHtml((c.message || '').substring(0, 60))}${c.message && c.message.length > 60 ? '…' : ''}</td><td class="p-3">${new Date(c.created_at).toLocaleString()}</td><td class="p-3"><button onclick="deleteConsultation(${c.id})" class="text-red-500 hover:text-red-400">Delete</button></td></tr>`).join('');
+                tbody.innerHTML = consultations.map(c => `
+                    <tr><td class="p-3">${c.id}</td><td class="p-3 font-medium">${escapeHtml(c.full_name)}</td><td class="p-3">${escapeHtml(c.email)}</td><td class="p-3">${escapeHtml(c.phone || '-')}</td><td class="p-3">${escapeHtml(c.occasion_type || '-')}</td><td class="p-3">${c.preferred_date ? new Date(c.preferred_date).toLocaleDateString() : '-'}</td><td class="p-3 max-w-xs truncate" title="${escapeHtml(c.message || '')}">${escapeHtml((c.message || '').substring(0, 60))}${c.message && c.message.length > 60 ? '…' : ''}</td><td class="p-3">${new Date(c.created_at).toLocaleString()}</td><td class="p-3"><button onclick="deleteConsultation(${c.id})" class="text-red-500 hover:text-red-400">Delete</button></td></tr>
+                `).join('');
             } catch (e) { Swal.fire('Error', 'Failed to load consultations', 'error'); }
         }
         async function deleteConsultation(id) {
             const confirm = await Swal.fire({ title: 'Delete consultation request?', text: 'This action cannot be undone.', icon: 'warning', showCancelButton: true, confirmButtonColor: '#2ecc71', cancelButtonColor: '#ef4444' });
-            if (confirm.isConfirmed) {
-                try {
-                   
-                    const response = await fetch(`/api/admin/consultations/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
-                    if (!response.ok) {
-                        const errorData = await response.json().catch(() => ({}));
-                        throw new Error(errorData.error || `HTTP ${response.status}`);
-                    }
-                    Swal.fire('Deleted', '', 'success');
-                    loadConsultations(); 
-                } catch (e) {
-                    Swal.fire('Error', e.message, 'error');
-                }
-            }
+            if (confirm.isConfirmed) { await fetchAPI(`/api/admin/consultations/${id}`, { method: 'DELETE' }); Swal.fire('Deleted', '', 'success'); loadConsultations(); }
         }
         document.getElementById('refreshConsultations')?.addEventListener('click', () => { if (currentSection === 'consultations') loadConsultations(); });
 
-        // Logout
+        // ========== LOGOUT ==========
         document.getElementById('logoutBtn').addEventListener('click', () => { localStorage.removeItem('access_token'); window.location.href = '/login'; });
 
+        // ========== UTILS ==========
         function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])); }
 
+        // ========== THEME & INIT ==========
         const theme = localStorage.getItem('bloomTheme') || 'dark';
         document.documentElement.classList.add(theme);
         showSection('stats');
@@ -701,3 +735,4 @@
 </body>
 
 </html>
+

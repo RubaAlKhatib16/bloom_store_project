@@ -3,7 +3,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from db import get_db_connection
 import os
 import uuid
-
+from datetime import datetime
 user_bp = Blueprint('user', __name__, url_prefix='/api/user')
 
 UPLOAD_FOLDER = os.path.join('static', 'uploads')
@@ -202,6 +202,8 @@ def get_reminders():
 
     return jsonify(reminders), 200
 
+from datetime import datetime, timedelta
+
 @user_bp.route('/reminders', methods=['POST'])
 @jwt_required()
 def add_reminder():
@@ -210,32 +212,36 @@ def add_reminder():
 
     title = data.get('title')
     occasion_type = data.get('occasion_type')
-    reminder_date = data.get('reminder_date')
-    notify_before_days = data.get('notify_before_days', 3)
+    reminder_date_str = data.get('reminder_date')
+    notify_before_days = int(data.get('notify_before_days', 3))
+
+    if not all([title, occasion_type, reminder_date_str]):
+        return jsonify({'error': 'Missing required fields'}), 400
+
+    reminder_date = datetime.fromisoformat(reminder_date_str)
+    notify_before = int(notify_before_days)
+    notification_date = reminder_date - timedelta(days=notify_before)
 
     conn = get_db_connection()
     cursor = conn.cursor()
-
     cursor.execute("""
         INSERT INTO UserReminders
-        (UserID, Title, OccasionType, ReminderDate, NotifyBeforeDays)
-        VALUES (?, ?, ?, ?, ?)
-    """, (
-        user_id,
-        title,
-        occasion_type,
-        reminder_date,
-        notify_before_days
-         ))
-
+        (UserID, Title, OccasionType, ReminderDate, NotifyBeforeDays, NotificationDate)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """, (user_id, title, occasion_type, reminder_date, notify_before, notification_date))
     conn.commit()
+    reminder_id = cursor.lastrowid
+
+    # ✅ إذا كان الإشعار يجب أن يُرسل فوراً (NotificationDate <= الآن)
+    if notification_date <= datetime.now():
+        from app import send_immediate_notification  # سننشئ هذه الدالة
+        send_immediate_notification(reminder_id, user_id, title, occasion_type, reminder_date)
 
     cursor.close()
     conn.close()
 
-    return jsonify({
-        'message': 'Reminder added successfully'
-    }), 201
+    return jsonify({'message': 'Reminder added successfully', 'id': reminder_id}), 201
+
 @user_bp.route('/reminders/<int:reminder_id>', methods=['DELETE'])
 @jwt_required()
 def delete_reminder(reminder_id):
@@ -263,40 +269,44 @@ def delete_reminder(reminder_id):
 @jwt_required()
 def get_notifications():
     user_id = get_jwt_identity()
-
-    today = datetime.today().date()
-
     conn = get_db_connection()
     cursor = conn.cursor()
-
     cursor.execute("""
-        SELECT Title,
-               OccasionType,
-               ReminderDate,
-               NotifyBeforeDays
-        FROM UserReminders
+        SELECT NotificationID, Title, Message, CreatedAt, IsRead
+        FROM Notifications
         WHERE UserID = ?
+        ORDER BY CreatedAt DESC
     """, (user_id,))
-
     rows = cursor.fetchall()
     notifications = []
-
+    unread_count = 0
     for row in rows:
-        reminder_date = row.ReminderDate
-        notify_date = reminder_date - timedelta(days=row.NotifyBeforeDays)
-
-        if notify_date == today:
-            notifications.append({
-                'title': row.Title,
-                'occasion': row.OccasionType,
-                'date': reminder_date.isoformat(),
-                'message': f"🌸 Reminder: {row.Title} is coming soon!"
-            })
-
+        notifications.append({
+            'id': row.NotificationID,
+            'title': row.Title,
+            'message': row.Message,
+            'created_at': row.CreatedAt.isoformat(),
+            'is_read': row.IsRead
+        })
+        if not row.IsRead:
+            unread_count += 1
     cursor.close()
     conn.close()
+    return jsonify({'notifications': notifications, 'unread_count': unread_count})
 
-    return jsonify(notifications), 200
+
+@user_bp.route('/notifications/mark-read', methods=['POST'])
+@jwt_required()
+def mark_notifications_read():
+    user_id = get_jwt_identity()
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE Notifications SET IsRead = 1 WHERE UserID = ?", (user_id,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return jsonify({'message': 'All notifications marked as read'})
+
 
 @user_bp.route('/update', methods=['PUT'])
 @jwt_required()
