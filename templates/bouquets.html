@@ -145,8 +145,8 @@
                     Range</h3>
                 <div class="space-y-3"><input id="priceSlider" type="range" min="0" max="1000" step="1" value="1000"
                         class="w-full h-1 bg-zinc-800 rounded-lg">
-                    <div class="flex justify-between text-xs text-zinc-500"><span>$0</span><span id="priceCurrentLabel"
-                            class="text-emerald-500">Max: $1000</span><span>$1000+</span></div>
+                    <div class="flex justify-between text-xs text-zinc-500"><span>JD0</span><span id="priceCurrentLabel"
+                            class="text-emerald-500">Max: JD1000</span><span>JD1000+</span></div>
                 </div>
                 <h3 class="text-zinc-300 font-label-caps text-label-caps mt-6 mb-3 uppercase" id="sortTitle">Sort By
                 </h3>
@@ -190,7 +190,7 @@
                 </div>
                 <div>
                     <p class="text-zinc-500 text-xs font-label-caps uppercase mb-2" id="mobileMaxPriceLabel">Max Price:
-                        <span id="mobilePriceLabel" class="text-emerald-500">$1000</span></p><input
+                        <span id="mobilePriceLabel" class="text-emerald-500">JD1000</span></p><input
                         id="mobilePriceSlider" type="range" min="0" max="1000" step="1" value="1000"
                         class="w-full h-1 bg-zinc-800 rounded-lg">
                 </div>
@@ -262,7 +262,7 @@
                 boutiqueTitle: 'Handcrafted Bouquets', productCount: 'Showing {count} artisanal bouquets',
                 mobileFilterTypeLabel: 'Filter by Type', mobileMaxPriceLabel: 'Max Price:', addToCart: 'ADD TO CART', quickView: 'Quick View', bestSeller: 'Best Seller',
                 loading: 'Loading beautiful bouquets...', errorMsg: 'Failed to load bouquets.', noProducts: 'No bouquets match the current filters.',
-                filterBtn: 'Filter', priceMaxLabel: 'Max: $', priceSuffix: '+'
+                filterBtn: 'Filter', priceMaxLabel: 'Max: JD', priceSuffix: '+'
             },
             ar: {
                 brandName: 'شغف', navHome: 'الرئيسية', navShop: 'تسوق', navBouquets: 'باقات', navCategory: 'الفئات', navOccasions: 'المناسبات', navContact: 'اتصل بنا',
@@ -271,7 +271,7 @@
                 boutiqueTitle: 'باقات مصنوعة يدوياً', productCount: 'عرض {count} باقة',
                 mobileFilterTypeLabel: 'تصفية حسب النوع', mobileMaxPriceLabel: 'الحد الأقصى للسعر:', addToCart: 'أضف للسلة', quickView: 'معاينة', bestSeller: 'الأكثر مبيعاً',
                 loading: 'جاري تحميل الباقات...', errorMsg: 'فشل تحميل الباقات.', noProducts: 'لا توجد باقات تطابق الفلتر الحالي.',
-                filterBtn: 'تصفية', priceMaxLabel: 'الحد الأقصى: $', priceSuffix: '+'
+                filterBtn: 'تصفية', priceMaxLabel: 'الحد الأقصى: JD', priceSuffix: '+'
             }
         };
 
@@ -305,7 +305,7 @@
 
             const mobilePrice = document.getElementById('mobilePriceLabel');
             if (mobilePrice) {
-                mobilePrice.innerText = `$${maxPrice}`;
+                mobilePrice.innerText = `JD ${maxPrice}`;
             }
 
             updateProductCount();
@@ -388,7 +388,7 @@
                     <div class="p-5">
                         <div class="flex justify-between items-start mb-1">
                             <h4 class="font-headline-sm text-headline-sm text-white">${escapeHtml(product.name)}</h4>
-                            <span class="text-emerald-400 font-bold ml-2">$${parseFloat(product.price).toFixed(2)}</span>
+                            <span class="text-emerald-400 font-bold ml-2">JD ${parseFloat(product.price).toFixed(2)}</span>
                         </div>
                         <p class="text-zinc-500 text-xs mb-3 line-clamp-2">${escapeHtml(product.description)}</p>
                         <div class="flex flex-wrap gap-2">
@@ -452,7 +452,7 @@
         }
         function closeQuickView() { modal.classList.add('hidden'); modal.classList.remove('flex'); document.body.style.overflow = ''; }
         function renderQuickView(product) {
-            modalContent.innerHTML = `<div class="flex flex-col md:flex-row gap-6"><div class="md:w-1/2"><img src="${fixImageUrl(product.image_url)}" class="w-full h-auto rounded-xl object-cover"></div><div class="md:w-1/2"><span class="text-sm text-primary uppercase tracking-wider">${escapeHtml(product.category || 'Bouquet')}</span><h2 class="font-headline-md text-headline-md mt-2">${escapeHtml(product.name)}</h2><div class="flex items-center gap-3 mb-4"><span class="text-3xl font-bold text-primary">$${product.price.toFixed(2)}</span><span class="text-green-500 text-sm">✓ In Stock</span></div><p class="text-on-surface-variant mb-6">${escapeHtml(product.description || 'No description available.')}</p><div class="flex items-center gap-4 mb-6"><div class="flex items-center border rounded-full"><button class="w-10 h-10 hover:text-primary" id="quickQtyDec">-</button><span id="quickQtyValue" class="w-12 text-center font-bold">1</span><button class="w-10 h-10 hover:text-primary" id="quickQtyInc">+</button></div><button id="quickAddToCart" data-id="${product.id}" class="flex-1 bg-primary text-white py-3 rounded-full font-bold">${dict[currentLang].addToCart}</button></div><a href="/product/${product.id}" class="text-primary hover:underline text-sm">View Full Details →</a></div></div>`;
+            modalContent.innerHTML = `<div class="flex flex-col md:flex-row gap-6"><div class="md:w-1/2"><img src="${fixImageUrl(product.image_url)}" class="w-full h-auto rounded-xl object-cover"></div><div class="md:w-1/2"><span class="text-sm text-primary uppercase tracking-wider">${escapeHtml(product.category || 'Bouquet')}</span><h2 class="font-headline-md text-headline-md mt-2">${escapeHtml(product.name)}</h2><div class="flex items-center gap-3 mb-4"><span class="text-3xl font-bold text-primary">JD${product.price.toFixed(2)}</span><span class="text-green-500 text-sm">✓ In Stock</span></div><p class="text-on-surface-variant mb-6">${escapeHtml(product.description || 'No description available.')}</p><div class="flex items-center gap-4 mb-6"><div class="flex items-center border rounded-full"><button class="w-10 h-10 hover:text-primary" id="quickQtyDec">-</button><span id="quickQtyValue" class="w-12 text-center font-bold">1</span><button class="w-10 h-10 hover:text-primary" id="quickQtyInc">+</button></div><button id="quickAddToCart" data-id="${product.id}" class="flex-1 bg-primary text-white py-3 rounded-full font-bold">${dict[currentLang].addToCart}</button></div><a href="/product/${product.id}" class="text-primary hover:underline text-sm">View Full Details →</a></div></div>`;
             let qty = 1; const qtySpan = document.getElementById('quickQtyValue');
             document.getElementById('quickQtyDec').onclick = () => { if (qty > 1) { qty--; qtySpan.innerText = qty; } };
             document.getElementById('quickQtyInc').onclick = () => { qty++; qtySpan.innerText = qty; };
@@ -465,8 +465,8 @@
         // ========== مستمعات الأحداث ==========
         document.getElementById('themeToggle').addEventListener('click', () => { currentTheme = currentTheme === 'light' ? 'dark' : 'light'; setTheme(currentTheme); loadBouquets(); });
         document.getElementById('langToggle').addEventListener('click', () => { currentLang = currentLang === 'en' ? 'ar' : 'en'; localStorage.setItem('bloomLang', currentLang); applyLanguage(currentLang); loadBouquets(); });
-        document.getElementById('priceSlider').addEventListener('input', e => { maxPrice = parseInt(e.target.value); document.getElementById('priceCurrentLabel').innerHTML = `${dict[currentLang].priceMaxLabel}${maxPrice}${dict[currentLang].priceSuffix}`; document.getElementById('mobilePriceLabel').innerText = `$${maxPrice}`; currentPage = 1; renderProducts(); });
-        document.getElementById('mobilePriceSlider')?.addEventListener('input', e => { maxPrice = parseInt(e.target.value); document.getElementById('priceSlider').value = maxPrice; document.getElementById('priceCurrentLabel').innerHTML = `${dict[currentLang].priceMaxLabel}${maxPrice}${dict[currentLang].priceSuffix}`; document.getElementById('mobilePriceLabel').innerText = `$${maxPrice}`; currentPage = 1; renderProducts(); });
+        document.getElementById('priceSlider').addEventListener('input', e => { maxPrice = parseInt(e.target.value); document.getElementById('priceCurrentLabel').innerHTML = `${dict[currentLang].priceMaxLabel}${maxPrice}${dict[currentLang].priceSuffix}`; document.getElementById('mobilePriceLabel').innerText = `JD ${maxPrice}`; currentPage = 1; renderProducts(); });
+        document.getElementById('mobilePriceSlider')?.addEventListener('input', e => { maxPrice = parseInt(e.target.value); document.getElementById('priceSlider').value = maxPrice; document.getElementById('priceCurrentLabel').innerHTML = `${dict[currentLang].priceMaxLabel}${maxPrice}${dict[currentLang].priceSuffix}`; document.getElementById('mobilePriceLabel').innerText = `JD ${maxPrice}`; currentPage = 1; renderProducts(); });
         document.querySelectorAll('input[name="sort"]').forEach(radio => radio.addEventListener('change', e => { sortMode = e.target.value; currentPage = 1; renderProducts(); }));
         document.getElementById('mobileFilterBtn')?.addEventListener('click', () => document.getElementById('mobileFilters').classList.toggle('hidden'));
 

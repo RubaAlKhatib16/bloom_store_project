@@ -263,8 +263,8 @@
         <h3 class="text-zinc-300 font-label-caps text-label-caps mb-4 uppercase" id="priceRangeTitle">Price Range</h3>
         <div class="space-y-3"><input id="priceSlider" type="range" min="0" max="1000" step="1" value="1000"
             class="w-full h-1 bg-zinc-800 rounded-lg">
-          <div class="flex justify-between text-xs text-zinc-500"><span>$0</span><span id="priceCurrentLabel"
-              class="text-emerald-500">Max: $1000</span><span>$1000+</span></div>
+          <div class="flex justify-between text-xs text-zinc-500"><span>JD 0</span><span id="priceCurrentLabel"
+              class="text-emerald-500">Max: JD 1000</span><span>JD 1000+</span></div>
         </div>
         <h3 class="text-zinc-300 font-label-caps text-label-caps mt-6 mb-3 uppercase" id="sortTitle">Sort By</h3>
         <div class="space-y-1">
@@ -324,7 +324,7 @@
         </div>
         <div>
           <p class="text-zinc-500 text-xs font-label-caps uppercase mb-2" id="mobileMaxPriceLabel">Max Price: <span
-              id="mobilePriceLabel" class="text-emerald-500">$1000</span></p>
+              id="mobilePriceLabel" class="text-emerald-500">JD 1000</span></p>
           <input id="mobilePriceSlider" type="range" min="0" max="1000" step="1" value="1000"
             class="w-full h-1 bg-zinc-800 rounded-lg">
         </div>
@@ -451,7 +451,7 @@
         boutiqueTitle: 'The Boutique', productCount: 'Showing {count} Hand-Selected Specimens',
         mobileFilterTypeLabel: 'Filter by Type', mobileMaxPriceLabel: 'Max Price:', addToCart: 'ADD TO CART', quickView: 'Quick View', bestSeller: 'Best Seller',
         loading: 'Loading botanical masterpieces...', errorMsg: 'Failed to load products.', noProducts: 'No products match the current filters.',
-        filterBtn: 'Filter', priceMaxLabel: 'Max: $', priceSuffix: '+',
+        filterBtn: 'Filter', priceMaxLabel: 'Max: JD', priceSuffix: '+',
         catAll: 'All Flora',
         loginRequired: 'Login Required',
         loginMessage: 'Please login to add items to your cart',
@@ -475,7 +475,7 @@
         boutiqueTitle: 'المتجر', productCount: 'عرض {count} منتج',
         mobileFilterTypeLabel: 'تصفية حسب النوع', mobileMaxPriceLabel: 'الحد الأقصى للسعر:', addToCart: 'أضف للسلة', quickView: 'معاينة سريعة', bestSeller: 'الأكثر مبيعاً',
         loading: 'جاري تحميل المنتجات...', errorMsg: 'فشل تحميل المنتجات.', noProducts: 'لا توجد منتجات تطابق الفلتر الحالي.',
-        filterBtn: 'تصفية', priceMaxLabel: 'الحد الأقصى: $', priceSuffix: '+',
+        filterBtn: 'تصفية', priceMaxLabel: 'الحد الأقصى:JD', priceSuffix: '+',
         catAll: 'كل المنتجات',
         loginRequired: 'مطلوب تسجيل الدخول',
         loginMessage: 'يرجى تسجيل الدخول لإضافة المنتجات إلى السلة',
@@ -520,8 +520,8 @@
       document.getElementById('boutiqueTitle').innerText = t.boutiqueTitle;
       document.getElementById('mobileFilterBtn').innerText = t.filterBtn;
       document.getElementById('mobileFilterTypeLabel').innerText = t.mobileFilterTypeLabel;
-      document.getElementById('mobileMaxPriceLabel').innerHTML = `${t.mobileMaxPriceLabel} <span id="mobilePriceLabel" class="text-emerald-500">$${maxPrice}</span>`;
-      document.getElementById('priceCurrentLabel').innerHTML = `${t.priceMaxLabel}${maxPrice}${t.priceSuffix}`;
+      document.getElementById('mobileMaxPriceLabel').innerHTML = `${t.mobileMaxPriceLabel} <span id="mobilePriceLabel" class="text-emerald-500">JD ${maxPrice}</span>`;
+      document.getElementById('priceCurrentLabel').innerHTML = `${t.priceMaxLabel}JD ${maxPrice}${t.priceSuffix}`;
       document.getElementById('footerPrivacy').innerText = t.footerPrivacy;
       document.getElementById('footerTerms').innerText = t.footerTerms;
       document.getElementById('footerShipping').innerText = t.footerShipping;
@@ -594,7 +594,7 @@
                     <div class="p-5">
                         <div class="flex justify-between items-start mb-1">
                             <h4 class="font-headline-sm text-headline-sm text-white">${escapeHtml(product.name)}</h4>
-                            <span class="text-emerald-400 font-bold ml-2">$${parseFloat(product.price).toFixed(2)}</span>
+                            <span class="text-emerald-400 font-bold ml-2">JD ${parseFloat(product.price).toFixed(2)}</span>
                         </div>
                         <p class="text-zinc-500 text-xs mb-3 line-clamp-2">${escapeHtml(product.description)}</p>
                         <div class="flex flex-wrap gap-2 justify-between items-center">
@@ -670,7 +670,7 @@
       const maxStock = product.stock || 0;
       const isOutOfStock = maxStock <= 0;
 
-      modalContent.innerHTML = `<div class="flex flex-col md:flex-row gap-6"><div class="md:w-1/2"><img src="${fixImageUrl(product.image_url)}" class="w-full h-auto rounded-xl object-cover"></div><div class="md:w-1/2"><span class="text-sm text-primary uppercase tracking-wider">${escapeHtml(product.category || 'Botanical')}</span><h2 class="font-headline-md text-headline-md mt-2">${escapeHtml(product.name)}</h2><div class="flex items-center gap-3 mb-4"><span class="text-3xl font-bold text-primary">$${product.price.toFixed(2)}</span>${getStockDisplay(maxStock).html}</div><p class="text-on-surface-variant mb-6">${escapeHtml(product.description || 'No description available.')}</p>${!isOutOfStock ? `<div class="flex items-center gap-4 mb-6"><div class="flex items-center border rounded-full"><button class="w-10 h-10 hover:text-primary" id="quickQtyDec">-</button><span id="quickQtyValue" class="w-12 text-center font-bold">1</span><button class="w-10 h-10 hover:text-primary" id="quickQtyInc">+</button></div><button id="quickAddToCart" data-id="${pid}" class="flex-1 bg-primary text-white py-3 rounded-full font-bold">${t.addToCart}</button></div>` : `<button class="w-full bg-red-500/50 text-white py-3 rounded-full font-bold cursor-not-allowed" disabled>❌ Sold Out</button>`}<a href="/product/${pid}" class="text-primary hover:underline text-sm">${t.viewFullDetails}</a></div></div></div>`;
+      modalContent.innerHTML = `<div class="flex flex-col md:flex-row gap-6"><div class="md:w-1/2"><img src="${fixImageUrl(product.image_url)}" class="w-full h-auto rounded-xl object-cover"></div><div class="md:w-1/2"><span class="text-sm text-primary uppercase tracking-wider">${escapeHtml(product.category || 'Botanical')}</span><h2 class="font-headline-md text-headline-md mt-2">${escapeHtml(product.name)}</h2><div class="flex items-center gap-3 mb-4"><span class="text-3xl font-bold text-primary">JD ${product.price.toFixed(2)}</span>${getStockDisplay(maxStock).html}</div><p class="text-on-surface-variant mb-6">${escapeHtml(product.description || 'No description available.')}</p>${!isOutOfStock ? `<div class="flex items-center gap-4 mb-6"><div class="flex items-center border rounded-full"><button class="w-10 h-10 hover:text-primary" id="quickQtyDec">-</button><span id="quickQtyValue" class="w-12 text-center font-bold">1</span><button class="w-10 h-10 hover:text-primary" id="quickQtyInc">+</button></div><button id="quickAddToCart" data-id="${pid}" class="flex-1 bg-primary text-white py-3 rounded-full font-bold">${t.addToCart}</button></div>` : `<button class="w-full bg-red-500/50 text-white py-3 rounded-full font-bold cursor-not-allowed" disabled>❌ Sold Out</button>`}<a href="/product/${pid}" class="text-primary hover:underline text-sm">${t.viewFullDetails}</a></div></div></div>`;
 
       if (!isOutOfStock) {
         let qty = 1;
@@ -712,8 +712,8 @@
 
     document.getElementById('themeToggle').addEventListener('click', () => { currentTheme = currentTheme === 'light' ? 'dark' : 'light'; setTheme(currentTheme); });
     document.getElementById('langToggle').addEventListener('click', () => { currentLang = currentLang === 'en' ? 'ar' : 'en'; localStorage.setItem('bloomLang', currentLang); applyLanguage(currentLang); });
-    document.getElementById('priceSlider').addEventListener('input', e => { maxPrice = parseInt(e.target.value); document.getElementById('priceCurrentLabel').innerHTML = `${dict[currentLang].priceMaxLabel}${maxPrice}${dict[currentLang].priceSuffix}`; document.getElementById('mobilePriceLabel').innerText = `$${maxPrice}`; currentPage = 1; renderProducts(); });
-    document.getElementById('mobilePriceSlider')?.addEventListener('input', e => { maxPrice = parseInt(e.target.value); document.getElementById('priceSlider').value = maxPrice; document.getElementById('priceCurrentLabel').innerHTML = `${dict[currentLang].priceMaxLabel}${maxPrice}${dict[currentLang].priceSuffix}`; document.getElementById('mobilePriceLabel').innerText = `$${maxPrice}`; currentPage = 1; renderProducts(); });
+    document.getElementById('priceSlider').addEventListener('input', e => { maxPrice = parseInt(e.target.value); document.getElementById('priceCurrentLabel').innerHTML = `${dict[currentLang].priceMaxLabel}${maxPrice}${dict[currentLang].priceSuffix}`; document.getElementById('mobilePriceLabel').innerText = `JD ${maxPrice}`; currentPage = 1; renderProducts(); });
+    document.getElementById('mobilePriceSlider')?.addEventListener('input', e => { maxPrice = parseInt(e.target.value); document.getElementById('priceSlider').value = maxPrice; document.getElementById('priceCurrentLabel').innerHTML = `${dict[currentLang].priceMaxLabel}${maxPrice}${dict[currentLang].priceSuffix}`; document.getElementById('mobilePriceLabel').innerText = `JD ${maxPrice}`; currentPage = 1; renderProducts(); });
     document.querySelectorAll('input[name="sort"]').forEach(radio => radio.addEventListener('change', e => { sortMode = e.target.value; currentPage = 1; renderProducts(); }));
     document.getElementById('mobileFilterBtn')?.addEventListener('click', () => document.getElementById('mobileFilters').classList.toggle('hidden'));
     document.getElementById('bannerBtn').addEventListener('click', () => Swal.fire({ icon: 'info', title: "Curator's Choice", text: 'Exclusive collection coming soon.' }));

@@ -501,7 +501,7 @@
                     <div class="glass-panel stats-card p-5 rounded-2xl"><h3 class="text-gray-500">Total Users</h3><p class="text-3xl font-bold text-emerald-400">${stats.users}</p></div>
                     <div class="glass-panel stats-card p-5 rounded-2xl"><h3 class="text-gray-500">Orders</h3><p class="text-3xl font-bold text-emerald-400">${stats.orders}</p></div>
                     <div class="glass-panel stats-card p-5 rounded-2xl"><h3 class="text-gray-500">Products</h3><p class="text-3xl font-bold text-emerald-400">${stats.products}</p></div>
-                    <div class="glass-panel stats-card p-5 rounded-2xl"><h3 class="text-gray-500">Revenue</h3><p class="text-3xl font-bold text-emerald-400">$${stats.revenue.toFixed(2)}</p></div>
+                    <div class="glass-panel stats-card p-5 rounded-2xl"><h3 class="text-gray-500">Revenue</h3><p class="text-3xl font-bold text-emerald-400">JD${stats.revenue.toFixed(2)}</p></div>
                 `;
             } catch (e) { console.error(e); Swal.fire('Error', 'Failed to load stats', 'error'); }
         }
@@ -522,7 +522,7 @@
                             <td class="p-3">${p.id}</td>
                             <td class="p-3"><img src="${p.image_url ? (p.image_url.startsWith('/') ? '/static' + p.image_url : '/static/' + p.image_url) : '/static/placeholder.png'}" class="w-12 h-12 object-cover rounded" onerror="this.src='/static/placeholder.png'"></td>
                             <td class="p-3 font-medium">${escapeHtml(p.name)}</td>
-                            <td class="p-3">$${p.price}</td>
+                            <td class="p-3">JD ${parseFloat(p.price).toFixed(2)}</td>
                             <td class="p-3">
                                 <div class="flex items-center gap-2">
                                     <span class="${stockClass} stock-badge">${stockDisplay}</span>
@@ -641,7 +641,7 @@
             try {
                 const orders = await fetchAPI('/api/admin/orders');
                 document.getElementById('ordersTable').innerHTML = orders.map(o => `
-                    <tr><td class="p-3">${o.id}</td><td class="p-3">${escapeHtml(o.username)}<br><span class="text-xs opacity-70">${o.email}</span></td><td class="p-3">${new Date(o.date).toLocaleDateString()}</td><td class="p-3">$${o.total.toFixed(2)}</td><td class="p-3"><span class="px-2 py-1 rounded-full text-xs font-semibold ${getStatusColor(o.status)}">${o.status}</span></td><td class="p-3"><select onchange="updateOrderStatus(${o.id}, this.value)" class="border rounded p-1 text-sm"><option ${o.status === 'pending' ? 'selected' : ''}>pending</option><option ${o.status === 'paid' ? 'selected' : ''}>paid</option><option ${o.status === 'shipped' ? 'selected' : ''}>shipped</option><option ${o.status === 'delivered' ? 'selected' : ''}>delivered</option><option ${o.status === 'cancelled' ? 'selected' : ''}>cancelled</option></select></td></tr>
+                    <tr><td class="p-3">${o.id}</td><td class="p-3">${escapeHtml(o.username)}<br><span class="text-xs opacity-70">${o.email}</span></td><td class="p-3">${new Date(o.date).toLocaleDateString()}</td><td class="p-3">JD ${o.total.toFixed(2)}</td><td class="p-3"><span class="px-2 py-1 rounded-full text-xs font-semibold ${getStatusColor(o.status)}">${o.status}</span></td><td class="p-3"><select onchange="updateOrderStatus(${o.id}, this.value)" class="border rounded p-1 text-sm"><option ${o.status === 'pending' ? 'selected' : ''}>pending</option><option ${o.status === 'paid' ? 'selected' : ''}>paid</option><option ${o.status === 'shipped' ? 'selected' : ''}>shipped</option><option ${o.status === 'delivered' ? 'selected' : ''}>delivered</option><option ${o.status === 'cancelled' ? 'selected' : ''}>cancelled</option></select></td></tr>
                 `).join('');
             } catch (e) { }
         }
@@ -660,7 +660,7 @@
             try {
                 const sellers = await fetchAPI('/api/admin/best-sellers');
                 const list = document.getElementById('bestSellersList');
-                list.innerHTML = sellers.length ? sellers.map(s => `<li class="flex justify-between items-center border-b pb-2"><span>🌼 ${escapeHtml(s.name)}</span><span class="font-bold">Sold: ${s.total_sold} | Revenue: $${s.revenue.toFixed(2)}</span></li>`).join('') : '<li class="text-gray-500">No sales yet.</li>';
+                list.innerHTML = sellers.length ? sellers.map(s => `<li class="flex justify-between items-center border-b pb-2"><span>🌼 ${escapeHtml(s.name)}</span><span class="font-bold">Sold: ${s.total_sold} | Revenue: JD ${s.revenue.toFixed(2)}</span></li>`).join('') : '<li class="text-gray-500">No sales yet.</li>';
             } catch (e) { }
         }
 

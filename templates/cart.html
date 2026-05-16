@@ -525,7 +525,7 @@
                                 <p class="text-xs opacity-60" id="standardDesc">3-5 business days</p>
                             </div>
                         </div>
-                        <span class="font-semibold text-emerald-400" id="standardPrice">$12.00</span>
+                        <span class="font-semibold text-emerald-400" id="standardPrice">JD 12.00</span>
                     </label>
                     <label
                         class="flex items-center justify-between p-4 bg-surface-container-high rounded-xl cursor-pointer border border-emerald-500/40 shadow-[0_0_10px_rgba(46,204,113,0.15)]">
@@ -537,7 +537,7 @@
                                 <p class="text-xs opacity-60" id="expressDesc">Next day temperature-controlled</p>
                             </div>
                         </div>
-                        <span class="font-semibold text-emerald-400" id="expressPrice">$28.00</span>
+                        <span class="font-semibold text-emerald-400" id="expressPrice">JD 28.00</span>
                     </label>
                 </div>
             </div>
@@ -695,20 +695,20 @@
                 <div class="space-y-2 border-t border-white/10 pt-4 mb-4">
                     <div class="flex justify-between text-sm">
                         <span id="subtotalLabel" class="opacity-70">Subtotal</span>
-                        <span id="cartSubtotal" class="font-semibold">$0.00</span>
+                        <span id="cartSubtotal" class="font-semibold">JD 0.00</span>
                     </div>
                     <div class="flex justify-between text-sm">
                         <span id="shippingLabel" class="opacity-70">Shipping</span>
-                        <span id="cartShipping" class="font-semibold">$0.00</span>
+                        <span id="cartShipping" class="font-semibold">JD 0.00</span>
                     </div>
                     <div class="flex justify-between text-sm">
                         <span id="taxLabel" class="opacity-70">Tax (10%)</span>
-                        <span id="cartTax" class="font-semibold">$0.00</span>
+                        <span id="cartTax" class="font-semibold">JD 0.00</span>
                     </div>
                 </div>
                 <div class="flex justify-between items-end border-t border-emerald-500/20 pt-4 mb-6">
                     <span class="font-headline-sm text-emerald-500" id="totalLabel">Total</span>
-                    <span class="text-3xl font-serif italic text-emerald-400 font-bold" id="cartTotal">$0.00</span>
+                    <span class="text-3xl font-serif italic text-emerald-400 font-bold" id="cartTotal">JD 0.00</span>
                 </div>
                 <button id="placeOrderBtn" class="btn-primary w-full flex items-center justify-center gap-2">
                     <span class="material-symbols-outlined text-lg">verified_user</span>
@@ -949,8 +949,8 @@
                 fullNameLabel: 'Full Name', addressLabel: 'Address', cityLabel: 'City',
                 zipLabel: 'Zip Code', phoneLabel: 'Phone Number',
                 shippingMethodTitle: 'Shipping Method',
-                standardLabel: 'Standard Delivery', standardDesc: '3-5 business days', standardPrice: '$12.00',
-                expressLabel: 'Express Artisan', expressDesc: 'Next day temperature-controlled', expressPrice: '$28.00',
+                standardLabel: 'Standard Delivery', standardDesc: '3-5 business days', standardPrice: 'JD 12.00',
+                expressLabel: 'Express Artisan', expressDesc: 'Next day temperature-controlled', expressPrice: 'JD 28.00',
                 paymentTitle: 'Payment Method', codLabel: 'Cash on Delivery', cardLabel: 'Credit / Debit Card',
                 cardNumberLabel: 'Card Number', cardHolderLabel: 'Card Holder Name',
                 expiryLabel: 'Expiry Date', cvvLabel: 'CVV',
@@ -970,8 +970,8 @@
                 fullNameLabel: 'الاسم الكامل', addressLabel: 'العنوان', cityLabel: 'المدينة',
                 zipLabel: 'الرمز البريدي', phoneLabel: 'رقم الهاتف',
                 shippingMethodTitle: 'طريقة الشحن',
-                standardLabel: 'شحن عادي', standardDesc: '3-5 أيام عمل', standardPrice: '12.00 $',
-                expressLabel: 'شحن سريع', expressDesc: 'اليوم التالي مع التحكم بدرجة الحرارة', expressPrice: '28.00 $',
+                standardLabel: 'شحن عادي', standardDesc: '3-5 أيام عمل', standardPrice: '12.00 JD',
+                expressLabel: 'شحن سريع', expressDesc: 'اليوم التالي مع التحكم بدرجة الحرارة', expressPrice: '28.00 JD',
                 paymentTitle: 'طريقة الدفع', codLabel: 'الدفع عند الاستلام', cardLabel: 'بطاقة ائتمان / خصم',
                 cardNumberLabel: 'رقم البطاقة', cardHolderLabel: 'اسم حامل البطاقة',
                 expiryLabel: 'تاريخ الانتهاء', cvvLabel: 'رمز CVV',
@@ -1040,7 +1040,7 @@
                         <p class="font-medium text-sm truncate">${escapeHtml(item.name)}</p>
                         <p class="text-xs opacity-50">Qty: ${item.quantity}</p>
                     </div>
-                    <p class="font-semibold text-emerald-400 whitespace-nowrap">$${item.subtotal.toFixed(2)}</p>
+                    <p class="font-semibold text-emerald-400 whitespace-nowrap">JD ${item.subtotal.toFixed(2)}</p>
                 </div>
             `).join('');
                 calculateTotals();
@@ -1054,10 +1054,10 @@
             const shippingCost = selectedShipping === 'standard' ? 12 : 28;
             const tax = subtotal * 0.10;
             const total = subtotal + shippingCost + tax;
-            document.getElementById('cartSubtotal').innerText = `$${subtotal.toFixed(2)}`;
-            document.getElementById('cartShipping').innerText = `$${shippingCost.toFixed(2)}`;
-            document.getElementById('cartTax').innerText = `$${tax.toFixed(2)}`;
-            document.getElementById('cartTotal').innerText = `$${total.toFixed(2)}`;
+            document.getElementById('cartSubtotal').innerText = `JD${subtotal.toFixed(2)}`;
+            document.getElementById('cartShipping').innerText = `JD${shippingCost.toFixed(2)}`;
+            document.getElementById('cartTax').innerText = `JD${tax.toFixed(2)}`;
+            document.getElementById('cartTotal').innerText = `JD${total.toFixed(2)}`;
         }
 
         function setButtonLoading(loading, text) {
@@ -1146,7 +1146,7 @@
                         title: dict[currentLang].orderSuccess,
                         html: `
                         <p>Order <strong>#${data.order_id}</strong> has been placed.</p>
-                        <p style="margin-top:8px">Total: <strong style="color:#2ecc71">$${finalTotal.toFixed(2)}</strong></p>
+                        <p style="margin-top:8px">Total: <strong style="color:#2ecc71">JD ${finalTotal.toFixed(2)}</strong></p>
                         ${isCard ? '<p style="margin-top:8px;font-size:12px;opacity:0.7">✅ Payment processed successfully</p>' : ''}
                     `,
                         confirmButtonColor: '#2ecc71',

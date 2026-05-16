@@ -396,8 +396,8 @@
                             </div>
                         </td>
                         <td class="text-center py-4">${itemQty}</td>
-                        <td class="text-right py-4">$${itemPrice.toFixed(2)}</td>
-                        <td class="text-right py-4 font-medium">$${itemSubtotal.toFixed(2)}</td>
+                        <td class="text-right py-4">JD ${itemPrice.toFixed(2)}</td>
+                        <td class="text-right py-4 font-medium">JD ${itemSubtotal.toFixed(2)}</td>
                     </tr>
                 `;
             });
@@ -471,17 +471,17 @@
                             <div class="w-64">
                                 <div class="flex justify-between py-2">
                                     <span class="text-zinc-400">${t.subtotal}</span>
-                                    <span>$${subtotal.toFixed(2)}</span>
+                                    <span>JD${subtotal.toFixed(2)}</span>
                                 </div>
                                 ${discount > 0 ? `
                                 <div class="flex justify-between py-2 text-primary">
                                     <span>Discount</span>
-                                    <span> -$${discount.toFixed(2)}</span>
+                                    <span> -JD ${discount.toFixed(2)}</span>
                                 </div>
                                 ` : ''}
                                 <div class="flex justify-between py-2 pt-3 border-t border-zinc-800 mt-2">
                                     <span class="font-bold text-lg">${t.total}</span>
-                                    <span class="font-bold text-xl text-primary">$${finalTotal.toFixed(2)}</span>
+                                    <span class="font-bold text-xl text-primary">JD ${finalTotal.toFixed(2)}</span>
                                 </div>
                             </div>
                         </div>

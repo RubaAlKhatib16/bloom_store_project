@@ -180,7 +180,7 @@ RULES = [
     # --- Budget / Affordable ---
     {
         "keywords": ["cheap", "affordable", "budget", "discount", "sale", "offer", "رخيص", "اقتصادي", "خصم", "تخفيض"],
-        "reply_en": "🌼 Beauty shouldn't break the bank! Our curated everyday collection offers stunning arrangements starting from just $15 — fresh, lovely, and budget-friendly.",
+        "reply_en": "🌼 Beauty shouldn't break the bank! Our curated everyday collection offers stunning arrangements starting from just JD15 — fresh, lovely, and budget-friendly.",
         "reply_ar": "🌼 الجمال لا يجب أن يكسر البنك! مجموعتنا اليومية المنسقة تقدم ترتيبات مذهلة تبدأ من 15 دولاراً فقط — طازجة، جميلة، ومناسبة للميزانية.",
         "link": "/shop?sort=price_asc",
         "label_en": "Affordable Bouquets",
@@ -198,7 +198,7 @@ RULES = [
     # --- Delivery ---
     {
         "keywords": ["delivery", "shipping", "deliver", "ship", "توصيل", "شحن"],
-        "reply_en": "🚚 We offer same-day delivery for orders placed before 2 PM. Free delivery on orders over $80.",
+        "reply_en": "🚚 We offer same-day delivery for orders placed before 2 PM. Free delivery on orders over JD80.",
         "reply_ar": "🚚 نقدم توصيلاً في نفس اليوم للطلبات المقدمة قبل الساعة 2 ظهراً. توصيل مجاني للطلبات التي تزيد عن 80 دولاراً.",
         "link": "/cart",
         "label_en": "Shipping Info",
@@ -207,7 +207,7 @@ RULES = [
     # --- Price / Cost ---
     {
         "keywords": ["price", "cost", "how much", "كم سعر", "سعر", "تكلفة"],
-        "reply_en": "💰 Our arrangements start from $15 for everyday bouquets up to bespoke luxury designs. Browse our shop to find the perfect bouquet for your budget.",
+        "reply_en": "💰 Our arrangements start from JD15 for everyday bouquets up to bespoke luxury designs. Browse our shop to find the perfect bouquet for your budget.",
         "reply_ar": "💰 تبدأ ترتيباتنا من 15 دولاراً للباقات اليومية وصولاً إلى التصاميم الفاخرة المخصصة. تصفح متجرنا لتجد الباقة المثالية لميزانيتك.",
         "link": "/shop",
         "label_en": "Browse Prices",
