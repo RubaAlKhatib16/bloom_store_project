@@ -176,6 +176,26 @@
     [dir="rtl"] .flex-row {
       flex-direction: row-reverse;
     }
+
+    html.light .product-card .text-white {
+      color: #1e2a2e !important;
+    }
+
+    html.light nav {
+      background: rgba(255, 255, 255, 0.88) !important;
+      border-bottom-color: rgba(0, 0, 0, 0.07) !important;
+    }
+
+   html.light .quick-view {
+    background: rgba(255, 253, 253, 0.688) !important;
+    color: #ffffff !important;
+    backdrop-filter: blur(4px);
+}
+
+html.light .quick-view:hover {
+    background: #2ecc71 !important;
+    color: #ffffff !important;
+}
   </style>
   <script>
     tailwind.config = { darkMode: "class", theme: { extend: { /* ... */ } } };
